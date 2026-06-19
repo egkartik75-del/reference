@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raja Virbhadra Singh College • Seema | Premier Education in the Himalayas</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap');
+        
+        :root {
+            --primary: #0F3D3E;
+            --accent: #C9A227;
+            --light: #FAF7F2;
+            --text: #1F2937;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-serif {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .premium-bg {
+            background-color: #FAF7F2;
+        }
+
+        .section-header {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #C9A227, #0F3D3E);
+            border-radius: 3px;
+        }
+
+        .nav-glass {
+            background: rgba(250, 247, 242, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .hero-bg {
+            background-image: linear-gradient(100deg, rgba(15, 61, 62, 0.88) 0%, rgba(15, 61, 62, 0.6) 40%, rgba(15, 61, 62, 0.28) 75%, rgba(15, 61, 62, 0.15) 100%), linear-gradient(0deg, rgba(15, 61, 62, 0.55) 0%, rgba(15, 61, 62, 0) 35%), url('https://res.cloudinary.com/dr3epvwr6/image/upload/f_auto,q_auto,w_2000/v1781862286/seema_xl6fsi.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .glass-card {
+            background: rgba(255,255,255, 0.95);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255, 0.3);
+            box-shadow: 0 10px 30px -15px rgb(0 0 0 / 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -12px rgb(0 0 0 / 0.12);
+        }
+
+        .faculty-card, .program-card, .facility-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .faculty-card:hover, .program-card:hover, .facility-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 25px -5px rgb(0 0 0 / 0.08), 0 6px 10px -4px rgb(0 0 0 / 0.05);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #C9A227;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after, .nav-link.active:after {
+            width: 100%;
+        }
+
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+        
+        @media (max-width: 768px) {
+            .smooth-scroll {
+                scroll-behavior: auto;
+            }
+        }
+
+        .modal {
+            animation: modalPop 0.3s ease forwards;
+        }
+
+        @keyframes modalPop {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .premium-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #C9A22720, transparent);
+        }
+
+        .himalayan-gradient {
+            background: linear-gradient(135deg, #0F3D3E 0%, #1A4F4F 100%);
+        }
+
+        .college-shadow {
+            box-shadow: 0 25px 50px -12px rgb(15 61 62 / 0.25);
+        }
+
+        .elegant-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .elegant-btn:after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 50%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent 20%,
+                rgba(255,255,255,0.3) 50%,
+                transparent 80%
+            );
+            transform: skewX(25deg);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            100% {
+                transform: skewX(25deg) translateX(400%);
+            }
+        }
+
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .masonry-grid {
+                column-count: 2;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .masonry-grid {
+                column-count: 3;
+            }
+        }
+
+        .gallery-img {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                       box-shadow 0.3s ease;
+            break-inside: avoid;
+        }
+        
+        .gallery-img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .nature-bg {
+            background-image: url('https://picsum.photos/id/1018/1200/800');
+            background-size: cover;
+            background-position: center;
+        }
+
+        @keyframes scrollLine {
+            0% { transform: translateY(-100%); opacity: 1; }
+            100% { transform: translateY(300%); opacity: 0; }
+        }
+        
+        @media (max-width: 768px) {
+            @keyframes scrollLine {
+                0% { opacity: 0.5; }
+                100% { opacity: 0; }
+            }
+        }
+
+        /* ===== COMPREHENSIVE MOBILE RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            /* Performance Optimization - Remove animations & blur on mobile */
+            .smooth-scroll { scroll-behavior: auto !important; }
+            .nav-glass { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+            .glass-card { transition: none !important; }
+            .glass-card:hover { transform: none !important; }
+            .program-card { transition: none !important; }
+            .program-card:hover { transform: none !important; }
+            .facility-card { transition: none !important; }
+            .facility-card:hover { transform: none !important; }
+            .faculty-card { transition: none !important; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05) !important; }
+            .faculty-card:hover { transform: none !important; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important; }
+            .premium-circle { box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1) !important; transition: none !important; }
+            .premium-circle:hover { transform: none !important; }
+            .elegant-btn { transition: none !important; }
+            .elegant-btn:after { animation: none !important; }
+            button { transition: all 0.15s ease !important; }
+            header { background-attachment: scroll !important; will-change: auto; }
+            
+            /* Padding & Spacing Resets */
+            .px-8 { padding-left: 1rem !important; padding-right: 1rem !important; }
+            .px-12 { padding-left: 1rem !important; padding-right: 1rem !important; }
+            .px-16 { padding-left: 1rem !important; padding-right: 1rem !important; }
+            
+            /* Hero Section */
+            header { height: 65dvh; min-height: 480px; padding-top: 1rem !important; padding-bottom: 1.5rem !important; }
+            header h1.heading-serif { font-size: clamp(2rem, 5vw + 1rem, 3.25rem) !important; line-height: 1.15 !important; }
+            header p { font-size: clamp(0.9rem, 2vw + 0.6rem, 1.1rem); line-height: 1.4; }
+            
+            /* Scroll Indicator */
+            .group span { font-size: 0.65rem !important; }
+            .w-1px { height: 30px !important; }
+            
+            /* Stats Cards */
+            .glass-card { padding: 0.9rem !important; border-radius: 1.25rem !important; }
+            .stat-number { font-size: 1.5rem; }
+            .text-xs { font-size: 0.7rem; }
+            
+            /* Section Headers */
+            section > div > div:first-child .heading-serif { font-size: 1.75rem; line-height: 1.15; }
+            h2.heading-serif { font-size: 1.75rem !important; }
+            
+            /* Text Sizing */
+            .text-lg { font-size: 0.95rem !important; }
+            .text-base { font-size: 0.9rem !important; }
+            .text-sm { font-size: 0.8rem !important; }
+            
+            /* About Section */
+            #about { padding: 1.5rem 1rem !important; }
+            .lg\\:col-span-7, .lg\\:col-span-5 { grid-column: span 1 !important; }
+            
+            /* Academics Cards */
+            #academics { padding: 1.5rem 1rem !important; }
+            .program-card { padding: 0.9rem !important; border-radius: 1.25rem !important; }
+            .program-card h3 { font-size: 1rem; }
+            .program-card p { font-size: 0.85rem; }
+            .md\\:grid-cols-2, .lg\\:grid-cols-3 { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important; }
+            
+            /* Campus Section */
+            #campus { padding: 1.5rem 1rem !important; }
+            .facility-card { padding: 0.9rem !important; border-radius: 1.25rem !important; }
+            .facility-card h3 { font-size: 1rem; }
+            .facility-card p { font-size: 0.85rem; }
+            
+            /* Faculty Section */
+            #faculty { padding: 1.5rem 1rem !important; }
+            .faculty-card { padding: 0.85rem !important; border-radius: 1.5rem !important; }
+            .faculty-card img, .faculty-card div[style*=\"font-size\"] { width: 70px !important; height: 70px !important; }
+            .faculty-card h3 { font-size: 1rem; }
+            .faculty-card p { font-size: 0.8rem; }
+            
+            /* Admissions */
+            #admissions { padding: 1.5rem 1rem !important; }
+            input, select, textarea { padding: 0.75rem !important; font-size: 16px !important; border-radius: 0.75rem !important; }
+            input::placeholder { font-size: 14px; }
+            
+            /* Gallery */
+            #gallery { padding: 1.5rem 1rem !important; }
+            .gallery-img { margin-bottom: 0.5rem !important; border-radius: 1.25rem !important; }
+            
+            /* Buttons */
+            button { font-size: 0.85rem !important; padding: 0.6rem 1rem !important; border-radius: 0.75rem !important; }
+            .py-16 { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+            .py-20 { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+            .pt-20 { padding-top: 1.5rem !important; }
+            .pb-16 { padding-bottom: 1.5rem !important; }
+            
+            /* Gaps */
+            .gap-8 { gap: 1rem !important; }
+            .gap-6 { gap: 0.75rem !important; }
+            .gap-5 { gap: 0.75rem !important; }
+            .gap-4 { gap: 0.75rem !important; }
+            .gap-y-6 { row-gap: 1rem !important; }
+            .gap-x-9 { column-gap: 1.5rem !important; }
+            .gap-y-10 { row-gap: 1.5rem !important; }
+            .gap-y-12 { row-gap: 1rem !important; }
+            
+            /* Margins */
+            .mt-8 { margin-top: 1rem !important; }
+            .mt-9 { margin-top: 1rem !important; }
+            .mt-12 { margin-top: 1rem !important; }
+            .mb-10 { margin-bottom: 1rem !important; }
+            .mb-12 { margin-bottom: 1rem !important; }
+            
+            /* Modal Adjustments */
+            .modal { border-radius: 1.25rem !important; }
+            .px-9 { padding-left: 1rem !important; padding-right: 1rem !important; }
+            .pt-9 { padding-top: 1rem !important; }
+            .pb-8 { padding-bottom: 0.75rem !important; }
+            .py-5 { padding-top: 0.6rem !important; padding-bottom: 0.6rem !important; }
+            
+            /* Navbar Adjustments */
+            .px-8 { padding-left: 1rem !important; padding-right: 1rem !important; }
+            .py-5 { padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
+            .text-2xl { font-size: 1.3rem !important; }
+            
+            /* Footer */
+            footer { padding: 2rem 1rem !important; }
+            footer { grid-column: span 1 !important; }
+            
+            /* CTA Section */
+            section.himalayan-gradient .heading-serif { font-size: 1.75rem !important; }
+            section.himalayan-gradient p { font-size: 0.9rem !important; }
+        }
+        
+        @media (max-width: 480px) {
+            header { height: 55dvh; min-height: 380px; }
+            header .heading-serif { font-size: 1.5rem; }
+            section > div > div:first-child .heading-serif { font-size: 1.35rem; }
+            .stat-number { font-size: 1.35rem; }
+            .glass-card { padding: 0.75rem !important; }
+            .program-card { padding: 0.7rem !important; }
+            .faculty-card { padding: 0.7rem !important; }
+            .faculty-card img { width: 55px !important; height: 55px !important; }
+            input, select { padding: 0.6rem !important; font-size: 16px !important; }
+            button { font-size: 0.8rem !important; padding: 0.5rem 0.8rem !important; }
+            .text-sm { font-size: 0.75rem !important; }
+            .text-xs { font-size: 0.65rem !important; }
+        }
+
+        /* ===== COLLEGE LOGO — BLUE GLOW EFFECT ===== */
+        .logo-glow-wrap {
+            position: relative;
+            width: 56px;
+            height: 56px;
+            flex-shrink: 0;
+            /* White center → light green edge — book ka andar white dikhega */
+            background: radial-gradient(circle at center, #ffffff 0%, #f0f7f7 45%, #c8e0e0 70%, #8fbdbd 100%);
+            border-radius: 50%;
+            padding: 3px;
+            box-shadow:
+                0 0  0   1.5px rgba(15, 61, 62, 0.20),
+                0 0  8px  2px  rgba(15, 61, 62, 0.12),
+                0 4px 10px     rgba(0, 0, 0, 0.14);
+        }
+
+        /* Subtle pulsing outer ring */
+        .logo-glow-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border: 1px solid rgba(15, 61, 62, 0.18);
+            animation: logoRingPulse 3.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        /* Very soft ambient halo */
+        .logo-glow-wrap::after {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(15, 61, 62, 0.07) 0%, transparent 70%);
+            animation: logoPulse 3.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50%       { opacity: 1;   transform: scale(1.08); }
+        }
+
+        @keyframes logoRingPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50%       { opacity: 0.7; transform: scale(1.12); }
+        }
+
+        .college-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            position: relative;
+            z-index: 1;
+            filter:
+                brightness(1.05)
+                drop-shadow(0 1px 4px rgba(0, 0, 0, 0.20));
+            transition: filter 0.35s ease, transform 0.35s ease;
+        }
+
+        .college-logo:hover {
+            transform: scale(1.07) rotate(-2deg);
+            filter:
+                brightness(1.08)
+                drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+        }
+
+        @media (max-width: 768px) {
+            .logo-glow-wrap { width: 44px; height: 44px; padding: 3px; }
+        }
+    </style>
+</head>
+<body class="premium-bg text-[#1F2937] smooth-scroll">
+    <!-- NAVBAR -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 nav-glass border-b border-[#C9A22720]">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="px-8 py-5 flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center gap-x-3">
+                    <div class="logo-glow-wrap">
+                        <img 
+                            src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png" 
+                            alt="Raja Virbhadra Singh Govt. College Logo"
+                            class="college-logo"
+                        />
+                    </div>
+                    <div>
+                        <div class="font-bold text-2xl tracking-tighter text-[#0F3D3E]">Raja Virbhadra Singh</div>
+                        <div class="text-[10px] text-[#0F3D3E80] -mt-1 font-medium tracking-[1.5px]">COLLEGE • SEEMA</div>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center gap-x-9 text-sm font-medium">
+                    <a href="#about" class="nav-link text-[#1F2937] hover:text-[#0F3D3E]">About</a>
+                    <a href="#academics" class="nav-link text-[#1F2937] hover:text-[#0F3D3E]">Academics</a>
+                    <a href="#campus" class="nav-link text-[#1F2937] hover:text-[#0F3D3E]">Campus Life</a>
+                    <a href="#faculty" class="nav-link text-[#1F2937] hover:text-[#0F3D3E]">Faculty</a>
+                    <a href="#admissions" class="nav-link text-[#1F2937] hover:text-[#0F3D3E]">Admissions</a>
+                    <a href="#gallery" class="nav-link text-[#1F2937] hover:text-[#0F3D3E]">Gallery</a>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="hidden lg:flex items-center gap-x-3">
+                    <button onclick="showContactModal()"
+                            class="px-6 py-2.5 text-sm font-semibold border border-[#0F3D3E] text-[#0F3D3E] rounded-3xl hover:bg-[#0F3D3E] hover:text-white transition-all">
+                        Contact Us
+                    </button>
+                    <button onclick="document.getElementById('admissions').scrollIntoView({ behavior: 'smooth' })"
+                            class="elegant-btn px-7 py-2.5 bg-[#0F3D3E] text-white text-sm font-semibold rounded-3xl flex items-center gap-x-2 hover:bg-[#1A4F4F]">
+                        <span>Apply Now</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn"
+                        class="lg:hidden w-11 h-11 flex items-center justify-center text-[#0F3D3E] hover:bg-white/70 rounded-2xl transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t px-6 py-6">
+            <div class="flex flex-col gap-y-4 text-base font-medium">
+                <a href="#about" class="py-2 mobile-nav-link">About the College</a>
+                <a href="#academics" class="py-2 mobile-nav-link">Academics &amp; Programmes</a>
+                <a href="#campus" class="py-2 mobile-nav-link">Campus Life &amp; Facilities</a>
+                <a href="#faculty" class="py-2 mobile-nav-link">Our Faculty</a>
+                <a href="#admissions" class="py-2 mobile-nav-link">Admissions</a>
+                <a href="#gallery" class="py-2 mobile-nav-link">Gallery</a>
+                <div class="pt-4 flex flex-col gap-y-3">
+                    <button onclick="showContactModal(); document.getElementById('mobile-menu').classList.add('hidden')"
+                            class="w-full py-3 border border-[#0F3D3E] text-[#0F3D3E] rounded-3xl font-semibold">Contact Us</button>
+                    <button onclick="document.getElementById('admissions').scrollIntoView({ behavior: 'smooth' }); document.getElementById('mobile-menu').classList.add('hidden')"
+                            class="w-full py-3 bg-[#0F3D3E] text-white rounded-3xl font-semibold">Apply for Admission</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero-bg h-[100dvh] md:min-h-[820px] sm:min-h-[500px] min-h-[450px] flex items-center relative pt-16 md:pt-32 pb-20 md:pb-44">
+        <div class="max-w-screen-2xl mx-auto w-full px-4 sm:px-8 md:px-12 lg:px-16">
+            <div class="max-w-4xl">
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-x-2 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-3xl mb-6 border border-white/60">
+                    <div class="flex items-center gap-x-1.5">
+                        <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                        <span class="text-xs font-semibold tracking-widest text-[#0F3D3E]">EST. 1988 • NAAC ACCREDITED 3.00</span>
+                    </div>
+                </div>
+
+                <h1 class="text-white text-4xl md:text-6xl lg:text-8xl leading-[1] md:leading-[0.92] tracking-tighter font-bold heading-serif mb-3 md:mb-4">
+                    Raja Virbhadra<br>Singh College
+                </h1>
+                
+                <p class="max-w-lg text-base md:text-xl lg:text-2xl text-white/90 font-light tracking-tight mb-6 md:mb-8">
+                    Bringing Transformation through Education<br>
+                    <span class="text-[#C9A227]">in the heart of the Himalayas</span>
+                </p>
+
+                <div class="flex flex-wrap items-center gap-3 md:gap-4">
+                    <button onclick="document.getElementById('academics').scrollIntoView({ behavior: 'smooth' })"
+                            class="group flex items-center gap-x-2 md:gap-x-3 bg-white text-[#0F3D3E] px-6 md:px-9 py-3 md:py-4 rounded-2xl md:rounded-3xl font-semibold text-sm md:text-base shadow-xl hover:shadow-2xl active:scale-[0.985] transition-all">
+                        <span>Explore Programmes</span>
+                        <i class="fa-solid fa-arrow-down group-active:translate-y-0.5 transition"></i>
+                    </button>
+                    
+                    <button onclick="showPrincipalModal()"
+                            class="flex items-center gap-x-3 px-8 py-4 text-white border border-white/40 hover:bg-white/10 rounded-3xl font-medium text-base backdrop-blur transition-all">
+                        <i class="fa-solid fa-play mr-1"></i>
+                        <span>Principal's Message</span>
+                    </button>
+                </div>
+
+                <div class="mt-12 flex items-center gap-x-8 text-white/70 text-sm">
+                    <div class="flex items-center gap-x-2">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Chanshal Valley, Rohru • Shimla, HP</span>
+                    </div>
+                    <div class="hidden md:block w-px h-3 bg-white/30"></div>
+                    <div>Affiliated to Himachal Pradesh University</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-y-2 cursor-pointer group" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+            <span class="text-white/50 text-[8px] md:text-[10px] tracking-[3px] md:tracking-[4px] font-medium group-hover:text-white/80 transition-colors">SCROLL</span>
+            <div class="w-[1px] h-6 md:h-10 bg-gradient-to-b from-white/40 to-transparent relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-4 bg-white/80 animate-[scrollLine_1.6s_ease-in-out_infinite]"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- STATS / QUICK FACTS -->
+    <div class="max-w-screen-2xl mx-auto px-4 sm:px-8 md:px-12 -mt-6 md:-mt-10 relative z-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+            <div class="glass-card rounded-2xl sm:rounded-3xl p-3 sm:p-5 md:p-7 border border-white/60">
+                <div class="flex items-baseline gap-x-1">
+                    <span id="stat-students" class="stat-number text-3xl sm:text-4xl md:text-6xl font-bold text-[#0F3D3E]">4500</span>
+                </div>
+                <div class="mt-1 text-xs sm:text-sm font-semibold tracking-wider text-[#0F3D3E]/70">STUDENTS</div>
+                <div class="text-[10px] sm:text-xs text-[#1F293780] mt-0.5">Enrolled across all programmes</div>
+            </div>
+            
+            <div class="glass-card rounded-2xl sm:rounded-3xl p-3 sm:p-5 md:p-7 border border-white/60">
+                <div class="flex items-baseline gap-x-1">
+                    <span id="stat-faculty" class="stat-number text-3xl sm:text-4xl md:text-6xl font-bold text-[#0F3D3E]">60</span>
+                </div>
+                <div class="mt-1 text-xs sm:text-sm font-semibold tracking-wider text-[#0F3D3E]/70">DEDICATED FACULTY</div>
+                <div class="text-[10px] sm:text-xs text-[#1F293780] mt-0.5">Highly qualified educators</div>
+            </div>
+            
+            <div class="glass-card rounded-2xl sm:rounded-3xl p-3 sm:p-5 md:p-7 border border-white/60">
+                <div class="flex items-baseline gap-x-1">
+                    <span id="stat-years" class="stat-number text-3xl sm:text-4xl md:text-6xl font-bold text-[#0F3D3E]">38</span>
+                </div>
+                <div class="mt-1 text-xs sm:text-sm font-semibold tracking-wider text-[#0F3D3E]/70">YEARS OF LEGACY</div>
+                <div class="text-[10px] sm:text-xs text-[#1F293780] mt-0.5">Since 1988 • Silver Jubilee 2013</div>
+            </div>
+            
+            <div class="glass-card rounded-2xl sm:rounded-3xl p-3 sm:p-5 md:p-7 border border-white/60">
+                <div class="flex items-baseline gap-x-1">
+                    <span class="text-3xl sm:text-4xl md:text-6xl font-bold text-[#0F3D3E]">3.00</span>
+                </div>
+                <div class="mt-1 text-xs sm:text-sm font-semibold tracking-wider text-[#0F3D3E]/70">NAAC GRADE</div>
+                <div class="text-xs text-[#1F293780] mt-0.5">Accredited by Ministry of Education</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="max-w-screen-2xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16 pt-12 md:pt-24 pb-8 md:pb-16">
+        <div class="grid lg:grid-cols-12 gap-x-16 gap-y-12 items-center">
+            <!-- Text Content -->
+            <div class="lg:col-span-7">
+                <div class="uppercase tracking-[3px] text-xs font-semibold text-[#C9A227] mb-3">OUR HERITAGE</div>
+                <h2 class="heading-serif text-3xl md:text-5xl lg:text-7xl leading-tight md:leading-none tracking-tighter text-[#0F3D3E] mb-6 md:mb-8">Where Nature<br>Meets Excellence</h2>
+                
+                <div class="prose prose-lg max-w-none text-[#374151]">
+                    <p class="text-base md:text-lg lg:text-xl leading-relaxed">Nestled in the breathtaking <strong>Chanshal Valley</strong> of Rohru, District Shimla, Raja Virbhadra Singh College stands as a beacon of higher education in the Himalayas. Established in 1988 with just 16 students, we have grown into a premier co-educational institution affiliated to <strong>Himachal Pradesh University</strong> and accredited by NAAC with a CGPA of 3.00.</p>
+                    
+                    <p>Perched amidst snow-draped mountains, thick pine forests, and the serene Pabbar River, our campus offers a salubrious climate and an inspiring atmosphere for intellectual growth. We blend the rich Pahari traditions with modern education, guided by our motto — <span class="font-semibold text-[#0F3D3E]">"Bringing Transformation through Education"</span>.</p>
+                </div>
+
+                <div class="mt-6 md:mt-8 flex flex-wrap gap-2 md:gap-4">
+                    <div class="inline-flex items-center gap-2 md:gap-3 bg-white border border-[#C9A22730] px-3 md:px-5 h-10 md:h-12 rounded-2xl md:rounded-3xl text-xs md:text-sm">
+                        <i class="fa-solid fa-globe text-[#C9A227]"></i>
+                        <span class="font-medium">Campus: 3.36 Hectares</span>
+                    </div>
+                    <div class="inline-flex items-center gap-2 md:gap-3 bg-white border border-[#C9A22730] px-3 md:px-5 h-10 md:h-12 rounded-2xl md:rounded-3xl text-xs md:text-sm">
+                        <i class="fa-solid fa-book-open text-[#C9A227]"></i>
+                        <span class="font-medium">20+ Streams &amp; Programmes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vision Card -->
+            <div class="lg:col-span-5">
+                <div class="glass-card rounded-2xl md:rounded-3xl p-6 md:p-9 border border-white bg-white/95">
+                    <div class="uppercase text-[#C9A227] text-xs tracking-[2px] font-bold mb-3 md:mb-4">OUR VISION</div>
+                    <p class="text-sm md:text-base text-[#1F2937] leading-relaxed">"To step ahead in providing quality higher education that removes illiteracy, gender imbalance, poverty and deprivations, enabling students to become responsible citizens and leaders who transform society."</p>
+                    
+                    <div class="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-[#C9A22720]">
+                        <div class="flex items-center gap-x-3 md:gap-x-4">
+                            <div class="text-2xl md:text-4xl text-[#0F3D3E]">
+                                <i class="fa-solid fa-sun"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm md:text-base">Emblem Significance</div>
+                                <div class="text-xs md:text-sm text-[#374151]">Open Book + Rising Sun — Education dispels darkness and leads from ignorance to knowledge.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRINCIPAL'S MESSAGE -->
+    <section class="bg-[#0F3D3E] text-white py-16">
+        <div class="max-w-screen-2xl mx-auto px-8 md:px-12 lg:px-16">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid lg:grid-cols-12 gap-x-10 xl:gap-x-16 items-center">
+                    
+                    <!-- Text Content -->
+                    <div class="lg:col-span-7 text-center lg:text-left">
+                        <div class="text-[#C9A227] text-sm tracking-[3px] font-semibold mb-3">FROM THE PRINCIPAL'S DESK</div>
+                        <h3 class="heading-serif text-white text-5xl md:text-6xl tracking-tighter">Dr. Prem Parkash Chauhan</h3>
+                        <p class="text-white/60 mt-1.5 text-lg">Principal, Raja Virbhadra Singh College, Seema</p>
+                        
+                        <div class="mt-8 max-w-xl lg:max-w-none mx-auto lg:mx-0">
+                            <blockquote class="text-2xl leading-tight font-light italic text-white/90">
+                                "Education is the most powerful weapon which you can use to change the world."
+                            </blockquote>
+                            <div class="text-right mt-3 text-sm text-[#C9A227] font-medium">— Nelson Mandela</div>
+                        </div>
+
+                        <div class="mt-8">
+                            <button onclick="showPrincipalModal()"
+                                    class="inline-flex items-center gap-x-2 px-8 py-3.5 border border-white/30 hover:bg-white/5 text-sm font-semibold rounded-3xl transition-all active:bg-white/10">
+                                READ FULL MESSAGE <i class="fa-solid fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Premium Circular Frame -->
+                    <div class="lg:col-span-5 mt-12 lg:mt-0 flex justify-center">
+                        <div class="relative w-full max-w-[420px]">
+                            
+                            <!-- Very strong realistic shadow -->
+                            <div class="absolute -inset-10 bg-black/60 rounded-full blur-[60px]"></div>
+                            
+                            <!-- Circular frame -->
+                            <div class="relative w-full aspect-square rounded-full overflow-hidden shadow-[0_40px_100px_-20px_rgb(0,0,0,0.7)] ring-1 ring-white/10">
+                                
+                                <!-- Photo -->
+                                <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781785928/p_yryaww.png" 
+                                     alt="Dr. Prem Parkash Chauhan - Principal" 
+                                     class="w-full h-full object-cover">
+                                
+                                <!-- Strong cinematic vignette -->
+                                <div class="absolute inset-0 rounded-full" 
+                                     style="background: radial-gradient(circle at 50% 40%, transparent 18%, rgba(15,61,62,0.45) 55%, rgba(15,61,62,0.88) 100%);"></div>
+                                
+                                <!-- Very subtle inner highlight for premium feel -->
+                                <div class="absolute inset-0 rounded-full ring-1 ring-inset ring-white/20"></div>
+                            </div>
+                            
+                            <!-- Tiny minimal gold accent line at bottom (very less gold) -->
+                            <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-16 h-[3px] bg-gradient-to-r from-transparent via-[#C9A227] to-transparent rounded-full"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACADEMICS / PROGRAMMES -->
+    <section id="academics" class="max-w-screen-2xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16 pt-10 md:pt-20 pb-8 md:pb-16">
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-8 md:mb-10">
+            <div>
+                <div class="text-[#C9A227] uppercase tracking-[3px] text-xs font-bold">ACADEMIC EXCELLENCE</div>
+                <h2 class="heading-serif text-[#0F3D3E] text-3xl md:text-4xl lg:text-6xl tracking-tighter">Programmes Offered</h2>
+            </div>
+            <div class="hidden md:block text-right text-sm max-w-xs text-[#374151]">
+                Choice Based Credit System (CBCS) • Honours options available • Skill Enhancement &amp; Add-on Courses
+            </div>
+        </div>
+
+        <!-- Programme Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
+            
+            <!-- UG Programmes -->
+            <div class="program-card glass-card border border-white/70 rounded-2xl sm:rounded-3xl p-4 sm:p-7 group">
+                <div class="flex justify-between">
+                    <div>
+                        <span class="px-2 md:px-3 py-1 text-xs font-bold bg-emerald-100 text-emerald-700 rounded-2xl">UNDERGRADUATE</span>
+                    </div>
+                    <i class="fa-solid fa-graduation-cap text-2xl md:text-3xl text-[#C9A227]/70 group-hover:text-[#C9A227] transition-colors"></i>
+                </div>
+                <div class="mt-4 md:mt-6">
+                    <div class="font-semibold text-lg md:text-2xl tracking-tight">B.A. / B.Sc. / B.Com</div>
+                    <div class="text-[#0F3D3E] text-sm md:text-base mt-1">Pass &amp; Honours</div>
+                    <div class="mt-3 md:mt-5 text-xs md:text-sm space-y-1 text-[#374151]">
+                        <div>• Humanities, Science (Medical/Non-Medical), Commerce</div>
+                        <div>• Major/Minor subjects under CBCS</div>
+                        <div>• Functional English, Hindi, IT Skills &amp; more</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="program-card glass-card border border-white/70 rounded-2xl sm:rounded-3xl p-4 sm:p-7 group">
+                <div class="flex justify-between">
+                    <div>
+                        <span class="px-2 md:px-3 py-1 text-xs font-bold bg-emerald-100 text-emerald-700 rounded-2xl">UNDERGRADUATE</span>
+                    </div>
+                    <i class="fa-solid fa-laptop-code text-2xl md:text-3xl text-[#C9A227]/70 group-hover:text-[#C9A227] transition-colors"></i>
+                </div>
+                <div class="mt-4 md:mt-6">
+                    <div class="font-semibold text-lg md:text-2xl tracking-tight">BCA • BBA • B.Voc</div>
+                    <div class="text-[#0F3D3E] text-sm md:text-base mt-1">Professional &amp; Vocational</div>
+                    <div class="mt-3 md:mt-5 text-xs md:text-sm space-y-1 text-[#374151]">
+                        <div>• BCA &amp; PGDCA (Computer Applications)</div>
+                        <div>• BBA (Business Administration)</div>
+                        <div>• B.Voc in Retail Management, Hospitality &amp; Tourism, Journalism &amp; Mass Communication</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="program-card glass-card border border-white/70 rounded-3xl p-7 group">
+                <div class="flex justify-between">
+                    <div>
+                        <span class="px-3 py-1 text-xs font-bold bg-amber-100 text-amber-700 rounded-2xl">POSTGRADUATE</span>
+                    </div>
+                    <i class="fa-solid fa-book text-3xl text-[#C9A227]/70 group-hover:text-[#C9A227] transition-colors"></i>
+                </div>
+                <div class="mt-6">
+                    <div class="font-semibold text-2xl tracking-tight">M.A. &amp; M.Com</div>
+                    <div class="text-[#0F3D3E] mt-1">Advanced Studies</div>
+                    <div class="mt-5 text-sm space-y-1 text-[#374151]">
+                        <div>• M.A. English, Hindi, History, Political Science, Economics</div>
+                        <div>• M.Com (Commerce)</div>
+                        <div>• Research-oriented curriculum</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="program-card glass-card border border-white/70 rounded-3xl p-7 group">
+                <div class="flex justify-between">
+                    <div>
+                        <span class="px-3 py-1 text-xs font-bold bg-violet-100 text-violet-700 rounded-2xl">ADD-ONS &amp; OTHERS</span>
+                    </div>
+                    <i class="fa-solid fa-plus text-3xl text-[#C9A227]/70 group-hover:text-[#C9A227] transition-colors"></i>
+                </div>
+                <div class="mt-6">
+                    <div class="font-semibold text-2xl tracking-tight">Skill &amp; Value Added</div>
+                    <div class="text-[#0F3D3E] mt-1">Holistic Development</div>
+                    <div class="mt-5 text-sm space-y-1 text-[#374151]">
+                        <div>• IGNOU Study Centre</div>
+                        <div>• Add-on &amp; Certificate Courses</div>
+                        <div>• Career Counselling &amp; Aptitude Labs</div>
+                        <div>• Language Lab &amp; IT Skills</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-8">
+            <button onclick="showAdmissionsModal()" 
+                    class="text-sm font-semibold flex items-center gap-x-2 mx-auto text-[#0F3D3E] hover:text-[#C9A227] transition-colors">
+                <span>VIEW COMPLETE ADMISSION GUIDELINES &amp; ELIGIBILITY</span> 
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- CAMPUS LIFE & FACILITIES -->
+    <section id="campus" class="bg-white py-8 md:py-16 border-y">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16">
+            <div class="text-center mb-12">
+                <div class="text-[#C9A227] text-xs tracking-[3px] font-bold">INFRASTRUCTURE &amp; BEYOND</div>
+                <h2 class="heading-serif text-6xl tracking-tighter text-[#0F3D3E]">Campus Life</h2>
+                <p class="mt-3 max-w-md mx-auto text-[#374151]">World-class facilities in a serene Himalayan setting designed for holistic growth.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+                
+                <div class="facility-card glass-card p-8 rounded-3xl border">
+                    <i class="fa-solid fa-building text-4xl text-[#0F3D3E]"></i>
+                    <div class="font-semibold text-2xl mt-6 tracking-tight">Administrative &amp; Academic Blocks</div>
+                    <p class="mt-3 text-sm leading-relaxed">Fully computerized administrative block, Arts &amp; Science blocks, smart classrooms with modern teaching aids.</p>
+                </div>
+
+                <div class="facility-card glass-card p-8 rounded-3xl border">
+                    <i class="fa-solid fa-book text-4xl text-[#0F3D3E]"></i>
+                    <div class="font-semibold text-2xl mt-6 tracking-tight">Auditorium-cum-Library</div>
+                    <p class="mt-3 text-sm leading-relaxed">Spacious, well-equipped library with Inflibnet access, modern auditorium for seminars, cultural events &amp; conferences.</p>
+                </div>
+
+                <div class="facility-card glass-card p-8 rounded-3xl border">
+                    <i class="fa-solid fa-laptop text-4xl text-[#0F3D3E]"></i>
+                    <div class="font-semibold text-2xl mt-6 tracking-tight">Computer &amp; Language Labs</div>
+                    <p class="mt-3 text-sm leading-relaxed">100+ computers across dedicated labs including Language Lab, Career &amp; Aptitude Lab, and multi-purpose IT facilities.</p>
+                </div>
+
+                <div class="facility-card glass-card p-8 rounded-3xl border">
+                    <i class="fa-solid fa-flask text-4xl text-[#0F3D3E]"></i>
+                    <div class="font-semibold text-2xl mt-6 tracking-tight">Science Laboratories</div>
+                    <p class="mt-3 text-sm leading-relaxed">Well-equipped Physics, Chemistry, Botany, Zoology and other science laboratories for practical learning.</p>
+                </div>
+
+                <div class="facility-card glass-card p-8 rounded-3xl border">
+                    <i class="fa-solid fa-bed text-4xl text-[#0F3D3E]"></i>
+                    <div class="font-semibold text-2xl mt-6 tracking-tight">Boys &amp; Girls Hostels</div>
+                    <p class="mt-3 text-sm leading-relaxed">Comfortable boarding with water purifiers, solar water heating, sick rooms, guest rooms, reading rooms and 24×7 security.</p>
+                </div>
+
+                <div class="facility-card glass-card p-8 rounded-3xl border">
+                    <i class="fa-solid fa-futbol text-4xl text-[#0F3D3E]"></i>
+                    <div class="font-semibold text-2xl mt-6 tracking-tight">Sports &amp; Recreation</div>
+                    <p class="mt-3 text-sm leading-relaxed">Vast playground for Cricket, Volleyball, Kabaddi, Basketball, Athletics. Indoor: Boxing Ring, Judo, Table Tennis, Badminton.</p>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <div class="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest bg-[#0F3D3E] text-white px-4 py-2 rounded-3xl font-medium">
+                    <i class="fa-solid fa-wifi text-sm"></i> 
+                    <span>WI-FI ENABLED CAMPUS • SMART CLASSROOMS • CONFERENCE HALL (60 SEATS)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FACULTY SECTION -->
+    <section id="faculty" class="max-w-screen-2xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16 py-12 md:py-20">
+        <div class="flex items-end justify-between mb-9">
+            <div>
+                <div class="text-xs text-[#C9A227] font-bold tracking-[2.5px]">MEET OUR TEAM</div>
+                <h2 class="heading-serif text-[#0F3D3E] text-6xl tracking-tighter">Esteemed Faculty</h2>
+            </div>
+            <button onclick="window.location.href='faculty.html'"
+                    class="hidden md:flex items-center gap-x-2 text-sm font-semibold text-[#0F3D3E] hover:text-[#C9A227]">
+                VIEW FULL DIRECTORY <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- Premium Featured Faculty Showcase with Circular Frames -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 lg:gap-10">
+            
+            <!-- Dr. Anil Chauhan -->
+            <div class="group bg-white border border-[#C9A22720] rounded-2xl sm:rounded-3xl p-4 sm:p-8 text-center transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
+                <div class="relative mx-auto w-44 h-44 mb-8">
+                    <!-- Strong cinematic shadow -->
+                    <div class="absolute -inset-8 bg-black/50 rounded-full blur-[55px] opacity-25 group-hover:opacity-35 transition-all"></div>
+                    
+                    <!-- Premium circular frame (thinner white ring + better face centering) -->
+                    <div class="relative w-44 h-44 rounded-full overflow-hidden shadow-[0_30px_70px_-15px_rgb(0,0,0,0.45)] ring-2 ring-white ring-offset-4 ring-offset-[#FAF7F2]">
+                        <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781791596/anil_oqlh6j.png" 
+                             alt="Dr. Anil Chauhan - Assistant Professor, Public Administration" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.08]"
+                             style="object-position: center 28%;">
+                        
+                        <!-- Cinematic vignette -->
+                        <div class="absolute inset-0 rounded-full" 
+                             style="background: radial-gradient(circle at 50% 38%, transparent 22%, rgba(15,61,62,0.18) 58%, rgba(15,61,62,0.42) 100%);"></div>
+                        
+                        <div class="absolute inset-0 rounded-full ring-1 ring-inset ring-white/35"></div>
+                    </div>
+                    
+                    <!-- Gold accent line -->
+                    <div class="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-14 h-[3px] bg-gradient-to-r from-transparent via-[#C9A227] to-transparent rounded-full"></div>
+                </div>
+                
+                <div class="space-y-1">
+                    <div class="font-bold text-[22px] tracking-[-0.3px] text-[#0F3D3E]">Dr. Anil Chauhan</div>
+                    <div class="text-[#C9A227] text-xs font-extrabold tracking-[1.5px]">ASSISTANT PROFESSOR</div>
+                    <div class="text-[#374151] text-sm pt-0.5">Public Administration</div>
+                </div>
+            </div>
+
+            <!-- Dr. Mahinder Singh -->
+            <div class="group bg-white border border-[#C9A22720] rounded-2xl sm:rounded-3xl p-4 sm:p-8 text-center transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
+                <div class="relative mx-auto w-44 h-44 mb-8">
+                    <div class="absolute -inset-8 bg-black/50 rounded-full blur-[55px] opacity-25 group-hover:opacity-35 transition-all"></div>
+                    
+                    <div class="relative w-44 h-44 rounded-full overflow-hidden shadow-[0_30px_70px_-15px_rgb(0,0,0,0.45)] ring-2 ring-white ring-offset-4 ring-offset-[#FAF7F2]">
+                        <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781790655/mahinder_aumya1.png" 
+                             alt="Dr. Mahinder Singh - Assistant Professor, Mathematics" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.08]"
+                             style="object-position: center 28%;">
+                        
+                        <div class="absolute inset-0 rounded-full" 
+                             style="background: radial-gradient(circle at 50% 38%, transparent 22%, rgba(15,61,62,0.18) 58%, rgba(15,61,62,0.42) 100%);"></div>
+                        
+                        <div class="absolute inset-0 rounded-full ring-1 ring-inset ring-white/35"></div>
+                    </div>
+                    
+                    <div class="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-14 h-[3px] bg-gradient-to-r from-transparent via-[#C9A227] to-transparent rounded-full"></div>
+                </div>
+                
+                <div class="space-y-1">
+                    <div class="font-bold text-[22px] tracking-[-0.3px] text-[#0F3D3E]">Dr. Mahinder Singh</div>
+                    <div class="text-[#C9A227] text-xs font-extrabold tracking-[1.5px]">ASSISTANT PROFESSOR</div>
+                    <div class="text-[#374151] text-sm pt-0.5">Mathematics</div>
+                </div>
+            </div>
+
+            <!-- Deepak Negi -->
+            <div class="group bg-white border border-[#C9A22720] rounded-2xl sm:rounded-3xl p-4 sm:p-8 text-center transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
+                <div class="relative mx-auto w-44 h-44 mb-8">
+                    <div class="absolute -inset-8 bg-black/50 rounded-full blur-[55px] opacity-25 group-hover:opacity-35 transition-all"></div>
+                    
+                    <div class="relative w-44 h-44 rounded-full overflow-hidden shadow-[0_30px_70px_-15px_rgb(0,0,0,0.45)] ring-2 ring-white ring-offset-4 ring-offset-[#FAF7F2]">
+                        <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781790526/deepak_livv1d.png" 
+                             alt="Deepak Negi - Assistant Professor, Computer Science" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.08]"
+                             style="object-position: center 28%;">
+                        
+                        <div class="absolute inset-0 rounded-full" 
+                             style="background: radial-gradient(circle at 50% 38%, transparent 22%, rgba(15,61,62,0.18) 58%, rgba(15,61,62,0.42) 100%);"></div>
+                        
+                        <div class="absolute inset-0 rounded-full ring-1 ring-inset ring-white/35"></div>
+                    </div>
+                    
+                    <div class="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-14 h-[3px] bg-gradient-to-r from-transparent via-[#C9A227] to-transparent rounded-full"></div>
+                </div>
+                
+                <div class="space-y-1">
+                    <div class="font-bold text-[22px] tracking-[-0.3px] text-[#0F3D3E]">Deepak Negi</div>
+                    <div class="text-[#C9A227] text-xs font-extrabold tracking-[1.5px]">ASSISTANT PROFESSOR</div>
+                    <div class="text-[#374151] text-sm pt-0.5">Computer Science</div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="text-center mt-8 md:hidden">
+            <button onclick="window.location.href='faculty.html'" class="text-sm font-semibold flex items-center gap-x-2 mx-auto text-[#0F3D3E]">
+                VIEW FULL DIRECTORY <i class="fa-solid fa-users ml-1.5"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- ADMISSIONS -->
+    <section id="admissions" class="max-w-screen-2xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16 py-8 md:py-16 bg-[#FAF7F2] border-t">
+        <div class="grid lg:grid-cols-12 gap-x-12 items-center">
+            <div class="lg:col-span-7">
+                <div class="uppercase tracking-[3px] text-xs font-bold text-[#C9A227]">JOIN OUR COMMUNITY</div>
+                <h2 class="heading-serif text-[#0F3D3E] text-6xl tracking-tighter leading-none mt-2 mb-6">Begin Your<br>Transformative Journey</h2>
+                
+                <div class="space-y-6 text-[#374151]">
+                    <div class="flex gap-5">
+                        <div class="mt-1 text-[#C9A227]"><i class="fa-solid fa-check-circle fa-fw"></i></div>
+                        <div><span class="font-semibold">Online Admission Portal</span> — Admissions for 2026-27 session are open. Apply online for UG (BA/BSc/BCom/BCA/BBA/B.Voc) and PG programmes.</div>
+                    </div>
+                    <div class="flex gap-5">
+                        <div class="mt-1 text-[#C9A227]"><i class="fa-solid fa-check-circle fa-fw"></i></div>
+                        <div><span class="font-semibold">Eligibility:</span> 10+2 or equivalent for UG (age limit 23 years, 25 for girls; relaxation for SC/ST). Minimum 45-50% marks as per HPU norms.</div>
+                    </div>
+                    <div class="flex gap-5">
+                        <div class="mt-1 text-[#C9A227]"><i class="fa-solid fa-check-circle fa-fw"></i></div>
+                        <div>Roll-on system for 3rd &amp; 5th semesters. Parents/Guardians must accompany candidates at admission.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 mt-10 lg:mt-0">
+                <div class="glass-card p-9 rounded-3xl border">
+                    <div class="font-semibold text-xl mb-6">Ready to Apply?</div>
+                    
+                    <form id="admission-form" onsubmit="submitAdmissionForm(event)">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs font-medium tracking-wider">FULL NAME</label>
+                                <input type="text" required class="w-full mt-1.5 bg-white border border-[#C9A22730] focus:border-[#C9A227] px-5 h-12 rounded-2xl text-sm outline-none" placeholder="Your full name">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <!-- PROGRAMME INTERESTED - FIXED MODERN CUSTOM DROPDOWN -->
+                                <div>
+                                    <label class="text-xs font-medium tracking-wider">PROGRAMME INTERESTED</label>
+                                    
+                                    <div class="relative mt-1.5" id="programme-wrapper">
+                                        <!-- Trigger Button -->
+                                        <div onclick="toggleProgrammeDropdown()" 
+                                             class="w-full bg-white border border-[#C9A22730] px-5 h-12 rounded-2xl flex items-center justify-between cursor-pointer text-sm hover:border-[#C9A22760] transition-all">
+                                            <span id="selected-programme" class="font-medium text-[#1F2937]">BA / BSc / BCom</span>
+                                            <i class="fa-solid fa-chevron-down text-[#0F3D3E40] text-xs transition-transform duration-200"></i>
+                                        </div>
+
+                                        <!-- Dropdown Options -->
+                                        <div id="dropdown-menu" 
+                                             class="hidden absolute z-[60] mt-1.5 w-full bg-white border border-[#C9A22730] rounded-2xl shadow-xl py-1 text-sm overflow-hidden">
+                                            
+                                            <div onclick="selectProgrammeOption(this, 'BA / BSc / BCom')" 
+                                                 class="px-5 py-[13px] hover:bg-[#C9A22710] cursor-pointer flex items-center text-[#1F2937]">
+                                                BA / BSc / BCom
+                                            </div>
+                                            <div onclick="selectProgrammeOption(this, 'BCA / BBA')" 
+                                                 class="px-5 py-[13px] hover:bg-[#C9A22710] cursor-pointer flex items-center text-[#1F2937]">
+                                                BCA / BBA
+                                            </div>
+                                            <div onclick="selectProgrammeOption(this, 'B.Voc')" 
+                                                 class="px-5 py-[13px] hover:bg-[#C9A22710] cursor-pointer flex items-center text-[#1F2937]">
+                                                B.Voc
+                                            </div>
+                                            <div onclick="selectProgrammeOption(this, 'MA / MCom')" 
+                                                 class="px-5 py-[13px] hover:bg-[#C9A22710] cursor-pointer flex items-center text-[#1F2937] rounded-b-2xl">
+                                                MA / MCom
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-medium tracking-wider">MOBILE NUMBER</label>
+                                    <input type="tel" required class="w-full mt-1.5 bg-white border border-[#C9A22730] focus:border-[#C9A227] px-5 h-12 rounded-2xl text-sm outline-none" placeholder="+91 XXXXX XXXXX">
+                                </div>
+                            </div>
+                            
+                            <button type="submit" 
+                                    class="mt-3 w-full elegant-btn py-4 bg-[#0F3D3E] hover:bg-black active:bg-[#0F3D3E] text-white font-semibold rounded-3xl flex items-center justify-center gap-x-2">
+                                SUBMIT APPLICATION <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <p class="text-[10px] text-center text-[#37415180] mt-4">Our admission team will contact you within 48 hours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="max-w-screen-2xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16 py-12 md:py-20">
+        <div class="flex justify-between items-end mb-9">
+            <div>
+                <div class="text-xs tracking-[3px] text-[#C9A227] font-bold">GLIMPSES OF SEEMA</div>
+                <h2 class="heading-serif text-6xl tracking-tighter">Life at Raja Virbhadra Singh</h2>
+            </div>
+            <button onclick="showGalleryModal()" class="text-sm hidden md:block font-semibold text-[#0F3D3E]">VIEW FULL GALLERY →</button>
+        </div>
+
+        <div class="masonry-grid gap-4">
+            <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781867389/group_zi5vsy.png" alt="College group photo" class="gallery-img w-full rounded-3xl mb-4 cursor-pointer shadow-sm" onclick="showImageModal(this.src, 'College students and staff group photo')">
+            <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781867388/group1_kphdhs.png" alt="College group gathering" class="gallery-img w-full rounded-3xl mb-4 cursor-pointer shadow-sm" onclick="showImageModal(this.src, 'Students gathering at Raja Virbhadra Singh College')">
+            <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781867917/ncc_chkrou.png" alt="NCC activity at college" class="gallery-img w-full rounded-3xl mb-4 cursor-pointer shadow-sm" onclick="showImageModal(this.src, 'NCC cadets at Raja Virbhadra Singh College Seema')">
+        </div>
+    </section>
+
+    <!-- FINAL CTA / CONTACT -->
+    <section class="himalayan-gradient text-white py-8 md:py-16">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-8 md:px-12 text-center">
+            <h2 class="heading-serif text-4xl md:text-6xl tracking-tighter">Ready to Transform Your Future?</h2>
+            <p class="max-w-md mx-auto mt-4 text-white/70">Join thousands of students who have found their purpose in the lap of the Himalayas.</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-9">
+                <button onclick="document.getElementById('admissions').scrollIntoView({ behavior: 'smooth' })" 
+                        class="px-10 py-4 bg-white text-[#0F3D3E] font-semibold rounded-3xl text-base hover:bg-amber-50 active:bg-white transition">Apply for 2026 Session</button>
+                <button onclick="showContactModal()" 
+                        class="px-9 py-4 border border-white/40 hover:bg-white/10 text-white font-semibold rounded-3xl transition">Talk to Our Counsellor</button>
+            </div>
+
+            <div class="mt-14 text-xs tracking-widest text-white/50">RAJA VIRBHADRA COLLEGE, SEEMA • DISTRICT SHIMLA, HIMACHAL PRADESH</div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#0F3D3E] text-white/70 text-xs sm:text-sm py-8 md:py-10">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-8 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-y-6 md:gap-y-10">
+            <div class="md:col-span-5">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <img 
+                        src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781865205/bitmap_jter0i.png"
+                        alt="College Logo"
+                        class="w-12 h-12 object-contain"
+                    />
+                    <div class="font-bold text-white text-xl tracking-tighter">Raja Virbhadra Singh College</div>
+                </div>
+                <div class="max-w-xs">Chanshal Valley, Rohru, District Shimla, Himachal Pradesh - 171207</div>
+                
+                <div class="mt-6 flex gap-x-5 text-lg">
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="md:col-span-3">
+                <div class="font-semibold text-white mb-3 tracking-wider text-xs">QUICK LINKS</div>
+                <div class="space-y-[7px] text-sm">
+                    <div><a href="#about" class="hover:text-white">About Us</a></div>
+                    <div><a href="#academics" class="hover:text-white">Academic Programmes</a></div>
+                    <div><a href="#campus" class="hover:text-white">Facilities</a></div>
+                    <div><a href="#admissions" class="hover:text-white">Online Admission</a></div>
+                </div>
+            </div>
+            
+            <div class="md:col-span-4">
+                <div class="font-semibold text-white mb-3 tracking-wider text-xs">CONTACT</div>
+                <div class="space-y-1 text-sm">
+                    <div><a href="tel:01781240167" class="hover:text-white">Phone: 01781-240167</a></div>
+                    <div><a href="mailto:gcseema-hp@nic.in" class="hover:text-white">Email: gcseema-hp@nic.in</a></div>
+                    <div class="pt-2">Affiliated to Himachal Pradesh University<br>NAAC Accredited (CGPA 3.00)</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center text-[10px] mt-14 tracking-widest text-white/40">© 2026 Raja Virbhadra Singh College, Seema. All Rights Reserved. | Bringing Transformation through Education</div>
+    </footer>
+
+    <!-- MODALS -->
+    
+    <!-- Principal Modal -->
+    <div id="principal-modal" onclick="if (event.target.id === 'principal-modal') hidePrincipalModal()" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4 sm:p-6">
+        <div onclick="event.stopImmediatePropagation()" class="modal max-w-3xl w-full bg-white rounded-2xl sm:rounded-3xl overflow-hidden">
+            <div class="px-9 pt-9 pb-8">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="text-[#C9A227] text-xs tracking-[2px]">PRINCIPAL'S MESSAGE</div>
+                        <div class="text-4xl heading-serif tracking-tight text-[#0F3D3E]">Dr. Prem Parkash Chauhan</div>
+                    </div>
+                    <button onclick="hidePrincipalModal()" class="text-3xl leading-none text-[#0F3D3E]/40 hover:text-[#0F3D3E] transition">&times;</button>
+                </div>
+                
+                <div class="mt-8 prose prose-lg text-[#374151] max-w-none">
+                    <p>Dear Students, Parents, Staff and Well-wishers,</p>
+                    <p>It gives me immense pleasure and a profound sense of responsibility to serve as the Principal of this vibrant institution. Raja Virbhadra Singh College stands as a symbol of hope and transformation in the remote yet beautiful Chanshal Valley.</p>
+                    
+                    <p class="italic">"Education is not the filling of a pail, but the lighting of a fire."</p>
+                    <p class="text-sm not-italic">— William Butler Yeats</p>
+                    
+                    <p>I urge every student to embrace learning with passion and curiosity. To our dedicated faculty — your commitment shapes the future. Together, let us create an environment where every individual feels valued, supported, and inspired to excel.</p>
+                    
+                    <p>With warm regards,<br><strong>Dr. Prem Parkash Chauhan</strong><br>Principal</p>
+                </div>
+            </div>
+            <div class="bg-[#FAF7F2] px-9 py-5 flex justify-end">
+                <button onclick="hidePrincipalModal()" class="px-8 py-2.5 text-sm font-semibold bg-[#0F3D3E] text-white rounded-3xl">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Faculty Full List Modal — redesigned with search + dept filter -->
+    <div id="faculty-modal" onclick="if (event.target.id === 'faculty-modal') hideFacultyModal()" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-3 sm:p-4">
+        <div onclick="event.stopImmediatePropagation()" class="modal max-w-5xl w-full max-h-[92dvh] bg-white rounded-2xl sm:rounded-3xl overflow-hidden flex flex-col">
+
+            <!-- Header -->
+            <div class="px-7 pt-6 pb-4 border-b flex-shrink-0">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <div class="font-bold text-2xl tracking-tight">Faculty Directory</div>
+                        <div class="text-xs text-[#C9A227] mt-0.5" id="faculty-count-label">60+ Dedicated Educators</div>
+                    </div>
+                    <button onclick="hideFacultyModal()" class="text-3xl text-[#0F3D3E40] hover:text-[#0F3D3E] transition leading-none mt-1">&times;</button>
+                </div>
+
+                <!-- Search -->
+                <div class="relative mb-3">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-[#0F3D3E50] text-sm"></i>
+                    <input id="faculty-search" type="text" placeholder="Search by name or department…"
+                        oninput="filterFaculty()"
+                        class="w-full pl-10 pr-4 h-10 rounded-2xl border border-[#C9A22740] focus:border-[#C9A227] outline-none text-sm bg-[#FAF7F2]">
+                </div>
+
+                <!-- Department filter chips -->
+                <div id="dept-chips" class="flex flex-wrap gap-2 pb-1 overflow-x-auto scrollbar-none text-xs"></div>
+            </div>
+
+            <!-- Staff grid -->
+            <div class="overflow-y-auto flex-1 px-7 py-5">
+                <div id="faculty-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+                <div id="faculty-empty" class="hidden text-center py-16 text-[#37415160] text-sm">No faculty found matching your search.</div>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-7 py-3 border-t flex-shrink-0 bg-[#FAF7F2] text-[11px] text-[#37415180]">
+                Affiliated to Himachal Pradesh University • NAAC Accredited (CGPA 3.00)
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Lightbox Modal -->
+    <div id="image-modal" onclick="hideImageModal()" class="hidden fixed inset-0 bg-black/90 z-[110] flex items-center justify-center p-6">
+        <div onclick="event.stopImmediatePropagation()" class="max-w-5xl w-full">
+            <img id="modal-image" class="max-h-[82dvh] w-auto mx-auto rounded-2xl shadow-2xl" alt="">
+            <div id="modal-caption" class="text-center text-white/90 mt-5 text-sm tracking-wide max-w-lg mx-auto"></div>
+            <button onclick="hideImageModal()" class="absolute top-6 right-6 text-white text-4xl leading-none">&times;</button>
+        </div>
+    </div>
+
+    <!-- Contact / Inquiry Modal -->
+    <div id="contact-modal" onclick="if (event.target.id === 'contact-modal') hideContactModal()" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4 sm:p-6">
+        <div onclick="event.stopImmediatePropagation()" class="modal w-full max-w-lg bg-white rounded-2xl sm:rounded-3xl overflow-hidden">
+            <div class="px-8 pt-8 pb-7">
+                <div class="flex justify-between">
+                    <div class="font-bold text-3xl tracking-tight">Get in Touch</div>
+                    <button onclick="hideContactModal()" class="text-3xl text-[#0F3D3E30] hover:text-[#0F3D3E]">&times;</button>
+                </div>
+                
+                <form id="contact-form" onsubmit="submitContactForm(event)" class="mt-7 space-y-5">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium mb-1.5">YOUR NAME</label>
+                            <input type="text" required class="w-full border px-4 h-11 rounded-2xl text-sm" placeholder="Full name">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium mb-1.5">PHONE</label>
+                            <input type="tel" required class="w-full border px-4 h-11 rounded-2xl text-sm" placeholder="Mobile number">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1.5">EMAIL ADDRESS</label>
+                        <input type="email" required class="w-full border px-4 h-11 rounded-2xl text-sm" placeholder="you@email.com">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1.5">YOUR MESSAGE / QUERY</label>
+                        <textarea required rows="4" class="w-full border px-4 py-3 rounded-3xl text-sm resize-y" placeholder="How can we help you?"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full py-4 bg-[#0F3D3E] text-white font-semibold rounded-3xl">SEND MESSAGE</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind Script
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent-gold', '#C9A227');
+        }
+
+        // Navbar scroll effect + active link
+        function initNavbar() {
+            const navbar = document.getElementById('navbar');
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 30) {
+                    navbar.classList.add('shadow-sm');
+                } else {
+                    navbar.classList.remove('shadow-sm');
+                }
+            });
+
+            // Mobile menu toggle
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const icon = mobileBtn.querySelector('i');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            });
+
+            // Close mobile menu on link click
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileBtn.querySelector('i').classList.remove('fa-times');
+                    mobileBtn.querySelector('i').classList.add('fa-bars');
+                });
+            });
+
+            // Active nav link on scroll
+            const sections = ['about', 'academics', 'campus', 'faculty', 'admissions', 'gallery'];
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(sectionId => {
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        const sectionTop = section.getBoundingClientRect().top;
+                        if (sectionTop <= 180) {
+                            current = sectionId;
+                        }
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active', 'text-[#0F3D3E]');
+                    link.classList.add('text-[#1F2937]');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active', 'text-[#0F3D3E]');
+                        link.classList.remove('text-[#1F2937]');
+                    }
+                });
+            });
+        }
+
+        // Animated Counters
+        function animateCounters() {
+            const counters = [
+                { id: 'stat-students', target: 4500, suffix: '+' },
+                { id: 'stat-faculty', target: 60, suffix: '+' },
+                { id: 'stat-years', target: 38, suffix: '+' }
+            ];
+
+            counters.forEach(counter => {
+                const element = document.getElementById(counter.id);
+                if (!element) return;
+
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        let start = 0;
+                        const duration = 1600;
+                        const increment = counter.target / (duration / 16);
+                        
+                        const timer = setInterval(() => {
+                            start += increment;
+                            if (start >= counter.target) {
+                                element.textContent = counter.target.toLocaleString();
+                                if (counter.suffix) element.textContent += counter.suffix;
+                                clearInterval(timer);
+                            } else {
+                                element.textContent = Math.floor(start).toLocaleString();
+                            }
+                        }, 16);
+                        
+                        observer.disconnect();
+                    }
+                }, { threshold: 0.6 });
+                
+                observer.observe(element);
+            });
+        }
+
+        // Fade in on scroll
+        function initFadeIns() {
+            const elements = document.querySelectorAll('.glass-card, .facility-card, .faculty-card, .program-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.transitionDelay = Math.random() * 200 + 'ms';
+                        entry.target.classList.add('fade-in-up', 'visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            elements.forEach(el => {
+                el.classList.add('fade-in-up');
+                observer.observe(el);
+            });
+        }
+
+        // Principal Modal
+        function showPrincipalModal() {
+            document.getElementById('principal-modal').classList.remove('hidden');
+            document.getElementById('principal-modal').classList.add('flex');
+        }
+        
+        function hidePrincipalModal() {
+            const modal = document.getElementById('principal-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // Faculty Modal + Dynamic List
+        const facultyData = [
+            { name: "Dr. Anil Chauhan", dept: "Public Administration", title: "Assistant Professor" },
+            { name: "Dr. Ravi Kiran Sharma", dept: "Zoology", title: "Assistant Professor" },
+            { name: "Ashwani Kumar Sharma", dept: "Chemistry", title: "Assistant Professor" },
+            { name: "Dr. Umesh Narta", dept: "Botany", title: "Assistant Professor" },
+            { name: "Naresh Kumar Chauhan", dept: "Geography", title: "Assistant Professor" },
+            { name: "Dr. Mahinder Singh", dept: "Mathematics", title: "Assistant Professor" },
+            { name: "Vandana Bhandari", dept: "English", title: "Assistant Professor" },
+            { name: "Ravi Prakash", dept: "Hindi", title: "Assistant Professor" },
+            { name: "Sunil Negi", dept: "Chemistry", title: "Assistant Professor" },
+            { name: "Bharat Khepan", dept: "Sociology", title: "Assistant Professor" },
+            { name: "Dr. Surender Singh", dept: "Economics", title: "Assistant Professor" },
+            { name: "Sandhira Devi", dept: "Commerce", title: "Assistant Professor" },
+            { name: "Dr. Prince Mohan", dept: "Geography", title: "Assistant Professor" },
+            { name: "Deepak Negi", dept: "Computer Science", title: "Assistant Professor" },
+            { name: "Dr. Sanjeev Kumar", dept: "Political Science", title: "Assistant Professor" },
+            { name: "Dr. Navneet Bhauta", dept: "Hindi", title: "Assistant Professor" },
+            { name: "Bhupinder Singh Lundiyan", dept: "History", title: "Assistant Professor" },
+            { name: "Nalin Chaman", dept: "Public Administration", title: "Assistant Professor" },
+            { name: "Dr. Om Sharma", dept: "Music", title: "Assistant Professor" },
+            { name: "Dr. Sat Pal", dept: "Economics", title: "Assistant Professor" },
+            { name: "Dr. Vandana Sharma", dept: "Sanskrit", title: "Assistant Professor" },
+            { name: "Dr. Hapinder Singh", dept: "Tourism (TTM)", title: "Assistant Professor" },
+            { name: "Geetanjali Rathore", dept: "English", title: "Assistant Professor" },
+            { name: "Sheetal Chauhan", dept: "English", title: "Assistant Professor" },
+            { name: "Divyanshi Sharma", dept: "Commerce", title: "Assistant Professor" },
+            { name: "Mohini Kapalta", dept: "Mathematics", title: "Assistant Professor" },
+            { name: "Bana Singh Sangtan", dept: "Physics", title: "Assistant Professor" },
+            { name: "Dr. Davinder Kumar", dept: "Physics", title: "Assistant Professor" },
+            { name: "Raghubir Singh", dept: "Zoology", title: "Assistant Professor" },
+            { name: "Parmila Kaith", dept: "Commerce", title: "Assistant Professor" },
+            { name: "Ritika Chauhan", dept: "Botany", title: "Assistant Professor" },
+            { name: "Chetan Chauhan", dept: "Journalism & Mass Communication", title: "Assistant Professor" },
+            { name: "Maheshwari", dept: "History", title: "Assistant Professor" },
+            { name: "Sanjay Basingta", dept: "BCA / PGDCA", title: "Assistant Professor" },
+            { name: "Rennu Chauhaan", dept: "BCA", title: "Assistant Professor" },
+            { name: "Sandeep Kumar Jhamta", dept: "BCA", title: "Assistant Professor" },
+            { name: "Dil Kumari", dept: "Add-on Courses", title: "Assistant Professor" },
+            { name: "Sheetal Bharti", dept: "BBA", title: "Assistant Professor" },
+            { name: "Priya Sharma", dept: "BBA", title: "Assistant Professor" },
+            { name: "Jyotsana Rawat", dept: "B.Voc (English)", title: "Guest Faculty" },
+            { name: "Pradeep Naik", dept: "BCA (Mathematics)", title: "Assistant Professor" },
+            { name: "Supriya Devi Khalasta", dept: "B.Voc (Retail Mgmt)", title: "Vocational Trainer" },
+            { name: "Namender Chandel", dept: "B.Voc (Hospitality & Tourism)", title: "Vocational Trainer" },
+            { name: "Parvinder", dept: "B.Voc (H&T)", title: "Vocational Trainer" },
+            { name: "Pankaj Kanwar", dept: "B.Voc", title: "Faculty" },
+            { name: "Hukam Verma", dept: "B.Voc (Retail)", title: "Vocational Trainer" },
+            { name: "Vikas Kumar", dept: "B.Voc (Hospitality)", title: "Vocational Trainer" },
+            { name: "Nikhil Zogta", dept: "B.Voc (H&T)", title: "Guest Faculty" },
+            { name: "Priyanka", dept: "B.Voc (Retail)", title: "Guest Faculty" }
+        ];
+
+        // Role → color map for badge
+        const roleColors = {
+            'Assistant Professor': { bg: '#0F3D3E15', text: '#0F3D3E' },
+            'Guest Faculty':       { bg: '#C9A22720', text: '#8a6b0e' },
+            'Vocational Trainer':  { bg: '#e8f5e920', text: '#2e7d32' },
+            'Faculty':             { bg: '#e3f2fd20', text: '#1565c0' }
+        };
+
+        let activeDept = 'All';
+
+        function buildDeptChips() {
+            const chips = document.getElementById('dept-chips');
+            chips.innerHTML = '';
+            const depts = ['All', ...new Set(facultyData.map(f => f.dept.split('(')[0].trim()))];
+            depts.forEach(d => {
+                const btn = document.createElement('button');
+                btn.textContent = d;
+                btn.dataset.dept = d;
+                btn.className = `dept-chip px-3 py-1 rounded-2xl border font-medium transition-all whitespace-nowrap ${d === activeDept
+                    ? 'bg-[#0F3D3E] text-white border-[#0F3D3E]'
+                    : 'bg-white text-[#374151] border-[#C9A22740] hover:border-[#C9A227]'}`;
+                btn.onclick = () => { activeDept = d; buildDeptChips(); renderFaculty(); };
+                chips.appendChild(btn);
+            });
+        }
+
+        function renderFaculty() {
+            const query = (document.getElementById('faculty-search').value || '').toLowerCase();
+            const list  = document.getElementById('faculty-list');
+            const empty = document.getElementById('faculty-empty');
+            const label = document.getElementById('faculty-count-label');
+
+            const filtered = facultyData.filter(f => {
+                const deptBase = f.dept.split('(')[0].trim();
+                const matchDept = activeDept === 'All' || deptBase === activeDept;
+                const matchQuery = !query || f.name.toLowerCase().includes(query) || f.dept.toLowerCase().includes(query);
+                return matchDept && matchQuery;
+            });
+
+            list.innerHTML = '';
+            label.textContent = `${filtered.length} of ${facultyData.length} educators`;
+
+            if (filtered.length === 0) {
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+
+            filtered.forEach(fac => {
+                const initials = fac.name.replace(/^Dr\.\s*/i, '').split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
+                const rc = roleColors[fac.title] || { bg: '#f5f5f5', text: '#555' };
+                const div = document.createElement('div');
+                div.className = 'flex items-center gap-3 p-3 rounded-2xl border border-[#C9A22720] hover:border-[#C9A22760] hover:bg-[#FAF7F2] transition-all cursor-default';
+                div.innerHTML = `
+                    <div class="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center text-sm font-bold text-white bg-[#0F3D3E]">${initials}</div>
+                    <div class="min-w-0 flex-1">
+                        <div class="font-semibold text-sm truncate">${fac.name}</div>
+                        <div class="text-xs text-[#374151] truncate">${fac.dept}</div>
+                    </div>
+                    <span class="flex-shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-xl" style="background:${rc.bg};color:${rc.text}">${fac.title}</span>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function filterFaculty() { renderFaculty(); }
+
+        function showFacultyModal() {
+            const modal = document.getElementById('faculty-modal');
+            document.getElementById('faculty-search').value = '';
+            activeDept = 'All';
+            buildDeptChips();
+            renderFaculty();
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+        
+        function hideFacultyModal() {
+            const modal = document.getElementById('faculty-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // Image Lightbox
+        function showImageModal(src, caption) {
+            const modal = document.getElementById('image-modal');
+            const img = document.getElementById('modal-image');
+            const cap = document.getElementById('modal-caption');
+            
+            img.src = src;
+            cap.textContent = caption;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+        
+        function hideImageModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // Gallery full modal (simple)
+        function showGalleryModal() {
+            const modal = document.getElementById('image-modal');
+            // For simplicity, show first image or alert
+            alert("Thank you! Full interactive gallery with 50+ images of campus, events, sports & student life is available on our official portal. Visit the college for a physical tour.");
+            // Could expand to full masonry in modal if needed
+        }
+
+        // Contact Modal
+        function showContactModal() {
+            const modal = document.getElementById('contact-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+        
+        function hideContactModal() {
+            const modal = document.getElementById('contact-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function submitContactForm(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> SENDING...`;
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = `MESSAGE SENT ✓`;
+                btn.classList.add('!bg-emerald-600');
+                
+                setTimeout(() => {
+                    hideContactModal();
+                    // Success toast
+                    showToast("Thank you! Our team will get back to you shortly.");
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.classList.remove('!bg-emerald-600');
+                    e.target.reset();
+                }, 1400);
+            }, 1650);
+        }
+
+        // ==================== FIXED CUSTOM DROPDOWN FOR PROGRAMME INTERESTED ====================
+        function toggleProgrammeDropdown() {
+            const menu = document.getElementById('dropdown-menu');
+            const chevron = document.querySelector('#programme-wrapper .fa-chevron-down');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                if (chevron) chevron.style.transform = 'rotate(180deg)';
+            } else {
+                menu.classList.add('hidden');
+                if (chevron) chevron.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function selectProgrammeOption(element, value) {
+            // Update the displayed selected value
+            document.getElementById('selected-programme').innerText = value;
+            
+            // Close the dropdown
+            const menu = document.getElementById('dropdown-menu');
+            const chevron = document.querySelector('#programme-wrapper .fa-chevron-down');
+            
+            menu.classList.add('hidden');
+            if (chevron) chevron.style.transform = 'rotate(0deg)';
+
+            // Highlight the selected option
+            document.querySelectorAll('#dropdown-menu > div').forEach(div => {
+                div.classList.remove('bg-[#C9A22720]', 'font-semibold');
+            });
+            element.classList.add('bg-[#C9A22720]', 'font-semibold');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const wrapper = document.getElementById('programme-wrapper');
+            const menu = document.getElementById('dropdown-menu');
+            if (wrapper && menu && !wrapper.contains(e.target) && !menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+                const chevron = document.querySelector('#programme-wrapper .fa-chevron-down');
+                if (chevron) chevron.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        function submitAdmissionForm(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const original = btn.innerHTML;
+            
+            // Get the selected programme from our custom dropdown
+            const selectedProgramme = document.getElementById('selected-programme').innerText;
+            
+            btn.innerHTML = `PROCESSING YOUR APPLICATION...`;
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = `APPLICATION SUBMITTED SUCCESSFULLY ✓`;
+                btn.style.backgroundColor = '#166534';
+                
+                setTimeout(() => {
+                    showToast(`Thank you! Application for <strong>${selectedProgramme}</strong> received. Our team will contact you within 48 hours.`);
+                    btn.innerHTML = original;
+                    btn.disabled = false;
+                    btn.style.backgroundColor = '';
+                    e.target.reset();
+                    
+                    // Reset custom dropdown to default
+                    document.getElementById('selected-programme').innerText = 'BA / BSc / BCom';
+                    document.querySelectorAll('#dropdown-menu > div').forEach(div => {
+                        div.classList.remove('bg-[#C9A22720]', 'font-semibold');
+                    });
+                    
+                    // Scroll to top subtly
+                    window.scrollTo({ top: 120, behavior: 'smooth' });
+                }, 2100);
+            }, 1900);
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-6 right-6 bg-[#0F3D3E] text-white px-7 py-3.5 rounded-3xl shadow-2xl flex items-center gap-x-3 text-sm z-[200]`;
+            toast.innerHTML = `
+                <i class="fa-solid fa-check-circle text-[#C9A227]"></i> 
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.transition = 'all 0.3s ease';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 4800);
+        }
+
+        function showAdmissionsModal() {
+            const modalHTML = `
+                <div id="admission-info-modal" onclick="document.getElementById('admission-info-modal').remove()" class="fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-6">
+                    <div onclick="event.stopImmediatePropagation()" class="modal max-w-2xl w-full bg-white rounded-3xl p-9">
+                        <div class="flex justify-between mb-6">
+                            <div>
+                                <div class="text-[#C9A227] text-xs tracking-widest">ADMISSION 2026-27</div>
+                                <div class="text-4xl heading-serif tracking-tight">Admission Guidelines</div>
+                            </div>
+                            <button onclick="document.getElementById('admission-info-modal').remove()" class="text-3xl text-[#0F3D3E30] hover:text-[#0F3D3E]">&times;</button>
+                        </div>
+                        
+                        <div class="space-y-6 text-sm">
+                            <div>
+                                <div class="font-semibold mb-1">Eligibility for UG Programmes (BA, BSc, BCom, BCA, BBA, B.Voc)</div>
+                                <ul class="list-disc pl-5 text-[#374151] space-y-1">
+                                    <li>Passed 10+2 or equivalent examination from a recognized board</li>
+                                    <li>Maximum age: 23 years (25 years for girl students) as on 1st July</li>
+                                    <li>Relaxation of 3 years in age limit for SC/ST candidates</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <div class="font-semibold mb-1">Online Admission Process</div>
+                                <p class="text-[#374151]">Admissions are conducted through the online portal. Visit the college website or HPU admission portal for the latest schedule and to fill the application form. Documents required: 10th &amp; 12th marksheets, category certificate (if applicable), passport size photographs, etc.</p>
+                            </div>
+                            
+                            <div class="pt-3 border-t text-xs text-[#0F3D3E]">
+                                For detailed prospectus and notices, please visit the college Notice Board / Download Centre or contact the college office at 01781-240167.
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 flex gap-3">
+                            <button onclick="document.getElementById('admission-info-modal').remove(); document.getElementById('admissions').scrollIntoView({behavior:'smooth'})" class="flex-1 py-3 bg-[#0F3D3E] text-white rounded-3xl font-semibold text-sm">APPLY ONLINE NOW</button>
+                            <button onclick="document.getElementById('admission-info-modal').remove()" class="flex-1 py-3 border text-sm font-semibold rounded-3xl">CLOSE</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+
+        // Keyboard escape for modals
+        function initKeyboardControls() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "Escape") {
+                    const modals = document.querySelectorAll('.fixed.inset-0.flex');
+                    if (modals.length > 0) {
+                        modals[modals.length - 1].classList.remove('flex');
+                        modals[modals.length - 1].classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        // Initialize everything
+        function initializeWebsite() {
+            initializeTailwind();
+            initNavbar();
+            animateCounters();
+            initFadeIns();
+            initKeyboardControls();
+            
+            // Easter egg: Click logo to scroll to top
+            const logo = document.querySelector('nav .flex.items-center');
+            if (logo) {
+                logo.style.cursor = 'pointer';
+                logo.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+            
+            // Welcome console message
+            console.log('%c[Raja Virbhadra Singh College] Premium website initialized successfully. All data sourced from official college records.', 'color:#C9A227; font-size: 9px');
+            
+            // Optional: Preload a few images
+            setTimeout(() => {
+                const preloadImages = [
+                    'https://picsum.photos/id/1016/2000/1200',
+                    'https://picsum.photos/id/160/800/600'
+                ];
+                preloadImages.forEach(src => {
+                    const img = new Image();
+                    img.src = src;
+                });
+            }, 1200);
+        }
+
+        // Boot the site
+        window.onload = initializeWebsite;
+    </script>
+</body>
+</html>
