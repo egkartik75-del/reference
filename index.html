@@ -18,8 +18,16 @@
             --text: #1F2937;
         }
         
+        html {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
         body {
             font-family: 'Inter', system_ui, sans-serif;
+            overflow-x: hidden;
+            max-width: 100%;
+            position: relative;
         }
         
         .heading-serif {
@@ -288,7 +296,7 @@
             .program-card { padding: 0.9rem !important; border-radius: 1.25rem !important; }
             .program-card h3 { font-size: 1rem; }
             .program-card p { font-size: 0.85rem; }
-            .md\\:grid-cols-2, .lg\\:grid-cols-3 { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important; }
+            .md\\:grid-cols-2, .lg\\:grid-cols-3 { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)) !important; }
             
             /* Campus Section */
             #campus { padding: 1.5rem 1rem !important; }
@@ -516,22 +524,22 @@
     </nav>
 
     <!-- HERO SECTION -->
-    <header class="hero-bg h-[100dvh] md:min-h-[820px] sm:min-h-[500px] min-h-[450px] flex items-center relative pt-16 md:pt-32 pb-20 md:pb-44">
+    <header class="hero-bg h-[72dvh] md:h-[100dvh] md:min-h-[820px] min-h-[420px] flex items-center relative pt-14 md:pt-32 pb-10 md:pb-44">
         <div class="max-w-screen-2xl mx-auto w-full px-4 sm:px-8 md:px-12 lg:px-16">
-            <div class="max-w-4xl">
+            <div class="max-w-4xl text-center md:text-left mx-auto md:mx-0">
                 <!-- Badge -->
-                <div class="inline-flex items-center gap-x-2 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-3xl mb-6 border border-white/60">
+                <div class="inline-flex items-center gap-x-2 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-3xl mb-4 md:mb-6 border border-white/60">
                     <div class="flex items-center gap-x-1.5">
                         <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
                         <span class="text-xs font-semibold tracking-widest text-[#0F3D3E]">EST. 1988 • NAAC ACCREDITED 3.00</span>
                     </div>
                 </div>
 
-                <h1 class="text-white text-4xl md:text-6xl lg:text-8xl leading-[1] md:leading-[0.92] tracking-tighter font-bold heading-serif mb-3 md:mb-4">
+                <h1 class="text-white text-[2.1rem] sm:text-4xl md:text-6xl lg:text-8xl leading-[1.05] md:leading-[0.92] tracking-tighter font-bold heading-serif mb-2 md:mb-4">
                     Raja Virbhadra<br>Singh College
                 </h1>
                 
-                <p class="max-w-lg text-base md:text-xl lg:text-2xl text-white/90 font-light tracking-tight mb-6 md:mb-8">
+                <p class="max-w-lg text-sm md:text-xl lg:text-2xl text-white/90 font-light tracking-tight mb-5 md:mb-8 mx-auto md:mx-0">
                     Bringing Transformation through Education<br>
                     <span class="text-[#C9A227]">in the heart of the Himalayas</span>
                 </p>
@@ -544,18 +552,18 @@
                     </button>
                     
                     <button onclick="showPrincipalModal()"
-                            class="flex items-center gap-x-3 px-8 py-4 text-white border border-white/40 hover:bg-white/10 rounded-3xl font-medium text-base backdrop-blur transition-all">
+                            class="flex items-center gap-x-3 px-5 py-3 md:px-8 md:py-4 text-white border border-white/40 hover:bg-white/10 rounded-3xl font-medium text-sm md:text-base backdrop-blur transition-all">
                         <i class="fa-solid fa-play mr-1"></i>
                         <span>Principal's Message</span>
                     </button>
                 </div>
 
-                <div class="mt-12 flex items-center gap-x-8 text-white/70 text-sm">
+                <div class="mt-8 md:mt-12 flex flex-col sm:flex-row sm:items-center gap-y-1 gap-x-8 text-white/70 text-xs md:text-sm">
                     <div class="flex items-center gap-x-2">
                         <i class="fa-solid fa-location-dot"></i>
                         <span>Chanshal Valley, Rohru • Shimla, HP</span>
                     </div>
-                    <div class="hidden md:block w-px h-3 bg-white/30"></div>
+                    <div class="hidden sm:block w-px h-3 bg-white/30"></div>
                     <div>Affiliated to Himachal Pradesh University</div>
                 </div>
             </div>
@@ -657,18 +665,18 @@
 
     <!-- PRINCIPAL'S MESSAGE -->
     <section class="bg-[#0F3D3E] text-white py-16">
-        <div class="max-w-screen-2xl mx-auto px-8 md:px-12 lg:px-16">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16">
             <div class="max-w-6xl mx-auto">
                 <div class="grid lg:grid-cols-12 gap-x-10 xl:gap-x-16 items-center">
                     
                     <!-- Text Content -->
                     <div class="lg:col-span-7 text-center lg:text-left">
                         <div class="text-[#C9A227] text-sm tracking-[3px] font-semibold mb-3">FROM THE PRINCIPAL'S DESK</div>
-                        <h3 class="heading-serif text-white text-5xl md:text-6xl tracking-tighter">Dr. Prem Parkash Chauhan</h3>
-                        <p class="text-white/60 mt-1.5 text-lg">Principal, Raja Virbhadra Singh College, Seema</p>
+                        <h3 class="heading-serif text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tighter">Dr. Prem Parkash Chauhan</h3>
+                        <p class="text-white/60 mt-1.5 text-sm md:text-lg">Principal, Raja Virbhadra Singh College, Seema</p>
                         
                         <div class="mt-8 max-w-xl lg:max-w-none mx-auto lg:mx-0">
-                            <blockquote class="text-2xl leading-tight font-light italic text-white/90">
+                            <blockquote class="text-lg md:text-2xl leading-tight font-light italic text-white/90">
                                 "Education is the most powerful weapon which you can use to change the world."
                             </blockquote>
                             <div class="text-right mt-3 text-sm text-[#C9A227] font-medium">— Nelson Mandela</div>
