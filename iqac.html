@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQAC • Raja Virbhadra Singh College, Seema</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap');
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .heading-serif { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; }
+        .premium-bg { background-color: #FAF7F2; }
+        .nav-glass { background: rgba(250, 247, 242, 0.95); backdrop-filter: blur(20px); }
+        .glass-card {
+            background: rgba(255,255,255, 0.95);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255, 0.3);
+            box-shadow: 0 10px 30px -15px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -12px rgb(0 0 0 / 0.12); }
+        .activity-card { transition: all 0.3s ease; }
+        .activity-card:hover { transform: translateY(-4px); }
+    </style>
+</head>
+<body class="premium-bg text-[#1F2937]">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-glass border-b border-[#C9A22720]">
+        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div style="width:48px;height:48px;background:radial-gradient(circle at center,#ffffff 0%,#f0f7f7 45%,#c8e0e0 70%,#8fbdbd 100%);border-radius:50%;padding:3px;box-shadow:0 0 0 1.5px rgba(15,61,62,0.2);">
+                    <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png" class="w-full h-full object-contain rounded-full">
+                </div>
+                <div>
+                    <div class="font-bold text-xl tracking-tighter text-[#0F3D3E]">Raja Virbhadra Singh</div>
+                    <div class="text-[10px] text-[#0F3D3E80] -mt-1 font-medium tracking-[1.5px]">COLLEGE • SEEMA</div>
+                </div>
+            </div>
+            <div class="hidden lg:flex items-center gap-x-8 text-sm font-medium">
+                <a href="#" class="text-[#1F2937] hover:text-[#0F3D3E]">Home</a>
+                <a href="#" class="text-[#0F3D3E] font-semibold">IQAC</a>
+                <a href="#" class="text-[#1F2937] hover:text-[#0F3D3E]">NAAC</a>
+            </div>
+            <button onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'})" 
+                    class="hidden lg:block px-7 py-2.5 bg-[#0F3D3E] text-white text-sm font-semibold rounded-3xl hover:bg-[#1A4F4F]">
+                Contact IQAC
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="pt-20 pb-12 bg-gradient-to-br from-[#0F3D3E] to-[#1A4F4F] text-white">
+        <div class="max-w-screen-2xl mx-auto px-8 pt-8">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-x-2 bg-white/10 px-4 py-1.5 rounded-3xl mb-6 text-sm">
+                    <div class="w-2 h-2 bg-[#C9A227] rounded-full animate-pulse"></div>
+                    <span>Active &amp; Functional IQAC</span>
+                </div>
+                <h1 class="text-6xl font-bold heading-serif tracking-tighter">Internal Quality<br>Assurance Cell</h1>
+                <p class="mt-4 text-xl text-white/80">Continuous improvement • Transparency • Excellence</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="max-w-screen-2xl mx-auto px-8 -mt-8 relative z-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="glass-card rounded-3xl p-7 border"><div class="text-5xl font-bold text-[#0F3D3E]">18</div><div class="text-sm font-semibold mt-1">IQAC Meetings Held</div></div>
+            <div class="glass-card rounded-3xl p-7 border"><div class="text-5xl font-bold text-[#0F3D3E]">7</div><div class="text-sm font-semibold mt-1">AQAR Reports Submitted</div></div>
+            <div class="glass-card rounded-3xl p-7 border"><div class="text-5xl font-bold text-[#0F3D3E]">24</div><div class="text-sm font-semibold mt-1">Quality Initiatives</div></div>
+            <div class="glass-card rounded-3xl p-7 border"><div class="text-5xl font-bold text-[#0F3D3E]">92%</div><div class="text-sm font-semibold mt-1">Student Satisfaction</div></div>
+        </div>
+    </div>
+
+    <!-- KPI Dashboard -->
+    <div class="max-w-screen-2xl mx-auto px-8 py-14">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+            <div>
+                <h2 class="heading-serif text-4xl tracking-tighter text-[#0F3D3E]">Key Performance Indicators</h2>
+                <p class="text-sm text-[#374151] mt-1">3-year trend • NAAC Criteria 2.7, 5.2, 3.1 &amp; 6.5</p>
+            </div>
+            <span class="text-xs px-4 py-1.5 bg-[#0F3D3E]/10 text-[#0F3D3E] rounded-full font-medium">Academic Year: 2024-25</span>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Student Satisfaction -->
+            <div class="glass-card p-6 rounded-2xl border">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="w-9 h-9 bg-blue-100 rounded-xl flex items-center justify-center"><i class="fa-solid fa-face-smile text-blue-600"></i></div>
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">↑ +4%</span>
+                </div>
+                <div class="text-3xl font-bold text-[#0F3D3E]">92%</div>
+                <div class="text-sm font-semibold mt-0.5">Student Satisfaction</div>
+                <div class="mt-3 text-xs text-[#374151]">Trend (last 3 yrs):</div>
+                <div class="flex items-end gap-1 mt-1 h-8">
+                    <div class="flex-1 bg-blue-200 rounded-sm" style="height:55%"></div>
+                    <div class="flex-1 bg-blue-300 rounded-sm" style="height:75%"></div>
+                    <div class="flex-1 bg-blue-600 rounded-sm" style="height:100%"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-[#374151] mt-1"><span>22-23</span><span>23-24</span><span>24-25</span></div>
+                <div class="mt-2 text-xs text-[#374151]">Values: <span class="font-medium">84% → 88% → 92%</span></div>
+                <div class="mt-1 text-xs text-[#C9A227] font-medium">Target 2025-26: 95%</div>
+            </div>
+            <!-- Pass Percentage -->
+            <div class="glass-card p-6 rounded-2xl border">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center"><i class="fa-solid fa-graduation-cap text-emerald-600"></i></div>
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">↑ +6%</span>
+                </div>
+                <div class="text-3xl font-bold text-[#0F3D3E]">78%</div>
+                <div class="text-sm font-semibold mt-0.5">Pass Percentage</div>
+                <div class="mt-3 text-xs text-[#374151]">Trend (last 3 yrs):</div>
+                <div class="flex items-end gap-1 mt-1 h-8">
+                    <div class="flex-1 bg-emerald-200 rounded-sm" style="height:60%"></div>
+                    <div class="flex-1 bg-emerald-300 rounded-sm" style="height:78%"></div>
+                    <div class="flex-1 bg-emerald-600 rounded-sm" style="height:100%"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-[#374151] mt-1"><span>22-23</span><span>23-24</span><span>24-25</span></div>
+                <div class="mt-2 text-xs text-[#374151]">Values: <span class="font-medium">66% → 72% → 78%</span></div>
+                <div class="mt-1 text-xs text-[#C9A227] font-medium">Target 2025-26: 82%</div>
+            </div>
+            <!-- Research Publications -->
+            <div class="glass-card p-6 rounded-2xl border">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="w-9 h-9 bg-purple-100 rounded-xl flex items-center justify-center"><i class="fa-solid fa-microscope text-purple-600"></i></div>
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">↑ +5</span>
+                </div>
+                <div class="text-3xl font-bold text-[#0F3D3E]">18</div>
+                <div class="text-sm font-semibold mt-0.5">Research Publications</div>
+                <div class="mt-3 text-xs text-[#374151]">Trend (last 3 yrs):</div>
+                <div class="flex items-end gap-1 mt-1 h-8">
+                    <div class="flex-1 bg-purple-200 rounded-sm" style="height:44%"></div>
+                    <div class="flex-1 bg-purple-300 rounded-sm" style="height:72%"></div>
+                    <div class="flex-1 bg-purple-600 rounded-sm" style="height:100%"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-[#374151] mt-1"><span>22-23</span><span>23-24</span><span>24-25</span></div>
+                <div class="mt-2 text-xs text-[#374151]">Values: <span class="font-medium">8 → 13 → 18</span></div>
+                <div class="mt-1 text-xs text-[#C9A227] font-medium">Target 2025-26: 22</div>
+            </div>
+            <!-- Placement -->
+            <div class="glass-card p-6 rounded-2xl border">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="w-9 h-9 bg-orange-100 rounded-xl flex items-center justify-center"><i class="fa-solid fa-briefcase text-orange-600"></i></div>
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">↑ +8%</span>
+                </div>
+                <div class="text-3xl font-bold text-[#0F3D3E]">61%</div>
+                <div class="text-sm font-semibold mt-0.5">Placement / Higher Studies</div>
+                <div class="mt-3 text-xs text-[#374151]">Trend (last 3 yrs):</div>
+                <div class="flex items-end gap-1 mt-1 h-8">
+                    <div class="flex-1 bg-orange-200 rounded-sm" style="height:56%"></div>
+                    <div class="flex-1 bg-orange-300 rounded-sm" style="height:74%"></div>
+                    <div class="flex-1 bg-orange-500 rounded-sm" style="height:100%"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-[#374151] mt-1"><span>22-23</span><span>23-24</span><span>24-25</span></div>
+                <div class="mt-2 text-xs text-[#374151]">Values: <span class="font-medium">45% → 53% → 61%</span></div>
+                <div class="mt-1 text-xs text-[#C9A227] font-medium">Target 2025-26: 68%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About -->
+    <div class="max-w-screen-2xl mx-auto px-8 py-16">
+        <div class="max-w-3xl">
+            <h2 class="heading-serif text-5xl tracking-tighter text-[#0F3D3E]">What is IQAC?</h2>
+            <p class="mt-6 text-lg text-[#374151]">The Internal Quality Assurance Cell (IQAC) is the apex body for planning, guiding and monitoring all quality-related activities of the institution as per NAAC guidelines. It ensures continuous improvement in teaching, learning, research, and administration.</p>
+        </div>
+    </div>
+
+    <!-- IQAC Functions -->
+    <div class="bg-[#0F3D3E]/5 py-16">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <h2 class="heading-serif text-4xl tracking-tighter text-[#0F3D3E] mb-10">Objectives & Functions</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div class="glass-card p-6 rounded-2xl border flex gap-4 items-start">
+                    <div class="w-10 h-10 bg-[#0F3D3E] rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-magnifying-glass text-white text-sm"></i></div>
+                    <div><div class="font-semibold">Academic & Administrative Audits</div><div class="text-sm text-[#374151] mt-1">Systematic review of teaching-learning, examinations, infrastructure, and administrative processes.</div></div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border flex gap-4 items-start">
+                    <div class="w-10 h-10 bg-[#0F3D3E] rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-file-circle-check text-white text-sm"></i></div>
+                    <div><div class="font-semibold">AQAR Preparation & Submission</div><div class="text-sm text-[#374151] mt-1">Annual Quality Assurance Reports compiled and submitted to NAAC as per prescribed timelines.</div></div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border flex gap-4 items-start">
+                    <div class="w-10 h-10 bg-[#0F3D3E] rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-comments text-white text-sm"></i></div>
+                    <div><div class="font-semibold">Stakeholder Feedback System</div><div class="text-sm text-[#374151] mt-1">Regular collection and analysis of feedback from students, faculty, alumni, parents, and employers.</div></div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border flex gap-4 items-start">
+                    <div class="w-10 h-10 bg-[#0F3D3E] rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-chalkboard-user text-white text-sm"></i></div>
+                    <div><div class="font-semibold">Faculty Development Programmes</div><div class="text-sm text-[#374151] mt-1">Organizing FDPs, workshops, seminars for continuous faculty skill enhancement and NEP alignment.</div></div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border flex gap-4 items-start">
+                    <div class="w-10 h-10 bg-[#0F3D3E] rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-bullseye text-white text-sm"></i></div>
+                    <div><div class="font-semibold">Outcome Based Education (OBE)</div><div class="text-sm text-[#374151] mt-1">Ensuring implementation of OBE framework and aligning curriculum with graduate attributes.</div></div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border flex gap-4 items-start">
+                    <div class="w-10 h-10 bg-[#0F3D3E] rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-leaf text-white text-sm"></i></div>
+                    <div><div class="font-semibold">Green & Gender Audits</div><div class="text-sm text-[#374151] mt-1">Annual green campus audit and gender sensitization audit as per NAAC Criteria 7 requirements.</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- IQAC Composition -->
+    <div class="max-w-screen-2xl mx-auto px-8 py-16">
+        <h2 class="heading-serif text-4xl tracking-tighter text-[#0F3D3E] mb-4">IQAC Composition 2025-26</h2>
+        <p class="text-sm text-[#374151] mb-10">Constituted as per UGC/NAAC guidelines. Tenure: July 2025 – June 2026.</p>
+        <!-- Key office bearers -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="glass-card p-8 rounded-3xl border flex gap-5">
+                <div class="w-20 h-20 rounded-full overflow-hidden ring-2 ring-[#0F3D3E]/20 flex-shrink-0"><img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781785928/p_yryaww.png" class="w-full h-full object-cover"></div>
+                <div>
+                    <div class="font-bold text-lg">Dr. Prem Parkash Chauhan</div>
+                    <div class="text-sm text-[#C9A227] font-medium">Principal, Raja Virbhadra Singh Govt. College</div>
+                    <div class="text-xs mt-2 px-3 py-1 bg-[#0F3D3E] text-white inline-block rounded-2xl">Chairperson</div>
+                    <div class="text-xs mt-2 text-[#374151]"><i class="fa-solid fa-envelope mr-1"></i>principal@gpgcseema.edu.in</div>
+                </div>
+            </div>
+            <div class="glass-card p-8 rounded-3xl border flex gap-5">
+                <div class="w-20 h-20 rounded-full overflow-hidden ring-2 ring-emerald-200 flex-shrink-0"><img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781791596/anil_oqlh6j.png" class="w-full h-full object-cover"></div>
+                <div>
+                    <div class="font-bold text-lg">Dr. Anil Chauhan</div>
+                    <div class="text-sm text-[#C9A227] font-medium">Assistant Professor, Department of Public Administration</div>
+                    <div class="text-xs mt-2 px-3 py-1 bg-emerald-600 text-white inline-block rounded-2xl">IQAC Coordinator</div>
+                    <div class="text-xs mt-2 text-[#374151]"><i class="fa-solid fa-envelope mr-1"></i>iqac@gpgcseema.edu.in</div>
+                </div>
+            </div>
+        </div>
+        <!-- Full members table -->
+        <div class="glass-card rounded-3xl border overflow-hidden">
+            <div class="px-8 py-5 bg-[#0F3D3E]/5 border-b flex items-center gap-3">
+                <i class="fa-solid fa-users text-[#0F3D3E]"></i>
+                <span class="font-semibold text-[#0F3D3E]">All Committee Members</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-[#0F3D3E] text-white">
+                        <tr>
+                            <th class="px-6 py-3 text-left font-semibold">#</th>
+                            <th class="px-6 py-3 text-left font-semibold">Name</th>
+                            <th class="px-6 py-3 text-left font-semibold">Designation</th>
+                            <th class="px-6 py-3 text-left font-semibold">Category</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr class="hover:bg-[#0F3D3E]/5 transition"><td class="px-6 py-4 text-[#374151]">1</td><td class="px-6 py-4 font-medium">Dr. Prem Parkash Chauhan</td><td class="px-6 py-4 text-[#374151]">Principal</td><td class="px-6 py-4"><span class="px-2 py-0.5 bg-[#0F3D3E] text-white text-xs rounded-xl">Chairperson</span></td></tr>
+                        <tr class="hover:bg-[#0F3D3E]/5 transition"><td class="px-6 py-4 text-[#374151]">2</td><td class="px-6 py-4 font-medium">Dr. Anil Chauhan</td><td class="px-6 py-4 text-[#374151]">Asst. Professor, Public Administration</td><td class="px-6 py-4"><span class="px-2 py-0.5 bg-emerald-600 text-white text-xs rounded-xl">Coordinator</span></td></tr>
+                        <tr class="hover:bg-[#0F3D3E]/5 transition"><td class="px-6 py-4 text-[#374151]">3</td><td class="px-6 py-4 font-medium">Dr. Ravi Kiran Sharma</td><td class="px-6 py-4 text-[#374151]">Asst. Professor, Zoology</td><td class="px-6 py-4"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-xl">Teacher Member</span></td></tr>
+                        <tr class="hover:bg-[#0F3D3E]/5 transition"><td class="px-6 py-4 text-[#374151]">4</td><td class="px-6 py-4 font-medium">Dr. Umesh Narta</td><td class="px-6 py-4 text-[#374151]">Asst. Professor, Botany</td><td class="px-6 py-4"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-xl">Teacher Member</span></td></tr>
+                        <tr class="hover:bg-[#0F3D3E]/5 transition"><td class="px-6 py-4 text-[#374151]">5</td><td class="px-6 py-4 font-medium">Ashwani Kumar Sharma</td><td class="px-6 py-4 text-[#374151]">Asst. Professor, Chemistry</td><td class="px-6 py-4"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-xl">Teacher Member</span></td></tr>
+                        <tr class="hover:bg-[#0F3D3E]/5 transition"><td class="px-6 py-4 text-[#374151]">6</td><td class="px-6 py-4 font-medium">Mr. Naresh Kumar Chauhan</td><td class="px-6 py-4 text-[#374151]">Senior Administrative Officer</td><td class="px-6 py-4"><span class="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-xl">Management Nominee</span></td></tr>
+                        <tr class="hover:bg-[#0F3D3E]/5 transition"><td class="px-6 py-4 text-[#374151]">7</td><td class="px-6 py-4 font-medium">To be nominated</td><td class="px-6 py-4 text-[#374151]">Local Community / Industry</td><td class="px-6 py-4"><span class="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs rounded-xl">Employer/Industry</span></td></tr>
+                        <tr class="hover:bg-[#0F3D3E]/5 transition"><td class="px-6 py-4 text-[#374151]">8</td><td class="px-6 py-4 font-medium">Alumni Representative</td><td class="px-6 py-4 text-[#374151]">Alumni Association, Seema</td><td class="px-6 py-4"><span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs rounded-xl">Alumni Member</span></td></tr>
+                        <tr class="hover:bg-[#0F3D3E]/5 transition"><td class="px-6 py-4 text-[#374151]">9</td><td class="px-6 py-4 font-medium">Student Representative</td><td class="px-6 py-4 text-[#374151]">Student Union, 2025-26</td><td class="px-6 py-4"><span class="px-2 py-0.5 bg-pink-100 text-pink-700 text-xs rounded-xl">Student Member</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activities + Updates -->
+    <div class="max-w-screen-2xl mx-auto px-8 pb-16">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="heading-serif text-4xl tracking-tighter text-[#0F3D3E]">Recent Activities &amp; Updates</h2>
+            <span class="text-xs px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-full font-medium">Last Updated: Jan 2026</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Activity 1 -->
+            <div class="glass-card activity-card p-7 rounded-3xl border">
+                <div class="flex justify-between">
+                    <div><span class="text-emerald-600 text-xs font-bold">12 JAN 2026</span></div>
+                    <span class="text-xs px-3 py-1 bg-emerald-100 text-emerald-700 rounded-2xl">Completed</span>
+                </div>
+                <div class="font-semibold mt-3 text-lg">5th IQAC Meeting</div>
+                <p class="text-sm mt-2 text-[#374151]">AQAR 2025-26 data finalization and preparation for upcoming NAAC cycle discussed. All 7 criteria data reviewed.</p>
+                <div class="mt-4 text-xs text-[#0F3D3E] font-medium">→ Action Taken Report uploaded on portal</div>
+                <div class="flex flex-wrap gap-2 mt-3">
+                    <span class="text-xs bg-[#C9A227]/10 text-[#7a5f10] border border-[#C9A227]/30 px-2 py-0.5 rounded-full font-medium"><i class="fa-solid fa-tag mr-1 text-[10px]"></i>Criterion 6.5</span>
+                    <a href="https://gpgcseema.edu.in/iqac.php" class="text-xs bg-red-50 text-red-700 border border-red-200 px-2 py-0.5 rounded-full font-medium hover:bg-red-100 transition"><i class="fa-solid fa-file-pdf mr-1"></i>Minutes PDF</a>
+                    <a href="https://gpgcseema.edu.in/iqac.php" class="text-xs bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full font-medium hover:bg-blue-100 transition"><i class="fa-solid fa-download mr-1"></i>ATR</a>
+                </div>
+            </div>
+
+            <!-- Activity 2 -->
+            <div class="glass-card activity-card p-7 rounded-3xl border">
+                <div class="flex justify-between">
+                    <div><span class="text-emerald-600 text-xs font-bold">18 NOV 2025</span></div>
+                    <span class="text-xs px-3 py-1 bg-emerald-100 text-emerald-700 rounded-2xl">Completed</span>
+                </div>
+                <div class="font-semibold mt-3 text-lg">Student Satisfaction Survey 2025</div>
+                <p class="text-sm mt-2 text-[#374151]">Survey conducted across all streams. 92% students expressed satisfaction with teaching quality and infrastructure.</p>
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <span class="text-xs bg-[#C9A227]/10 text-[#7a5f10] border border-[#C9A227]/30 px-2 py-0.5 rounded-full font-medium"><i class="fa-solid fa-tag mr-1 text-[10px]"></i>Criterion 2.7</span>
+                    <a href="https://gpgcseema.edu.in/feedback.php" class="text-xs bg-red-50 text-red-700 border border-red-200 px-2 py-0.5 rounded-full font-medium hover:bg-red-100 transition"><i class="fa-solid fa-file-pdf mr-1"></i>Analysis Report</a>
+                    <span class="text-xs bg-purple-50 text-purple-700 border border-purple-200 px-2 py-0.5 rounded-full font-medium"><i class="fa-solid fa-users mr-1"></i>480 Respondents</span>
+                </div>
+            </div>
+
+            <!-- Activity 3 -->
+            <div class="glass-card activity-card p-7 rounded-3xl border">
+                <div class="flex justify-between">
+                    <div><span class="text-emerald-600 text-xs font-bold">22 AUG 2025</span></div>
+                    <span class="text-xs px-3 py-1 bg-emerald-100 text-emerald-700 rounded-2xl">Completed</span>
+                </div>
+                <div class="font-semibold mt-3 text-lg">Faculty Development Programme on NEP 2020</div>
+                <p class="text-sm mt-2 text-[#374151]">Workshop on Outcome Based Education and NEP implementation conducted successfully with 45 faculty members.</p>
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <span class="text-xs bg-[#C9A227]/10 text-[#7a5f10] border border-[#C9A227]/30 px-2 py-0.5 rounded-full font-medium"><i class="fa-solid fa-tag mr-1 text-[10px]"></i>Criterion 6.3</span>
+                    <a href="https://gpgcseema.edu.in/iqac.php" class="text-xs bg-red-50 text-red-700 border border-red-200 px-2 py-0.5 rounded-full font-medium hover:bg-red-100 transition"><i class="fa-solid fa-file-pdf mr-1"></i>Attendance Sheet</a>
+                    <span class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-medium"><i class="fa-solid fa-chalkboard-user mr-1"></i>45 Faculty</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meeting Minutes -->
+    <div class="bg-[#0F3D3E]/5 py-16">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <h2 class="heading-serif text-4xl tracking-tighter text-[#0F3D3E] mb-4">Meeting Minutes & ATR</h2>
+            <p class="text-sm text-[#374151] mb-8">Minutes of all IQAC meetings and Action Taken Reports (ATR) are available for download.</p>
+            <div class="glass-card rounded-3xl border overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-[#0F3D3E] text-white">
+                            <tr>
+                                <th class="px-6 py-3 text-left font-semibold">Meeting</th>
+                                <th class="px-6 py-3 text-left font-semibold">Date</th>
+                                <th class="px-6 py-3 text-left font-semibold">Key Agenda</th>
+                                <th class="px-6 py-3 text-left font-semibold">NAAC Criterion</th>
+                                <th class="px-6 py-3 text-left font-semibold">Action Owner</th>
+                                <th class="px-6 py-3 text-left font-semibold">Due Date</th>
+                                <th class="px-6 py-3 text-left font-semibold">Minutes</th>
+                                <th class="px-6 py-3 text-left font-semibold">ATR</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr class="hover:bg-[#0F3D3E]/5 transition">
+                                <td class="px-6 py-4 font-medium">5th Meeting</td>
+                                <td class="px-6 py-4 text-[#374151] whitespace-nowrap">12 Jan 2026</td>
+                                <td class="px-6 py-4 text-[#374151]">AQAR 2025-26 finalization, NAAC prep review</td>
+                                <td class="px-6 py-4"><span class="text-xs px-2 py-0.5 bg-[#0F3D3E]/10 text-[#0F3D3E] rounded-full font-medium">6.5 / 7.1</span></td>
+                                <td class="px-6 py-4 text-[#374151] whitespace-nowrap">Dr. Anil Chauhan</td>
+                                <td class="px-6 py-4 whitespace-nowrap"><span class="text-xs px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full">28 Feb 2026</span></td>
+                                <td class="px-6 py-4"><a href="https://gpgcseema.edu.in/iqac.php" class="flex items-center gap-1 text-[#0F3D3E] font-medium hover:underline"><i class="fa-solid fa-file-pdf text-red-500"></i> View</a></td>
+                                <td class="px-6 py-4"><a href="https://gpgcseema.edu.in/iqac.php" class="flex items-center gap-1 text-[#0F3D3E] font-medium hover:underline"><i class="fa-solid fa-download"></i> Download</a></td>
+                            </tr>
+                            <tr class="hover:bg-[#0F3D3E]/5 transition">
+                                <td class="px-6 py-4 font-medium">4th Meeting</td>
+                                <td class="px-6 py-4 text-[#374151] whitespace-nowrap">05 Sep 2025</td>
+                                <td class="px-6 py-4 text-[#374151]">Feedback analysis, FDP planning, OBE review</td>
+                                <td class="px-6 py-4"><span class="text-xs px-2 py-0.5 bg-[#0F3D3E]/10 text-[#0F3D3E] rounded-full font-medium">2.7 / 6.3</span></td>
+                                <td class="px-6 py-4 text-[#374151] whitespace-nowrap">Dr. Ravi Kiran Sharma</td>
+                                <td class="px-6 py-4 whitespace-nowrap"><span class="text-xs px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full">31 Oct 2025</span></td>
+                                <td class="px-6 py-4"><a href="https://gpgcseema.edu.in/iqac.php" class="flex items-center gap-1 text-[#0F3D3E] font-medium hover:underline"><i class="fa-solid fa-file-pdf text-red-500"></i> View</a></td>
+                                <td class="px-6 py-4"><a href="https://gpgcseema.edu.in/iqac.php" class="flex items-center gap-1 text-[#0F3D3E] font-medium hover:underline"><i class="fa-solid fa-download"></i> Download</a></td>
+                            </tr>
+                            <tr class="hover:bg-[#0F3D3E]/5 transition">
+                                <td class="px-6 py-4 font-medium">3rd Meeting</td>
+                                <td class="px-6 py-4 text-[#374151] whitespace-nowrap">15 Apr 2025</td>
+                                <td class="px-6 py-4 text-[#374151]">Academic audit outcomes, best practices documentation</td>
+                                <td class="px-6 py-4"><span class="text-xs px-2 py-0.5 bg-[#0F3D3E]/10 text-[#0F3D3E] rounded-full font-medium">4.1 / 6.5</span></td>
+                                <td class="px-6 py-4 text-[#374151] whitespace-nowrap">Dr. Umesh Narta</td>
+                                <td class="px-6 py-4 whitespace-nowrap"><span class="text-xs px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded-full">30 Jun 2025</span></td>
+                                <td class="px-6 py-4"><a href="https://gpgcseema.edu.in/iqac.php" class="flex items-center gap-1 text-[#0F3D3E] font-medium hover:underline"><i class="fa-solid fa-file-pdf text-red-500"></i> View</a></td>
+                                <td class="px-6 py-4"><a href="https://gpgcseema.edu.in/iqac.php" class="flex items-center gap-1 text-[#0F3D3E] font-medium hover:underline"><i class="fa-solid fa-download"></i> Download</a></td>
+                            </tr>
+                            <tr class="hover:bg-[#0F3D3E]/5 transition">
+                                <td class="px-6 py-4 font-medium">2nd Meeting</td>
+                                <td class="px-6 py-4 text-[#374151] whitespace-nowrap">20 Jan 2025</td>
+                                <td class="px-6 py-4 text-[#374151]">AQAR 2024-25 data compilation, student survey results</td>
+                                <td class="px-6 py-4"><span class="text-xs px-2 py-0.5 bg-[#0F3D3E]/10 text-[#0F3D3E] rounded-full font-medium">2.7 / 6.5</span></td>
+                                <td class="px-6 py-4 text-[#374151] whitespace-nowrap">Ashwani Kumar Sharma</td>
+                                <td class="px-6 py-4 whitespace-nowrap"><span class="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">✓ Completed</span></td>
+                                <td class="px-6 py-4"><a href="https://gpgcseema.edu.in/iqac.php" class="flex items-center gap-1 text-[#0F3D3E] font-medium hover:underline"><i class="fa-solid fa-file-pdf text-red-500"></i> View</a></td>
+                                <td class="px-6 py-4"><a href="https://gpgcseema.edu.in/iqac.php" class="flex items-center gap-1 text-[#0F3D3E] font-medium hover:underline"><i class="fa-solid fa-download"></i> Download</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upcoming Events -->
+    <div class="max-w-screen-2xl mx-auto px-8 pb-16">
+        <h2 class="heading-serif text-4xl tracking-tighter text-[#0F3D3E] mb-8">Upcoming IQAC Events</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="glass-card p-7 rounded-3xl border border-[#C9A22730]">
+                <div class="text-[#C9A227] text-xs font-bold">FEBRUARY 2026</div>
+                <div class="font-semibold mt-2">Internal Academic Audit</div>
+                <p class="text-sm mt-2">Department-wise academic audit will be conducted from 10th to 15th February.</p>
+            </div>
+            <div class="glass-card p-7 rounded-3xl border border-[#C9A22730]">
+                <div class="text-[#C9A227] text-xs font-bold">MARCH 2026</div>
+                <div class="font-semibold mt-2">Stakeholder Feedback Drive</div>
+                <p class="text-sm mt-2">Collection of feedback from students, parents, alumni and employers.</p>
+            </div>
+            <div class="glass-card p-7 rounded-3xl border border-[#C9A22730]">
+                <div class="text-[#C9A227] text-xs font-bold">APRIL 2026</div>
+                <div class="font-semibold mt-2">IQAC Meeting + NAAC Preparation Review</div>
+                <p class="text-sm mt-2">Review meeting for next NAAC accreditation cycle.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Gallery -->
+    <div class="max-w-screen-2xl mx-auto px-8 pb-16">
+        <h2 class="heading-serif text-4xl tracking-tighter text-[#0F3D3E] mb-8">IQAC Photo Gallery</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781867389/group_zi5vsy.png" class="rounded-2xl w-full h-48 object-cover cursor-pointer hover:scale-[1.02] transition" onclick="showImageModal(this.src, 'IQAC Meeting - College Group Photo')">
+            <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781867388/group1_kphdhs.png" class="rounded-2xl w-full h-48 object-cover cursor-pointer hover:scale-[1.02] transition" onclick="showImageModal(this.src, 'Faculty Development Programme 2025')">
+            <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781867917/ncc_chkrou.png" class="rounded-2xl w-full h-48 object-cover cursor-pointer hover:scale-[1.02] transition" onclick="showImageModal(this.src, 'Student Engagement & IQAC Activities')">
+            <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781867389/group_zi5vsy.png" class="rounded-2xl w-full h-48 object-cover cursor-pointer hover:scale-[1.02] transition" onclick="showImageModal(this.src, 'IQAC Committee Members')">
+        </div>
+        <p class="text-center text-xs text-[#37415180] mt-4">Click on any image to view in full screen</p>
+    </div>
+
+    <!-- Feedback System -->
+    <div class="max-w-screen-2xl mx-auto px-8 pb-16">
+        <h2 class="heading-serif text-4xl tracking-tighter text-[#0F3D3E] mb-4">Feedback System</h2>
+        <p class="text-sm text-[#374151] mb-8">Feedback is collected from all stakeholders as per NAAC Criterion 2.7 & 6.5. Analysis reports and action taken are available below.</p>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+            <div class="glass-card p-6 rounded-2xl border">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-9 h-9 bg-blue-100 rounded-xl flex items-center justify-center"><i class="fa-solid fa-user-graduate text-blue-600"></i></div>
+                    <span class="font-semibold">Student Feedback</span>
+                </div>
+                <p class="text-sm text-[#374151] mb-4">On curriculum, teaching quality, facilities, and overall college experience.</p>
+                <div class="flex gap-2">
+                    <a href="https://gpgcseema.edu.in/feedback.php" class="text-xs px-3 py-1.5 bg-[#0F3D3E] text-white rounded-2xl font-medium hover:bg-[#1A4F4F]">Fill Form</a>
+                    <a href="https://gpgcseema.edu.in/feedback.php" class="text-xs px-3 py-1.5 border border-[#0F3D3E] text-[#0F3D3E] rounded-2xl font-medium hover:bg-[#0F3D3E]/5">Analysis Report</a>
+                </div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center"><i class="fa-solid fa-chalkboard-user text-emerald-600"></i></div>
+                    <span class="font-semibold">Faculty Feedback</span>
+                </div>
+                <p class="text-sm text-[#374151] mb-4">On curriculum design, institutional support, infrastructure, and academic environment.</p>
+                <div class="flex gap-2">
+                    <a href="https://gpgcseema.edu.in/feedback.php" class="text-xs px-3 py-1.5 bg-[#0F3D3E] text-white rounded-2xl font-medium hover:bg-[#1A4F4F]">Fill Form</a>
+                    <a href="https://gpgcseema.edu.in/feedback.php" class="text-xs px-3 py-1.5 border border-[#0F3D3E] text-[#0F3D3E] rounded-2xl font-medium hover:bg-[#0F3D3E]/5">Analysis Report</a>
+                </div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-9 h-9 bg-yellow-100 rounded-xl flex items-center justify-center"><i class="fa-solid fa-user-tie text-yellow-600"></i></div>
+                    <span class="font-semibold">Alumni Feedback</span>
+                </div>
+                <p class="text-sm text-[#374151] mb-4">On curriculum relevance to career outcomes and quality of education received.</p>
+                <div class="flex gap-2">
+                    <a href="https://gpgcseema.edu.in/feedback.php" class="text-xs px-3 py-1.5 bg-[#0F3D3E] text-white rounded-2xl font-medium hover:bg-[#1A4F4F]">Fill Form</a>
+                    <a href="https://gpgcseema.edu.in/feedback.php" class="text-xs px-3 py-1.5 border border-[#0F3D3E] text-[#0F3D3E] rounded-2xl font-medium hover:bg-[#0F3D3E]/5">Analysis Report</a>
+                </div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-9 h-9 bg-purple-100 rounded-xl flex items-center justify-center"><i class="fa-solid fa-house-user text-purple-600"></i></div>
+                    <span class="font-semibold">Parent Feedback</span>
+                </div>
+                <p class="text-sm text-[#374151] mb-4">On student progress, college environment, and overall satisfaction.</p>
+                <div class="flex gap-2">
+                    <a href="https://gpgcseema.edu.in/feedback.php" class="text-xs px-3 py-1.5 bg-[#0F3D3E] text-white rounded-2xl font-medium hover:bg-[#1A4F4F]">Fill Form</a>
+                    <a href="https://gpgcseema.edu.in/feedback.php" class="text-xs px-3 py-1.5 border border-[#0F3D3E] text-[#0F3D3E] rounded-2xl font-medium hover:bg-[#0F3D3E]/5">Analysis Report</a>
+                </div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-9 h-9 bg-orange-100 rounded-xl flex items-center justify-center"><i class="fa-solid fa-briefcase text-orange-600"></i></div>
+                    <span class="font-semibold">Employer Feedback</span>
+                </div>
+                <p class="text-sm text-[#374151] mb-4">On employability, skill preparedness, and curriculum-industry alignment.</p>
+                <div class="flex gap-2">
+                    <a href="https://gpgcseema.edu.in/feedback.php" class="text-xs px-3 py-1.5 bg-[#0F3D3E] text-white rounded-2xl font-medium hover:bg-[#1A4F4F]">Fill Form</a>
+                    <a href="https://gpgcseema.edu.in/feedback.php" class="text-xs px-3 py-1.5 border border-[#0F3D3E] text-[#0F3D3E] rounded-2xl font-medium hover:bg-[#0F3D3E]/5">Analysis Report</a>
+                </div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border bg-[#0F3D3E]/5">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-9 h-9 bg-[#0F3D3E] rounded-xl flex items-center justify-center"><i class="fa-solid fa-chart-bar text-white"></i></div>
+                    <span class="font-semibold">Consolidated Report</span>
+                </div>
+                <p class="text-sm text-[#374151] mb-4">Consolidated feedback analysis with action taken report 2024-25.</p>
+                <a href="https://gpgcseema.edu.in/feedback.php" class="text-xs px-3 py-1.5 bg-[#C9A227] text-white rounded-2xl font-medium hover:bg-[#b8911f]"><i class="fa-solid fa-download mr-1"></i> Download ATR</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quality Initiatives -->
+    <div class="bg-[#0F3D3E] py-16">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <h2 class="heading-serif text-4xl tracking-tighter text-white mb-4">Quality Initiatives</h2>
+            <p class="text-sm text-white/70 mb-10">Key quality enhancement activities undertaken as part of NAAC criteria compliance and institutional development.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="bg-white/10 backdrop-blur p-6 rounded-2xl border border-white/10 hover:bg-white/15 transition">
+                    <i class="fa-solid fa-book-open text-[#C9A227] text-2xl mb-3"></i>
+                    <div class="font-semibold text-white">NEP 2020 Implementation</div>
+                    <div class="text-sm text-white/70 mt-2">Choice Based Credit System, multidisciplinary courses, and vocational education as per NEP framework.</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur p-6 rounded-2xl border border-white/10 hover:bg-white/15 transition">
+                    <i class="fa-solid fa-bullseye text-[#C9A227] text-2xl mb-3"></i>
+                    <div class="font-semibold text-white">Outcome Based Education</div>
+                    <div class="text-sm text-white/70 mt-2">CO/PO mapping, attainment analysis, and COs defined for all programmes. OBE training conducted for faculty.</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur p-6 rounded-2xl border border-white/10 hover:bg-white/15 transition">
+                    <i class="fa-solid fa-leaf text-[#C9A227] text-2xl mb-3"></i>
+                    <div class="font-semibold text-white">Green Campus Audit</div>
+                    <div class="text-sm text-white/70 mt-2">Annual audit of energy usage, waste management, biodiversity, and sustainable practices. Report available.</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur p-6 rounded-2xl border border-white/10 hover:bg-white/15 transition">
+                    <i class="fa-solid fa-venus-mars text-[#C9A227] text-2xl mb-3"></i>
+                    <div class="font-semibold text-white">Gender Sensitization Audit</div>
+                    <div class="text-sm text-white/70 mt-2">Annual gender audit covering infrastructure, policies, committees, and sensitization programmes.</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur p-6 rounded-2xl border border-white/10 hover:bg-white/15 transition">
+                    <i class="fa-solid fa-laptop text-[#C9A227] text-2xl mb-3"></i>
+                    <div class="font-semibold text-white">ICT-Enabled Learning</div>
+                    <div class="text-sm text-white/70 mt-2">Smart classrooms, e-content development, LMS usage, and digital resource access for students and faculty.</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur p-6 rounded-2xl border border-white/10 hover:bg-white/15 transition">
+                    <i class="fa-solid fa-handshake text-[#C9A227] text-2xl mb-3"></i>
+                    <div class="font-semibold text-white">Extension & Community Service</div>
+                    <div class="text-sm text-white/70 mt-2">NSS, NCC, and community outreach activities documented as part of Criterion 5 and 7.</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur p-6 rounded-2xl border border-white/10 hover:bg-white/15 transition">
+                    <i class="fa-solid fa-microscope text-[#C9A227] text-2xl mb-3"></i>
+                    <div class="font-semibold text-white">Research Promotion</div>
+                    <div class="text-sm text-white/70 mt-2">Faculty publications, minor research projects, paper presentations, and research committee activities.</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur p-6 rounded-2xl border border-white/10 hover:bg-white/15 transition">
+                    <i class="fa-solid fa-clipboard-check text-[#C9A227] text-2xl mb-3"></i>
+                    <div class="font-semibold text-white">Academic & Admin Audit</div>
+                    <div class="text-sm text-white/70 mt-2">Department-wise internal academic audit and administrative process audit conducted annually.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Best Practices -->
+    <div class="max-w-screen-2xl mx-auto px-8 py-16">
+        <h2 class="heading-serif text-4xl tracking-tighter text-[#0F3D3E] mb-4">Best Practices & Institutional Distinctiveness</h2>
+        <p class="text-sm text-[#374151] mb-10">As per NAAC Criterion 6.5 – documented best practices with objectives, context, and outcomes.</p>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="glass-card p-8 rounded-3xl border border-l-4 border-l-[#C9A227]">
+                <div class="text-xs font-bold text-[#C9A227] mb-2">BEST PRACTICE 01</div>
+                <div class="font-bold text-lg mb-2">Peer-Assisted Learning Programme</div>
+                <p class="text-sm text-[#374151] mb-3">Senior students mentor juniors in a structured programme that improves academic outcomes and builds leadership among students.</p>
+                <div class="text-xs text-[#374151] bg-[#0F3D3E]/5 rounded-xl px-4 py-2"><span class="font-semibold">Outcome:</span> 18% improvement in pass percentage in mentored batches (2024-25)</div>
+            </div>
+            <div class="glass-card p-8 rounded-3xl border border-l-4 border-l-[#0F3D3E]">
+                <div class="text-xs font-bold text-[#0F3D3E] mb-2">BEST PRACTICE 02</div>
+                <div class="font-bold text-lg mb-2">Village Outreach & Digital Literacy Drive</div>
+                <p class="text-sm text-[#374151] mb-3">NSS volunteers conduct digital literacy workshops in Seema valley villages, aligning education with community development.</p>
+                <div class="text-xs text-[#374151] bg-[#0F3D3E]/5 rounded-xl px-4 py-2"><span class="font-semibold">Outcome:</span> 300+ community members trained in basic digital skills (2024-25)</div>
+            </div>
+            <div class="glass-card p-8 rounded-3xl border border-l-4 border-l-emerald-500">
+                <div class="text-xs font-bold text-emerald-600 mb-2">INSTITUTIONAL DISTINCTIVENESS</div>
+                <div class="font-bold text-lg mb-2">Remote Hill Region Access to Higher Education</div>
+                <p class="text-sm text-[#374151] mb-3">Located in a remote Himalayan valley, the college provides quality higher education to tribal and rural youth of Seema-Rohru belt, many of whom are first-generation learners.</p>
+                <div class="text-xs text-[#374151] bg-emerald-50 rounded-xl px-4 py-2"><span class="font-semibold">Impact:</span> Consistent increase in enrollment from remote panchayats over last 5 years</div>
+            </div>
+            <div class="glass-card p-8 rounded-3xl border border-l-4 border-l-purple-500">
+                <div class="text-xs font-bold text-purple-600 mb-2">INSTITUTIONAL DISTINCTIVENESS</div>
+                <div class="font-bold text-lg mb-2">Eco-Sensitive Campus Conservation</div>
+                <p class="text-sm text-[#374151] mb-3">Campus maintains a natural heritage tree inventory and runs an annual biodiversity documentation drive with science students.</p>
+                <div class="text-xs text-[#374151] bg-purple-50 rounded-xl px-4 py-2"><span class="font-semibold">Impact:</span> 120+ tree species documented; campus declared plastic-free zone 2023</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AQAR Reports -->
+    <div class="bg-[#0F3D3E]/5 py-16">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="heading-serif text-4xl tracking-tighter text-[#0F3D3E]">AQAR Reports</h2>
+                    <p class="text-sm text-[#374151] mt-2">Annual Quality Assurance Reports submitted to NAAC, New Delhi.</p>
+                </div>
+                <a href="https://gpgcseema.edu.in/aqarReports.php" class="hidden md:flex items-center gap-2 text-sm font-medium text-[#0F3D3E] hover:underline">View All on Portal <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-card p-6 rounded-3xl border">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="font-bold text-lg">2025-26</span>
+                            <div class="text-xs text-emerald-600 font-medium mt-0.5">Latest • In Progress</div>
+                        </div>
+                        <i class="fa-solid fa-file-pdf text-red-400 text-xl"></i>
+                    </div>
+                    <a href="https://gpgcseema.edu.in/aqarReports.php" class="mt-4 flex items-center gap-2 text-xs font-semibold text-[#0F3D3E] hover:underline"><i class="fa-solid fa-download"></i> Download PDF</a>
+                </div>
+                <div class="glass-card p-6 rounded-3xl border">
+                    <div class="flex justify-between items-start">
+                        <div><span class="font-bold text-lg">2024-25</span><div class="text-xs text-emerald-600 font-medium mt-0.5">Submitted</div></div>
+                        <i class="fa-solid fa-file-pdf text-red-400 text-xl"></i>
+                    </div>
+                    <a href="https://gpgcseema.edu.in/aqarReports.php" class="mt-4 flex items-center gap-2 text-xs font-semibold text-[#0F3D3E] hover:underline"><i class="fa-solid fa-download"></i> Download PDF</a>
+                </div>
+                <div class="glass-card p-6 rounded-3xl border">
+                    <div class="flex justify-between items-start">
+                        <div><span class="font-bold text-lg">2023-24</span><div class="text-xs text-emerald-600 font-medium mt-0.5">Submitted</div></div>
+                        <i class="fa-solid fa-file-pdf text-red-400 text-xl"></i>
+                    </div>
+                    <a href="https://gpgcseema.edu.in/aqarReports.php" class="mt-4 flex items-center gap-2 text-xs font-semibold text-[#0F3D3E] hover:underline"><i class="fa-solid fa-download"></i> Download PDF</a>
+                </div>
+                <div class="glass-card p-6 rounded-3xl border">
+                    <div class="flex justify-between items-start">
+                        <div><span class="font-bold text-lg">2022-23</span><div class="text-xs text-emerald-600 font-medium mt-0.5">Submitted</div></div>
+                        <i class="fa-solid fa-file-pdf text-red-400 text-xl"></i>
+                    </div>
+                    <a href="https://gpgcseema.edu.in/aqarReports.php" class="mt-4 flex items-center gap-2 text-xs font-semibold text-[#0F3D3E] hover:underline"><i class="fa-solid fa-download"></i> Download PDF</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Documents & Reports Repository -->
+    <div class="max-w-screen-2xl mx-auto px-8 py-16">
+        <h2 class="heading-serif text-4xl tracking-tighter text-[#0F3D3E] mb-4">Documents & Reports Repository</h2>
+        <p class="text-sm text-[#374151] mb-6">Policy documents, audit reports, notifications, and institutional calendars available for download.</p>
+        <!-- Search & Filter Bar -->
+        <div class="flex flex-wrap gap-3 mb-8">
+            <div class="relative flex-1 min-w-[220px]">
+                <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-[#374151] text-sm"></i>
+                <input type="text" id="doc-search" placeholder="Search documents…" oninput="filterDocs()" class="w-full pl-9 pr-4 py-2 text-sm rounded-2xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#0F3D3E]/20">
+            </div>
+            <select id="doc-type-filter" onchange="filterDocs()" class="text-sm rounded-2xl border border-gray-200 bg-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#0F3D3E]/20">
+                <option value="">All Types</option>
+                <option value="pdf">PDF</option>
+                <option value="link">External Link</option>
+            </select>
+            <select id="doc-year-filter" onchange="filterDocs()" class="text-sm rounded-2xl border border-gray-200 bg-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#0F3D3E]/20">
+                <option value="">All Years</option>
+                <option value="2025-26">2025-26</option>
+                <option value="2024-25">2024-25</option>
+                <option value="2023-24">2023-24</option>
+                <option value="2020-25">2020-25</option>
+            </select>
+            <button onclick="printDocRepo()" class="text-sm px-4 py-2 border border-[#0F3D3E] text-[#0F3D3E] rounded-2xl font-medium hover:bg-[#0F3D3E]/5 flex items-center gap-2"><i class="fa-solid fa-print"></i> Print List</button>
+        </div>
+        <div id="doc-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="glass-card p-6 rounded-2xl border flex items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-file-pdf text-red-500"></i></div>
+                    <div><div class="font-semibold text-sm">IQAC Policy Document</div><div class="text-xs text-[#374151]">Institutional quality policy 2025-26</div></div>
+                </div>
+                <a href="https://gpgcseema.edu.in/iqac.php" class="text-[#0F3D3E] hover:text-[#C9A227] transition"><i class="fa-solid fa-download text-lg"></i></a>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border flex items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-file-pdf text-red-500"></i></div>
+                    <div><div class="font-semibold text-sm">Academic Calendar 2025-26</div><div class="text-xs text-[#374151]">Annual academic schedule & events</div></div>
+                </div>
+                <a href="https://gpgcseema.edu.in/iqac.php" class="text-[#0F3D3E] hover:text-[#C9A227] transition"><i class="fa-solid fa-download text-lg"></i></a>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border flex items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-file-pdf text-red-500"></i></div>
+                    <div><div class="font-semibold text-sm">Internal Academic Audit Report</div><div class="text-xs text-[#374151]">Department-wise audit 2024-25</div></div>
+                </div>
+                <a href="https://gpgcseema.edu.in/iqac.php" class="text-[#0F3D3E] hover:text-[#C9A227] transition"><i class="fa-solid fa-download text-lg"></i></a>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border flex items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-file-pdf text-red-500"></i></div>
+                    <div><div class="font-semibold text-sm">Green Audit Report 2024-25</div><div class="text-xs text-[#374151]">Eco & sustainability audit findings</div></div>
+                </div>
+                <a href="https://gpgcseema.edu.in/iqac.php" class="text-[#0F3D3E] hover:text-[#C9A227] transition"><i class="fa-solid fa-download text-lg"></i></a>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border flex items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-file-pdf text-red-500"></i></div>
+                    <div><div class="font-semibold text-sm">Gender Audit Report 2024-25</div><div class="text-xs text-[#374151]">Gender sensitization & audit outcomes</div></div>
+                </div>
+                <a href="https://gpgcseema.edu.in/iqac.php" class="text-[#0F3D3E] hover:text-[#C9A227] transition"><i class="fa-solid fa-download text-lg"></i></a>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border flex items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-file-pdf text-red-500"></i></div>
+                    <div><div class="font-semibold text-sm">IQAC Constitution Order</div><div class="text-xs text-[#374151]">Official notification of committee 2025-26</div></div>
+                </div>
+                <a href="https://gpgcseema.edu.in/iqac.php" class="text-[#0F3D3E] hover:text-[#C9A227] transition"><i class="fa-solid fa-download text-lg"></i></a>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border flex items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-file-pdf text-red-500"></i></div>
+                    <div><div class="font-semibold text-sm">Strategic Development Plan</div><div class="text-xs text-[#374151]">Institutional perspective plan 2020-25</div></div>
+                </div>
+                <a href="https://gpgcseema.edu.in/iqac.php" class="text-[#0F3D3E] hover:text-[#C9A227] transition"><i class="fa-solid fa-download text-lg"></i></a>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border flex items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-link text-blue-500"></i></div>
+                    <div><div class="font-semibold text-sm">SSR (Self Study Report)</div><div class="text-xs text-[#374151]">Uploaded on NAAC portal</div></div>
+                </div>
+                <a href="https://assessmentonline.naac.gov.in" target="_blank" class="text-[#0F3D3E] hover:text-[#C9A227] transition"><i class="fa-solid fa-arrow-up-right-from-square text-lg"></i></a>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border flex items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-file-pdf text-red-500"></i></div>
+                    <div><div class="font-semibold text-sm">Annual Quality Plan 2025-26</div><div class="text-xs text-[#374151]">IQAC annual action plan document</div></div>
+                </div>
+                <a href="https://gpgcseema.edu.in/iqac.php" class="text-[#0F3D3E] hover:text-[#C9A227] transition"><i class="fa-solid fa-download text-lg"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact -->
+    <div id="contact-section" class="max-w-screen-2xl mx-auto px-8 pb-20">
+        <div class="glass-card rounded-3xl p-10 border max-w-2xl">
+            <h3 class="font-bold text-2xl">Contact IQAC</h3>
+            <div class="mt-6 space-y-2">
+                <div><strong>Coordinator:</strong> Dr. Anil Chauhan</div>
+                <div><strong>Email:</strong> iqac@gpgcseema.edu.in</div>
+                <div><strong>Phone:</strong> 01781-240167</div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-[#0F3D3E] text-white/60 text-xs py-6 text-center">
+        © 2026 Raja Virbhadra Singh Govt. College, Seema | Internal Quality Assurance Cell
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="image-modal" onclick="hideImageModal()" class="hidden fixed inset-0 bg-black/90 z-[200] flex items-center justify-center p-6">
+        <div onclick="event.stopImmediatePropagation()" class="max-w-5xl w-full">
+            <img id="modal-image" class="max-h-[80dvh] w-auto mx-auto rounded-2xl shadow-2xl">
+            <div id="modal-caption" class="text-center text-white/90 mt-5 text-sm"></div>
+            <button onclick="hideImageModal()" class="absolute top-6 right-6 text-white text-4xl">&times;</button>
+        </div>
+    </div>
+
+    <script>
+        function showImageModal(src, caption) {
+            const modal = document.getElementById('image-modal');
+            document.getElementById('modal-image').src = src;
+            document.getElementById('modal-caption').textContent = caption;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+        
+        function hideImageModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // Simple console log
+        console.log('%c[IQAC Page] Premium dynamic version loaded successfully.', 'color:#C9A227');
+    </script>
+</body>
+</html>
