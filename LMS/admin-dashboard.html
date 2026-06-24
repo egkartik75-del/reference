@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LMS • Admin Panel | Raja Virbhadra Singh College</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #FAF7F2;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: 260px;
+      min-width: 260px;
+      background: #0F3D3E;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 50;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-logo {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-logo img { width: 38px; height: 38px; object-fit: contain; }
+
+    .sidebar-college {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      padding: 20px 20px 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      color: rgba(255,255,255,0.65);
+      font-size: 13.5px;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 0;
+      transition: all 0.18s ease;
+      border-left: 3px solid transparent;
+      text-decoration: none;
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.07);
+      color: #fff;
+    }
+
+    .nav-item.active {
+      background: rgba(201,162,39,0.12);
+      color: #C9A227;
+      border-left-color: #C9A227;
+    }
+
+    .nav-item .icon {
+      width: 18px;
+      text-align: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      background: #C9A227;
+      color: #0F3D3E;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ── Main ── */
+    #main {
+      margin-left: 260px;
+      flex: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Topbar ── */
+    #topbar {
+      height: 64px;
+      background: rgba(250,247,242,0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .topbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: #0F3D3E;
+      font-weight: 700;
+    }
+
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.08);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: #555;
+      font-size: 14px;
+      transition: all 0.18s;
+    }
+
+    .icon-btn:hover { background: #f0ede8; color: #0F3D3E; }
+
+    .avatar {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0F3D3E, #1A6060);
+      display: flex; align-items: center; justify-content: center;
+      color: #C9A227;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ── Page content ── */
+    .page { display: none; padding: 28px; }
+    .page.active { display: block; }
+
+    /* ── Cards ── */
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 2px 16px -6px rgba(0,0,0,0.08);
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 20px 22px;
+      box-shadow: 0 2px 12px -4px rgba(0,0,0,0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px -8px rgba(0,0,0,0.12);
+    }
+
+    .stat-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+
+    /* ── Table ── */
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #888;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .data-table td {
+      padding: 13px 16px;
+      font-size: 13.5px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      color: #333;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: #FDFCFA; }
+
+    /* ── Badge ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-green { background: #E8F5E9; color: #2E7D32; }
+    .badge-amber { background: #FFF8E1; color: #F57F17; }
+    .badge-blue  { background: #E3F2FD; color: #1565C0; }
+    .badge-red   { background: #FFEBEE; color: #C62828; }
+    .badge-teal  { background: #E0F4F4; color: #0F3D3E; }
+
+    /* ── Input ── */
+    .form-input {
+      width: 100%;
+      padding: 9px 14px;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-family: 'Inter', sans-serif;
+      background: #FDFCFA;
+      color: #1a1a1a;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: #C9A227;
+      box-shadow: 0 0 0 3px rgba(201,162,39,0.1);
+      background: #fff;
+    }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 5px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: #0F3D3E;
+      color: #fff;
+      border: none;
+      padding: 9px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .btn-primary:hover { background: #0d3233; transform: translateY(-1px); }
+
+    .btn-gold {
+      background: #C9A227;
+      color: #0F3D3E;
+      border: none;
+      padding: 9px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .btn-gold:hover { background: #b8921f; }
+
+    .btn-ghost {
+      background: transparent;
+      color: #555;
+      border: 1px solid rgba(0,0,0,0.12);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .btn-ghost:hover { background: #f0ede8; border-color: rgba(0,0,0,0.2); }
+
+    .btn-danger {
+      background: #fff;
+      color: #C62828;
+      border: 1px solid #FFCDD2;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.18s;
+    }
+    .btn-danger:hover { background: #FFEBEE; }
+
+    .btn-sm {
+      padding: 5px 12px !important;
+      font-size: 12px !important;
+      border-radius: 7px !important;
+    }
+
+    /* ── Timetable grid ── */
+    .tt-grid { border-collapse: collapse; width: 100%; }
+    .tt-grid th, .tt-grid td {
+      border: 1px solid rgba(0,0,0,0.07);
+      padding: 0;
+      text-align: center;
+      min-width: 110px;
+    }
+    .tt-grid th {
+      background: #F5F3EE;
+      font-size: 11px;
+      font-weight: 700;
+      color: #0F3D3E;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 10px 8px;
+    }
+    .tt-cell {
+      min-height: 70px;
+      padding: 8px;
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: background 0.15s;
+      vertical-align: top;
+    }
+    .tt-cell:hover { background: #FFF8E6; }
+    .tt-cell.filled {
+      background: #E8F4F4;
+    }
+    .tt-time {
+      background: #F5F3EE;
+      font-size: 11px;
+      font-weight: 600;
+      color: #666;
+      padding: 8px 10px;
+      white-space: nowrap;
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px;
+      width: 480px;
+      max-width: 95vw;
+      box-shadow: 0 24px 64px -16px rgba(0,0,0,0.25);
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(16px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    /* ── Chart bar ── */
+    .bar-track {
+      height: 8px;
+      background: #F0EDE8;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease;
+    }
+
+    /* ── Announce card ── */
+    .announce-card {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 12px;
+      padding: 16px 18px;
+      transition: box-shadow 0.2s;
+    }
+    .announce-card:hover { box-shadow: 0 4px 16px -6px rgba(0,0,0,0.1); }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 4px; }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: #0F3D3E; color: #fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 8px 24px -8px rgba(0,0,0,0.3);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      animation: slideUp 0.25s ease;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <div class="flex items-center gap-3">
+      <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png" alt="Logo">
+      <div>
+        <div class="text-white font-semibold text-sm leading-tight serif">RVSC</div>
+        <div class="sidebar-college">Admin Panel</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="overflow-y:auto; flex:1;">
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item active" onclick="showPage('dashboard')">
+      <span class="icon"><i class="fas fa-th-large"></i></span> Dashboard
+    </a>
+
+    <div class="nav-section-label">Management</div>
+    <a class="nav-item" onclick="showPage('users')">
+      <span class="icon"><i class="fas fa-users"></i></span> Users
+      <span class="nav-badge">142</span>
+    </a>
+    <a class="nav-item" onclick="showPage('courses')">
+      <span class="icon"><i class="fas fa-book-open"></i></span> Courses & Batches
+    </a>
+    <a class="nav-item" onclick="showPage('timetable')">
+      <span class="icon"><i class="fas fa-calendar-alt"></i></span> Timetable
+    </a>
+    <a class="nav-item" onclick="showPage('attendance')">
+      <span class="icon"><i class="fas fa-clipboard-check"></i></span> Attendance
+    </a>
+
+    <div class="nav-section-label">Communication</div>
+    <a class="nav-item" onclick="showPage('announcements')">
+      <span class="icon"><i class="fas fa-bullhorn"></i></span> Announcements
+      <span class="nav-badge">3</span>
+    </a>
+
+    <div class="nav-section-label">Reports</div>
+    <a class="nav-item" onclick="showPage('reports')">
+      <span class="icon"><i class="fas fa-chart-bar"></i></span> Analytics
+    </a>
+    <a class="nav-item" onclick="showPage('settings')">
+      <span class="icon"><i class="fas fa-cog"></i></span> Settings
+    </a>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="flex items-center gap-3">
+      <div style="width:34px;height:34px;border-radius:9px;background:rgba(201,162,39,0.2);display:flex;align-items:center;justify-content:center;color:#C9A227;font-weight:700;font-size:13px;">A</div>
+      <div>
+        <div style="color:#fff;font-size:12.5px;font-weight:600;">Admin</div>
+        <div style="color:rgba(255,255,255,0.4);font-size:11px;">Super Admin</div>
+      </div>
+      <button onclick="handleLogout()" style="margin-left:auto;background:rgba(255,255,255,0.08);border:none;color:rgba(255,255,255,0.5);width:28px;height:28px;border-radius:7px;cursor:pointer;" title="Logout">
+        <i class="fas fa-sign-out-alt" style="font-size:12px;"></i>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div id="main">
+
+  <!-- Topbar -->
+  <header id="topbar">
+    <div>
+      <div class="topbar-title" id="page-title">Dashboard</div>
+      <div style="font-size:11px;color:#888;" id="page-sub">Monday, 23 June 2025</div>
+    </div>
+    <div class="topbar-right">
+      <div class="icon-btn" title="Search"><i class="fas fa-search"></i></div>
+      <div class="icon-btn" title="Notifications" style="position:relative;">
+        <i class="fas fa-bell"></i>
+        <span style="position:absolute;top:6px;right:6px;width:7px;height:7px;background:#C9A227;border-radius:50%;border:2px solid #FAF7F2;"></span>
+      </div>
+      <div class="avatar" title="Admin">A</div>
+    </div>
+  </header>
+
+  <!-- ─── DASHBOARD ─── -->
+  <div class="page active" id="page-dashboard">
+    <div style="max-width:1200px;">
+
+      <!-- Stats row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#E8F4F4;color:#0F3D3E;margin-bottom:12px;"><i class="fas fa-user-graduate"></i></div>
+          <div style="font-size:26px;font-weight:700;color:#0F3D3E;line-height:1;">1,248</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">Total Students</div>
+          <div style="font-size:11px;color:#2E7D32;margin-top:6px;"><i class="fas fa-arrow-up"></i> +24 this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#FFF8E1;color:#C9A227;margin-bottom:12px;"><i class="fas fa-chalkboard-teacher"></i></div>
+          <div style="font-size:26px;font-weight:700;color:#0F3D3E;line-height:1;">48</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">Faculty Members</div>
+          <div style="font-size:11px;color:#888;margin-top:6px;"><i class="fas fa-minus"></i> No change</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#F3E8FF;color:#7C3AED;margin-bottom:12px;"><i class="fas fa-book-open"></i></div>
+          <div style="font-size:26px;font-weight:700;color:#0F3D3E;line-height:1;">36</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">Active Courses</div>
+          <div style="font-size:11px;color:#1565C0;margin-top:6px;"><i class="fas fa-circle"></i> Sem III ongoing</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#FFEBEE;color:#C62828;margin-bottom:12px;"><i class="fas fa-clipboard-check"></i></div>
+          <div style="font-size:26px;font-weight:700;color:#0F3D3E;line-height:1;">78%</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">Avg. Attendance</div>
+          <div style="font-size:11px;color:#C62828;margin-top:6px;"><i class="fas fa-arrow-down"></i> Below 75% threshold</div>
+        </div>
+      </div>
+
+      <!-- Middle row -->
+      <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:20px;margin-bottom:24px;">
+
+        <!-- Recent activity -->
+        <div class="card" style="padding:20px 0;">
+          <div style="padding:0 20px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(0,0,0,0.06);">
+            <div style="font-weight:700;font-size:14px;color:#0F3D3E;">Recent Activity</div>
+            <span class="badge badge-teal">Live</span>
+          </div>
+          <div style="padding:10px 0;">
+            <div class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 cursor-pointer transition-colors">
+              <div style="width:32px;height:32px;border-radius:8px;background:#E8F4F4;display:flex;align-items:center;justify-content:center;color:#0F3D3E;font-size:13px;"><i class="fas fa-user-plus"></i></div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:500;">New student enrolled — Priya Sharma</div>
+                <div style="font-size:11px;color:#888;">B.Sc Computer Science · Sem I</div>
+              </div>
+              <span style="font-size:11px;color:#aaa;">2m ago</span>
+            </div>
+            <div class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 cursor-pointer transition-colors">
+              <div style="width:32px;height:32px;border-radius:8px;background:#FFF8E1;display:flex;align-items:center;justify-content:center;color:#C9A227;font-size:13px;"><i class="fas fa-upload"></i></div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:500;">Lecture notes uploaded</div>
+                <div style="font-size:11px;color:#888;">Data Structures · Dr. Verma</div>
+              </div>
+              <span style="font-size:11px;color:#aaa;">18m ago</span>
+            </div>
+            <div class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 cursor-pointer transition-colors">
+              <div style="width:32px;height:32px;border-radius:8px;background:#FFEBEE;display:flex;align-items:center;justify-content:center;color:#C62828;font-size:13px;"><i class="fas fa-exclamation-triangle"></i></div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:500;">Low attendance alert — 12 students</div>
+                <div style="font-size:11px;color:#888;">Below 75% · B.A. History Sem III</div>
+              </div>
+              <span style="font-size:11px;color:#aaa;">1h ago</span>
+            </div>
+            <div class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 cursor-pointer transition-colors">
+              <div style="width:32px;height:32px;border-radius:8px;background:#E3F2FD;display:flex;align-items:center;justify-content:center;color:#1565C0;font-size:13px;"><i class="fas fa-calendar-check"></i></div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:500;">Timetable updated for Sem V</div>
+                <div style="font-size:11px;color:#888;">Effective from Monday</div>
+              </div>
+              <span style="font-size:11px;color:#aaa;">3h ago</span>
+            </div>
+            <div class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 cursor-pointer transition-colors">
+              <div style="width:32px;height:32px;border-radius:8px;background:#F3E8FF;display:flex;align-items:center;justify-content:center;color:#7C3AED;font-size:13px;"><i class="fas fa-tasks"></i></div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:500;">Quiz results published — Physics</div>
+                <div style="font-size:11px;color:#888;">Avg score 67% · 89 attempts</div>
+              </div>
+              <span style="font-size:11px;color:#aaa;">5h ago</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Department attendance -->
+        <div class="card" style="padding:20px;">
+          <div style="font-weight:700;font-size:14px;color:#0F3D3E;margin-bottom:16px;">Attendance by Department</div>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;"><span style="color:#333;font-weight:500;">Computer Science</span><span style="color:#0F3D3E;font-weight:700;">88%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:88%;background:#0F3D3E;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;"><span style="color:#333;font-weight:500;">Mathematics</span><span style="color:#0F3D3E;font-weight:700;">83%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:83%;background:#C9A227;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;"><span style="color:#333;font-weight:500;">Physics</span><span style="color:#0F3D3E;font-weight:700;">76%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:76%;background:#C9A227;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;"><span style="color:#333;font-weight:500;">History</span><span style="color:#E53935;font-weight:700;">68%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:68%;background:#E53935;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;"><span style="color:#333;font-weight:500;">Commerce</span><span style="color:#0F3D3E;font-weight:700;">81%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:81%;background:#0F3D3E;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;"><span style="color:#333;font-weight:500;">English</span><span style="color:#0F3D3E;font-weight:700;">79%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:79%;background:#0F3D3E;"></div></div>
+            </div>
+          </div>
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:11px;color:#888;">⚠ Red = below 75% threshold</span>
+            <button class="btn-ghost btn-sm" onclick="showPage('attendance')">View all</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="card" style="padding:20px;">
+        <div style="font-weight:700;font-size:14px;color:#0F3D3E;margin-bottom:14px;">Quick Actions</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn-primary" onclick="openModal('modal-add-user')"><i class="fas fa-user-plus"></i> Add User</button>
+          <button class="btn-gold" onclick="showPage('timetable')"><i class="fas fa-calendar-alt"></i> Edit Timetable</button>
+          <button class="btn-ghost" onclick="openModal('modal-announce')"><i class="fas fa-bullhorn"></i> New Announcement</button>
+          <button class="btn-ghost" onclick="showPage('courses')"><i class="fas fa-plus"></i> Add Course</button>
+          <button class="btn-ghost" onclick="showPage('reports')"><i class="fas fa-download"></i> Export Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── USERS ─── -->
+  <div class="page" id="page-users">
+    <div style="max-width:1100px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <div>
+          <div style="font-size:13px;color:#888;">Manage all students, teachers and staff</div>
+        </div>
+        <button class="btn-primary" onclick="openModal('modal-add-user')"><i class="fas fa-user-plus"></i> Add User</button>
+      </div>
+
+      <!-- Filter tabs -->
+      <div style="display:flex;gap:6px;margin-bottom:18px;">
+        <button class="badge badge-teal" style="cursor:pointer;padding:6px 16px;font-size:12px;" onclick="filterUsers('all')">All (142)</button>
+        <button class="badge badge-blue" style="cursor:pointer;padding:6px 16px;font-size:12px;" onclick="filterUsers('student')">Students (89)</button>
+        <button class="badge badge-amber" style="cursor:pointer;padding:6px 16px;font-size:12px;" onclick="filterUsers('teacher')">Teachers (48)</button>
+        <button class="badge badge-green" style="cursor:pointer;padding:6px 16px;font-size:12px;" onclick="filterUsers('admin')">Admin (5)</button>
+      </div>
+
+      <!-- Search -->
+      <div style="position:relative;margin-bottom:16px;">
+        <i class="fas fa-search" style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#aaa;font-size:13px;"></i>
+        <input class="form-input" style="padding-left:36px;" placeholder="Search by name, email or roll number..." oninput="searchUsers(this.value)">
+      </div>
+
+      <div class="card" style="overflow:hidden;">
+        <table class="data-table" id="users-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Department</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users-tbody">
+            <tr><td colspan="6" style="text-align:center;padding:24px;color:#aaa;"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── COURSES & BATCHES ─── -->
+  <div class="page" id="page-courses">
+    <div style="max-width:1100px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <div style="font-size:13px;color:#888;">Manage courses, semesters and batches</div>
+        <button class="btn-primary" onclick="openModal('modal-add-course')"><i class="fas fa-plus"></i> Add Course</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" id="courses-grid">
+        <div style="display:flex;align-items:center;justify-content:center;padding:40px;color:#aaa;grid-column:span 3;">
+          <i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Loading courses...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TIMETABLE ─── -->
+  <div class="page" id="page-timetable">
+    <div style="max-width:1200px;">
+
+      <!-- Filters bar -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+        <select class="form-input" id="tt-course-filter" style="width:auto;min-width:240px;padding:8px 14px;" onchange="loadTimetable()">
+          <option value="">— Select Course —</option>
+        </select>
+        <button class="btn-primary" id="btn-add-slot" onclick="openAddSlotModal()" disabled>
+          <i class="fas fa-plus"></i> Add Slot
+        </button>
+        <button class="btn-ghost" onclick="exportTimetable()"><i class="fas fa-download"></i> Export PDF</button>
+      </div>
+
+      <!-- Timetable grid card -->
+      <div class="card" style="overflow-x:auto;padding:0;" id="tt-card">
+        <div style="display:flex;align-items:center;justify-content:center;padding:60px;color:#aaa;">
+          <i class="fas fa-calendar-alt" style="font-size:32px;margin-right:12px;opacity:0.3;"></i>
+          <span>Select a course above to view its timetable</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── ATTENDANCE ─── -->
+  <div class="page" id="page-attendance">
+    <div style="max-width:1100px;">
+      <div style="font-size:13px;color:#888;margin-bottom:20px;">College-wide attendance overview — calculated from real records</div>
+
+      <!-- Summary stat cards — filled by JS -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;" id="att-stats">
+        <div class="stat-card" style="text-align:center;">
+          <div style="font-size:28px;font-weight:700;color:#aaa;" id="att-total-records">—</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">Total Records</div>
+        </div>
+        <div class="stat-card" style="text-align:center;">
+          <div style="font-size:28px;font-weight:700;color:#2E7D32;" id="att-present-pct">—</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">Overall Present %</div>
+        </div>
+        <div class="stat-card" style="text-align:center;">
+          <div style="font-size:28px;font-weight:700;color:#C62828;" id="att-below75">—</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">Students Below 75%</div>
+        </div>
+        <div class="stat-card" style="text-align:center;">
+          <div style="font-size:28px;font-weight:700;color:#C9A227;" id="att-courses-tracked">—</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">Courses Tracked</div>
+        </div>
+      </div>
+
+      <!-- Mark Attendance section -->
+      <div class="card" style="padding:20px;margin-bottom:20px;">
+        <div style="font-weight:700;font-size:14px;color:#0F3D3E;margin-bottom:14px;"><i class="fas fa-clipboard-check" style="margin-right:6px;color:#C9A227;"></i>Mark Attendance</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+          <div>
+            <label class="form-label">Course</label>
+            <select class="form-input" id="att-course-sel" style="min-width:200px;">
+              <option value="">— Select Course —</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Date</label>
+            <input type="date" class="form-input" id="att-date" style="width:160px;">
+          </div>
+          <button class="btn-primary" onclick="loadStudentsForAttendance()"><i class="fas fa-users"></i> Load Students</button>
+        </div>
+
+        <!-- Students list for marking -->
+        <div id="att-student-list" style="margin-top:16px;display:none;">
+          <div style="font-size:12px;color:#888;margin-bottom:10px;">Mark each student's attendance:</div>
+          <div id="att-student-rows" style="display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto;"></div>
+          <div style="margin-top:14px;">
+            <button class="btn-gold" onclick="submitAttendance()"><i class="fas fa-save"></i> Save Attendance</button>
+            <button class="btn-ghost" style="margin-left:8px;" onclick="markAllPresent()"><i class="fas fa-check-double"></i> Mark All Present</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Below 75% alert table -->
+      <div class="card" style="overflow:hidden;">
+        <div style="padding:16px 20px;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-weight:700;font-size:14px;color:#0F3D3E;">Students Below 75% Threshold</div>
+          <span class="badge badge-red" id="att-below75-badge">0 students</span>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Student</th><th>Course</th><th>Present</th><th>Total</th><th>Attendance %</th></tr></thead>
+          <tbody id="att-below75-tbody">
+            <tr><td colspan="5" style="text-align:center;padding:24px;color:#aaa;">
+              <i class="fas fa-spinner fa-spin"></i> Loading...
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── ANNOUNCEMENTS ─── -->
+  <div class="page" id="page-announcements">
+    <div style="max-width:800px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <div style="font-size:13px;color:#888;">College-wide notices and updates</div>
+        <button class="btn-primary" onclick="openModal('modal-announce')"><i class="fas fa-plus"></i> New Announcement</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;" id="announce-list">
+        <div style="text-align:center;padding:24px;color:#aaa;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── REPORTS ─── -->
+  <div class="page" id="page-reports">
+    <div style="max-width:1000px;">
+      <div style="font-size:13px;color:#888;margin-bottom:24px;">Analytics and exportable reports</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;">
+        <div class="stat-card" style="cursor:pointer;" onclick="showToast('Attendance report exported as PDF')">
+          <div style="width:40px;height:40px;border-radius:10px;background:#E8F4F4;display:flex;align-items:center;justify-content:center;color:#0F3D3E;margin-bottom:10px;"><i class="fas fa-file-pdf"></i></div>
+          <div style="font-weight:700;font-size:14px;">Attendance Report</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">All departments · June 2025</div>
+          <div style="font-size:11px;color:#0F3D3E;margin-top:8px;"><i class="fas fa-download"></i> Export PDF</div>
+        </div>
+        <div class="stat-card" style="cursor:pointer;" onclick="showToast('Results report exported')">
+          <div style="width:40px;height:40px;border-radius:10px;background:#FFF8E1;display:flex;align-items:center;justify-content:center;color:#C9A227;margin-bottom:10px;"><i class="fas fa-graduation-cap"></i></div>
+          <div style="font-weight:700;font-size:14px;">Exam Results</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">Semester III · All courses</div>
+          <div style="font-size:11px;color:#C9A227;margin-top:8px;"><i class="fas fa-download"></i> Export Excel</div>
+        </div>
+        <div class="stat-card" style="cursor:pointer;" onclick="showToast('User report exported')">
+          <div style="width:40px;height:40px;border-radius:10px;background:#F3E8FF;display:flex;align-items:center;justify-content:center;color:#7C3AED;margin-bottom:10px;"><i class="fas fa-users"></i></div>
+          <div style="font-weight:700;font-size:14px;">User Report</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">Students & faculty list</div>
+          <div style="font-size:11px;color:#7C3AED;margin-top:8px;"><i class="fas fa-download"></i> Export CSV</div>
+        </div>
+      </div>
+      <div class="card" style="padding:20px;">
+        <div style="font-weight:700;font-size:14px;color:#0F3D3E;margin-bottom:16px;">Semester Performance Overview</div>
+        <table class="data-table">
+          <thead><tr><th>Course</th><th>Students</th><th>Avg Score</th><th>Pass Rate</th><th>Attendance</th></tr></thead>
+          <tbody>
+            <tr><td><div style="font-weight:600;">B.Sc Computer Science</div></td><td>234</td><td>72%</td><td><span class="badge badge-green">91%</span></td><td>88%</td></tr>
+            <tr><td><div style="font-weight:600;">B.A. History</div></td><td>178</td><td>65%</td><td><span class="badge badge-amber">78%</span></td><td>68%</td></tr>
+            <tr><td><div style="font-weight:600;">B.Sc Physics</div></td><td>156</td><td>69%</td><td><span class="badge badge-green">84%</span></td><td>76%</td></tr>
+            <tr><td><div style="font-weight:600;">B.Com</div></td><td>201</td><td>74%</td><td><span class="badge badge-green">89%</span></td><td>81%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SETTINGS ─── -->
+  <div class="page" id="page-settings">
+    <div style="max-width:700px;">
+      <div style="font-size:13px;color:#888;margin-bottom:24px;">College configuration and LMS settings</div>
+      <div class="card" style="padding:24px;margin-bottom:16px;">
+        <div style="font-weight:700;font-size:14px;color:#0F3D3E;margin-bottom:18px;">College Information</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div><label class="form-label">College Name</label><input class="form-input" value="Raja Virbhadra Singh College"></div>
+          <div><label class="form-label">Affiliation</label><input class="form-input" value="HP University, Shimla"></div>
+          <div><label class="form-label">Academic Year</label><input class="form-input" value="2024–2025"></div>
+          <div><label class="form-label">Current Semester</label>
+            <select class="form-input"><option>Odd Semester (III, V)</option><option>Even Semester (II, IV, VI)</option></select>
+          </div>
+        </div>
+        <div style="margin-top:16px;"><label class="form-label">Minimum Attendance Threshold (%)</label><input class="form-input" type="number" value="75" style="width:120px;"></div>
+        <div style="margin-top:16px;"><button class="btn-primary" onclick="showToast('Settings saved!')"><i class="fas fa-save"></i> Save Changes</button></div>
+      </div>
+      <div class="card" style="padding:24px;">
+        <div style="font-weight:700;font-size:14px;color:#0F3D3E;margin-bottom:18px;">Notifications</div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,0.05);">
+            <div><div style="font-size:13.5px;font-weight:500;">Email alerts for low attendance</div><div style="font-size:12px;color:#888;">Notify students below threshold</div></div>
+            <label style="cursor:pointer;position:relative;width:40px;height:22px;">
+              <input type="checkbox" checked style="opacity:0;width:0;height:0;" id="toggle1" onchange="showToast(this.checked ? 'Email alerts enabled' : 'Email alerts disabled')">
+              <span onclick="document.getElementById('toggle1').click()" style="position:absolute;inset:0;background:#0F3D3E;border-radius:11px;transition:0.3s;display:flex;align-items:center;padding:2px;"><span style="width:18px;height:18px;background:#fff;border-radius:50%;margin-left:auto;"></span></span>
+            </label>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-size:13.5px;font-weight:500;">Announcement push notifications</div><div style="font-size:12px;color:#888;">Send to all users on new notice</div></div>
+            <label style="cursor:pointer;position:relative;width:40px;height:22px;">
+              <input type="checkbox" style="opacity:0;width:0;height:0;" id="toggle2" onchange="showToast(this.checked ? 'Push notifications enabled' : 'Push notifications disabled')">
+              <span onclick="document.getElementById('toggle2').click()" style="position:absolute;inset:0;background:#ddd;border-radius:11px;transition:0.3s;display:flex;align-items:center;padding:2px;"><span style="width:18px;height:18px;background:#fff;border-radius:50%;"></span></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end main -->
+
+<!-- ══════════════ MODALS ══════════════ -->
+
+<!-- Add User Modal -->
+<div class="modal-overlay" id="modal-add-user">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#0F3D3E;">Add New User</div>
+      <button onclick="closeModal('modal-add-user')" style="background:none;border:none;cursor:pointer;color:#888;font-size:18px;"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      <div><label class="form-label">First Name</label><input class="form-input" id="user-firstname" placeholder="e.g. Rahul"></div>
+      <div><label class="form-label">Last Name</label><input class="form-input" id="user-lastname" placeholder="e.g. Sharma"></div>
+      <div><label class="form-label">Role</label>
+        <select class="form-input" id="user-role"><option value="student">Student</option><option value="teacher">Teacher</option><option value="admin">Admin</option></select>
+      </div>
+      <div><label class="form-label">Department</label>
+        <select class="form-input" id="user-dept"><option>Computer Science</option><option>Physics</option><option>History</option><option>Mathematics</option><option>Commerce</option><option>English</option></select>
+      </div>
+      <div style="grid-column:span 2;"><label class="form-label">Email Address</label><input class="form-input" id="user-email" placeholder="e.g. rahul.s@rvsc.edu.in" type="email"></div>
+      <div><label class="form-label">Roll / Faculty ID</label><input class="form-input" id="user-roll" placeholder="e.g. CS2301"></div>
+      <div><label class="form-label">Temporary Password</label><input class="form-input" id="user-password" type="password" placeholder="Min 6 characters"></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="btn-ghost" onclick="closeModal('modal-add-user')">Cancel</button>
+      <button class="btn-primary" id="btn-add-user" onclick="addUser()"><i class="fas fa-user-plus"></i> Add User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Course Modal -->
+<div class="modal-overlay" id="modal-add-course">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#0F3D3E;">Add New Course</div>
+      <button onclick="closeModal('modal-add-course')" style="background:none;border:none;cursor:pointer;color:#888;font-size:18px;"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:16px;">
+      <div><label class="form-label">Course Name</label><input class="form-input" id="course-name" placeholder="e.g. B.Sc Computer Science"></div>
+      <div><label class="form-label">Course Code</label><input class="form-input" id="course-code" placeholder="e.g. BSCS"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div><label class="form-label">Semester</label><input class="form-input" id="course-sem" type="number" placeholder="e.g. 3"></div>
+        <div><label class="form-label">Total Credits</label><input class="form-input" id="course-credits" type="number" placeholder="120"></div>
+      </div>
+      <div><label class="form-label">Department</label><select class="form-input" id="course-dept"><option>Computer Science</option><option>Physics</option><option>History</option><option>Mathematics</option><option>Commerce</option></select></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="btn-ghost" onclick="closeModal('modal-add-course')">Cancel</button>
+      <button class="btn-primary" onclick="addCourse()"><i class="fas fa-plus"></i> Create Course</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Timetable Slot Modal -->
+<div class="modal-overlay" id="modal-add-slot">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#0F3D3E;">Add Timetable Slot</div>
+      <button onclick="closeModal('modal-add-slot')" style="background:none;border:none;cursor:pointer;color:#888;font-size:18px;"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:16px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div>
+          <label class="form-label">Day</label>
+          <select class="form-input" id="slot-day">
+            <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+            <option>Thursday</option><option>Friday</option><option>Saturday</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Time Slot</label>
+          <select class="form-input" id="slot-time">
+            <option value="09:00:00|10:00:00">9:00 – 10:00</option>
+            <option value="10:00:00|11:00:00">10:00 – 11:00</option>
+            <option value="11:15:00|12:15:00">11:15 – 12:15</option>
+            <option value="13:15:00|14:15:00">1:15 – 2:15</option>
+            <option value="14:15:00|15:15:00">2:15 – 3:15</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="form-label">Subject / Topic</label>
+        <input class="form-input" id="slot-subject" placeholder="e.g. Data Structures, Lab Session">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div>
+          <label class="form-label">Faculty</label>
+          <select class="form-input" id="slot-faculty">
+            <option value="">— Select Teacher —</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Room / Lab</label>
+          <input class="form-input" id="slot-room" placeholder="e.g. CS-201, Lab-2">
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="btn-ghost" onclick="closeModal('modal-add-slot')">Cancel</button>
+      <button class="btn-primary" id="btn-save-slot" onclick="saveSlot()"><i class="fas fa-plus"></i> Add Slot</button>
+    </div>
+  </div>
+</div>
+
+<!-- New Announcement Modal -->
+<div class="modal-overlay" id="modal-announce">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#0F3D3E;">New Announcement</div>
+      <button onclick="closeModal('modal-announce')" style="background:none;border:none;cursor:pointer;color:#888;font-size:18px;"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:16px;">
+      <div><label class="form-label">Title</label><input class="form-input" placeholder="e.g. Exam schedule update" id="announce-title"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div><label class="form-label">Type</label><select class="form-input" id="announce-type"><option>General</option><option>Urgent</option><option>Faculty</option><option>Students</option></select></div>
+        <div><label class="form-label">Visible To</label><select class="form-input" id="announce-target"><option>All</option><option>Students only</option><option>Faculty only</option></select></div>
+      </div>
+      <div><label class="form-label">Message</label><textarea class="form-input" rows="4" placeholder="Write your announcement here..." id="announce-body" style="resize:vertical;"></textarea></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="btn-ghost" onclick="closeModal('modal-announce')">Cancel</button>
+      <button class="btn-primary" onclick="postAnnouncement()"><i class="fas fa-bullhorn"></i> Post</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"><i class="fas fa-check-circle" style="color:#C9A227;"></i> <span id="toast-msg"></span></div>
+
+<script>
+// ══════════════════════════════════════════
+//  Supabase Init
+// ══════════════════════════════════════════
+const SUPABASE_URL = 'https://frbepxvhetqykrzrjswx.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_Hvbn4fN0JZ6sVR0FaJ8wpQ_Mk1PLcJ-';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ── State ──
+let currentUser = null;
+let allUsers = [];
+let currentFilter = 'all';
+
+// ══════════════════════════════════════════
+//  Boot: Auth check
+// ══════════════════════════════════════════
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.href = 'staff_login.html'; return; }
+
+  // Check role
+  const { data: profile } = await sb.from('profiles').select('*').eq('id', session.user.id).single();
+  if (!profile || profile.role !== 'admin') {
+    await sb.auth.signOut();
+    window.location.href = 'staff_login.html';
+    return;
+  }
+  currentUser = profile;
+
+  // Update sidebar footer with real name
+  const sidebarName = document.querySelector('.sidebar-footer .text-white');
+  const sidebarRole = document.querySelector('.sidebar-footer .text-white + div');
+  if (sidebarName) sidebarName.textContent = profile.full_name || 'Admin';
+  const avatarEl = document.querySelector('.sidebar-footer [style*="border-radius:9px"]');
+  if (avatarEl) avatarEl.textContent = (profile.full_name || 'A')[0].toUpperCase();
+  const topAvatar = document.querySelector('#topbar .avatar');
+  if (topAvatar) topAvatar.textContent = (profile.full_name || 'A')[0].toUpperCase();
+
+  // Update date
+  document.getElementById('page-sub').textContent = new Date().toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+  // Load all data
+  await Promise.all([loadDashboardStats(), loadUsers(), loadCourses(), loadAnnouncements()]);
+})();
+
+// ══════════════════════════════════════════
+//  Navigation
+// ══════════════════════════════════════════
+const pageTitles = {
+  dashboard:     ['Dashboard', 'Overview'],
+  users:         ['Users', 'Students, teachers & staff'],
+  courses:       ['Courses & Batches', 'Curriculum management'],
+  timetable:     ['Timetable', 'Schedule builder'],
+  attendance:    ['Attendance', 'Tracking & alerts'],
+  announcements: ['Announcements', 'Notices & updates'],
+  reports:       ['Analytics & Reports', 'Data export'],
+  settings:      ['Settings', 'College configuration']
+};
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelector(`[onclick="showPage('${id}')"]`)?.classList.add('active');
+  const info = pageTitles[id] || [id, ''];
+  document.getElementById('page-title').textContent = info[0];
+  document.getElementById('page-sub').textContent = new Date().toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+}
+
+// ══════════════════════════════════════════
+//  Modal helpers
+// ══════════════════════════════════════════
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
+});
+
+// ══════════════════════════════════════════
+//  Toast
+// ══════════════════════════════════════════
+let toastTimer;
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  const icon = t.querySelector('i');
+  document.getElementById('toast-msg').textContent = msg;
+  t.style.background = isError ? '#C62828' : '#0F3D3E';
+  icon.className = isError ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+  icon.style.color = isError ? '#fff' : '#C9A227';
+  t.style.display = 'flex';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.style.display = 'none', 3500);
+}
+
+// ══════════════════════════════════════════
+//  Dashboard Stats (real counts)
+// ══════════════════════════════════════════
+async function loadDashboardStats() {
+  const { data: profiles } = await sb.from('profiles').select('role');
+  if (!profiles) return;
+
+  const students = profiles.filter(p => p.role === 'student').length;
+  const teachers = profiles.filter(p => p.role === 'teacher').length;
+  const { count: courseCount } = await sb.from('courses').select('*', { count:'exact', head:true });
+  const { count: announceCount } = await sb.from('announcements').select('*', { count:'exact', head:true });
+
+  // Update stat cards
+  const statCards = document.querySelectorAll('.stat-card');
+  if (statCards[0]) statCards[0].querySelector('div[style*="26px"]').textContent = students.toLocaleString();
+  if (statCards[1]) statCards[1].querySelector('div[style*="26px"]').textContent = teachers;
+  if (statCards[2]) statCards[2].querySelector('div[style*="26px"]').textContent = courseCount || 0;
+
+  // Update sidebar badge for users
+  const userBadge = document.querySelector('.nav-item[onclick="showPage(\'users\')"] .nav-badge');
+  if (userBadge) userBadge.textContent = profiles.length;
+
+  // Update announcements badge
+  const announceBadge = document.querySelector('.nav-item[onclick="showPage(\'announcements\')"] .nav-badge');
+  if (announceBadge) announceBadge.textContent = announceCount || 0;
+
+  // Update filter tab counts
+  updateFilterCounts(profiles);
+}
+
+function updateFilterCounts(profiles) {
+  const total    = profiles.length;
+  const students = profiles.filter(p => p.role === 'student').length;
+  const teachers = profiles.filter(p => p.role === 'teacher').length;
+  const admins   = profiles.filter(p => p.role === 'admin').length;
+  const tabs = document.querySelectorAll('#page-users .badge[onclick]');
+  if (tabs[0]) tabs[0].textContent = `All (${total})`;
+  if (tabs[1]) tabs[1].textContent = `Students (${students})`;
+  if (tabs[2]) tabs[2].textContent = `Teachers (${teachers})`;
+  if (tabs[3]) tabs[3].textContent = `Admin (${admins})`;
+}
+
+// ══════════════════════════════════════════
+//  Users — load, filter, search
+// ══════════════════════════════════════════
+async function loadUsers() {
+  const tbody = document.getElementById('users-tbody');
+  tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:24px;color:#aaa;"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>`;
+
+  const { data, error } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
+  if (error) { showToast('Failed to load users', true); return; }
+
+  allUsers = data || [];
+  renderUsers(allUsers);
+}
+
+function renderUsers(users) {
+  const tbody = document.getElementById('users-tbody');
+  if (!users.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:24px;color:#aaa;">No users found</td></tr>`;
+    return;
+  }
+
+  const roleColors = { admin:'badge-red', teacher:'badge-amber', student:'badge-blue' };
+  tbody.innerHTML = users.map(u => {
+    const initials = (u.full_name || u.email || '?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const role = u.role || 'student';
+    return `<tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:32px;height:32px;border-radius:8px;background:#E8F4F4;display:flex;align-items:center;justify-content:center;color:#0F3D3E;font-size:11px;font-weight:700;">${initials}</div>
+          <div>
+            <div style="font-weight:600;font-size:13.5px;">${u.full_name || '—'}</div>
+            <div style="font-size:11px;color:#aaa;">${u.roll_number || ''}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="badge ${roleColors[role]||'badge-blue'}">${role.charAt(0).toUpperCase()+role.slice(1)}</span></td>
+      <td style="color:#555;">${u.department || '—'}</td>
+      <td style="color:#555;font-size:12.5px;">${u.email || '—'}</td>
+      <td><span class="badge ${u.is_active !== false ? 'badge-green':'badge-red'}">${u.is_active !== false ? 'Active':'Inactive'}</span></td>
+      <td>
+        <div style="display:flex;gap:6px;">
+          <button class="btn-ghost btn-sm" onclick="editUser('${u.id}')"><i class="fas fa-edit"></i></button>
+          <button class="btn-danger btn-sm" onclick="deleteUser('${u.id}','${u.full_name||u.email}')"><i class="fas fa-trash"></i></button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterUsers(role) {
+  currentFilter = role;
+  const filtered = role === 'all' ? allUsers : allUsers.filter(u => u.role === role);
+  renderUsers(filtered);
+}
+
+function searchUsers(q) {
+  const term = q.toLowerCase();
+  const base = currentFilter === 'all' ? allUsers : allUsers.filter(u => u.role === currentFilter);
+  const filtered = base.filter(u =>
+    (u.full_name||'').toLowerCase().includes(term) ||
+    (u.email||'').toLowerCase().includes(term) ||
+    (u.roll_number||'').toLowerCase().includes(term)
+  );
+  renderUsers(filtered);
+}
+
+// ══════════════════════════════════════════
+//  Add User (real Supabase auth + profile)
+// ══════════════════════════════════════════
+async function addUser() {
+  const firstName  = document.getElementById('user-firstname').value.trim();
+  const lastName   = document.getElementById('user-lastname').value.trim();
+  const role       = document.getElementById('user-role').value.toLowerCase();
+  const department = document.getElementById('user-dept').value;
+  const email      = document.getElementById('user-email').value.trim();
+  const rollNo     = document.getElementById('user-roll').value.trim();
+  const password   = document.getElementById('user-password').value.trim();
+
+  if (!firstName || !email || !password) {
+    showToast('First name, email and password are required', true); return;
+  }
+
+  const btn = document.getElementById('btn-add-user');
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+
+  // Create auth user
+  const { data: authData, error: authError } = await sb.auth.admin
+    ? await createUserViaSignup(email, password, firstName + ' ' + lastName, role)
+    : await createUserViaSignup(email, password, firstName + ' ' + lastName, role);
+
+  if (authError) {
+    showToast('Error: ' + authError.message, true);
+    btn.disabled = false; btn.innerHTML = '<i class="fas fa-user-plus"></i> Add User';
+    return;
+  }
+
+  // Upsert profile with extra fields
+  if (authData?.user) {
+    await sb.from('profiles').upsert({
+      id: authData.user.id,
+      full_name: firstName + ' ' + lastName,
+      email, role, department,
+      roll_number: rollNo,
+      is_active: true
+    });
+  }
+
+  closeModal('modal-add-user');
+  showToast(`${firstName} added as ${role}!`);
+  btn.disabled = false; btn.innerHTML = '<i class="fas fa-user-plus"></i> Add User';
+  await loadUsers();
+  await loadDashboardStats();
+}
+
+async function createUserViaSignup(email, password, fullName, role) {
+  // Use signUp — admin.createUser needs service key. signUp works fine.
+  return await sb.auth.signUp({
+    email, password,
+    options: { data: { full_name: fullName, role } }
+  });
+}
+
+function editUser(id) {
+  const u = allUsers.find(x => x.id === id);
+  if (!u) return;
+  showToast(`Edit for ${u.full_name || u.email} — coming soon`);
+}
+
+async function deleteUser(id, name) {
+  if (!confirm(`Delete user "${name}"? This cannot be undone.`)) return;
+  const { error } = await sb.from('profiles').delete().eq('id', id);
+  if (error) { showToast('Delete failed: ' + error.message, true); return; }
+  showToast(`${name} deleted`);
+  await loadUsers();
+  await loadDashboardStats();
+}
+
+// ══════════════════════════════════════════
+//  Courses — load & add
+// ══════════════════════════════════════════
+async function loadCourses() {
+  const { data, error } = await sb.from('courses').select('*').order('created_at', { ascending: false });
+  if (error || !data) return;
+
+  const grid = document.getElementById('courses-grid');
+  if (!grid) return;
+
+  const deptColors = {
+    'Computer Science':'#E8F4F4', 'Physics':'#FFF8E1', 'History':'#F3E8FF',
+    'Mathematics':'#E3F2FD', 'Commerce':'#E8F5E9', 'English':'#FFF3E0'
+  };
+  const deptIcons = {
+    'Computer Science':'fa-laptop-code','Physics':'fa-atom','History':'fa-landmark',
+    'Mathematics':'fa-square-root-alt','Commerce':'fa-chart-line','English':'fa-book'
+  };
+
+  grid.innerHTML = data.map(c => `
+    <div class="stat-card" style="cursor:default;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:${deptColors[c.department]||'#F0EDE8'};display:flex;align-items:center;justify-content:center;color:#0F3D3E;">
+          <i class="fas ${deptIcons[c.department]||'fa-book-open'}"></i>
+        </div>
+        <span class="badge badge-green" style="font-size:10px;">Active</span>
+      </div>
+      <div style="font-weight:700;font-size:14px;color:#0F3D3E;">${c.name}</div>
+      <div style="font-size:12px;color:#888;margin-top:3px;">${c.code} · ${c.department||'—'}</div>
+      <div style="font-size:12px;color:#555;margin-top:8px;">Sem ${c.semester||'—'} · ${c.credits||4} credits</div>
+      <div style="margin-top:12px;display:flex;gap:6px;">
+        <button class="btn-ghost btn-sm" onclick="showToast('Editing ${c.name}')"><i class="fas fa-edit"></i> Edit</button>
+        <button class="btn-danger btn-sm" onclick="deleteCourse('${c.id}','${c.name}')"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`).join('') || '<div style="color:#aaa;padding:20px;">No courses yet. Add one!</div>';
+}
+
+async function addCourse() {
+  const name     = document.getElementById('course-name').value.trim();
+  const code     = document.getElementById('course-code').value.trim();
+  const dept     = document.getElementById('course-dept').value;
+  const sem      = parseInt(document.getElementById('course-sem').value) || null;
+  const credits  = parseInt(document.getElementById('course-credits').value) || 4;
+
+  if (!name || !code) { showToast('Course name and code required', true); return; }
+
+  const { error } = await sb.from('courses').insert({ name, code, department: dept, semester: sem, credits });
+  if (error) { showToast('Error: ' + error.message, true); return; }
+
+  closeModal('modal-add-course');
+  showToast(`Course "${name}" created!`);
+  document.getElementById('course-name').value = '';
+  document.getElementById('course-code').value = '';
+  await loadCourses();
+  await loadDashboardStats();
+}
+
+async function deleteCourse(id, name) {
+  if (!confirm(`Delete course "${name}"?`)) return;
+  const { error } = await sb.from('courses').delete().eq('id', id);
+  if (error) { showToast('Delete failed', true); return; }
+  showToast(`"${name}" deleted`);
+  await loadCourses();
+  await loadDashboardStats();
+}
+
+// ══════════════════════════════════════════
+//  Announcements — load, post, delete
+// ══════════════════════════════════════════
+async function loadAnnouncements() {
+  const { data, error } = await sb.from('announcements').select('*').order('created_at', { ascending: false });
+  if (error || !data) return;
+
+  const list = document.getElementById('announce-list');
+  if (!list) return;
+
+  const typeColors = { General:'badge-blue', Urgent:'badge-red', Faculty:'badge-amber', Students:'badge-green' };
+
+  // Remove static dummy cards first
+  list.innerHTML = '';
+
+  data.forEach(a => {
+    const card = document.createElement('div');
+    card.className = 'announce-card';
+    card.dataset.id = a.id;
+    const d = new Date(a.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+        <div>
+          <span class="badge ${typeColors[a.type]||'badge-blue'}" style="margin-bottom:6px;display:inline-block;">${a.type||'General'}</span>
+          <div style="font-weight:700;font-size:14px;">${a.title}</div>
+        </div>
+        <button class="btn-danger btn-sm" onclick="deleteAnnouncement('${a.id}',this)"><i class="fas fa-trash"></i></button>
+      </div>
+      <p style="font-size:13px;color:#555;margin:0 0 10px;">${a.body||''}</p>
+      <div style="font-size:11px;color:#aaa;">Posted · ${d} · Visible to: ${a.target||'All'}</div>`;
+    list.appendChild(card);
+  });
+}
+
+async function postAnnouncement() {
+  const title  = document.getElementById('announce-title').value.trim();
+  const type   = document.getElementById('announce-type').value;
+  const body   = document.getElementById('announce-body').value.trim();
+  const target = document.getElementById('announce-target')?.value || 'All';
+
+  if (!title) { showToast('Title is required', true); return; }
+
+  const { error } = await sb.from('announcements').insert({
+    title, type, body, target,
+    created_by: currentUser?.id
+  });
+
+  if (error) { showToast('Error: ' + error.message, true); return; }
+
+  closeModal('modal-announce');
+  document.getElementById('announce-title').value = '';
+  document.getElementById('announce-body').value = '';
+  showToast('Announcement posted!');
+  await loadAnnouncements();
+  await loadDashboardStats();
+}
+
+async function deleteAnnouncement(id, btn) {
+  if (!confirm('Delete this announcement?')) return;
+  const { error } = await sb.from('announcements').delete().eq('id', id);
+  if (error) { showToast('Delete failed', true); return; }
+  btn.closest('.announce-card').remove();
+  showToast('Announcement deleted');
+  await loadDashboardStats();
+}
+
+// ══════════════════════════════════════════
+//  Timetable — fully real
+// ══════════════════════════════════════════
+const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const TIME_SLOTS = [
+  { label:'9:00 – 10:00',   start:'09:00:00', end:'10:00:00' },
+  { label:'10:00 – 11:00',  start:'10:00:00', end:'11:00:00' },
+  { label:'— Short Break —', break: true },
+  { label:'11:15 – 12:15',  start:'11:15:00', end:'12:15:00' },
+  { label:'— Lunch Break —', break: true },
+  { label:'1:15 – 2:15',   start:'13:15:00', end:'14:15:00' },
+  { label:'2:15 – 3:15',   start:'14:15:00', end:'15:15:00' },
+];
+
+// Populate course dropdowns from loaded courses data
+function populateCourseDropdowns() {
+  // Timetable filter
+  const ttSel = document.getElementById('tt-course-filter');
+  // Attendance course sel
+  const attSel = document.getElementById('att-course-sel');
+  // Also populate slot-faculty when teachers load
+  [ttSel, attSel].forEach(sel => {
+    if (!sel) return;
+    const current = sel.value;
+    // Keep first placeholder option
+    while (sel.options.length > 1) sel.remove(1);
+  });
+  // We'll fetch courses fresh
+  sb.from('courses').select('id,name,code,semester').order('name').then(({ data }) => {
+    if (!data) return;
+    [ttSel, attSel].forEach(sel => {
+      if (!sel) return;
+      data.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = `${c.name} — Sem ${c.semester || '?'}`;
+        sel.appendChild(opt);
+      });
+    });
+  });
+
+  // Populate faculty dropdown in add-slot modal
+  sb.from('profiles').select('id,full_name').eq('role','teacher').order('full_name').then(({ data }) => {
+    const facSel = document.getElementById('slot-faculty');
+    if (!facSel || !data) return;
+    while (facSel.options.length > 1) facSel.remove(1);
+    data.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t.id;
+      opt.textContent = t.full_name || t.id;
+      facSel.appendChild(opt);
+    });
+  });
+}
+
+async function loadTimetable() {
+  const courseId = document.getElementById('tt-course-filter').value;
+  const btn = document.getElementById('btn-add-slot');
+  const card = document.getElementById('tt-card');
+
+  if (!courseId) {
+    btn.disabled = true;
+    card.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;padding:60px;color:#aaa;">
+      <i class="fas fa-calendar-alt" style="font-size:32px;margin-right:12px;opacity:0.3;"></i>
+      <span>Select a course above to view its timetable</span></div>`;
+    return;
+  }
+
+  btn.disabled = false;
+  card.innerHTML = `<div style="padding:40px;text-align:center;color:#aaa;"><i class="fas fa-spinner fa-spin"></i> Loading timetable...</div>`;
+
+  const { data: slots, error } = await sb
+    .from('timetable')
+    .select('*, teacher:teacher_id(full_name)')
+    .eq('course_id', courseId);
+
+  if (error) { card.innerHTML = `<div style="padding:20px;color:#C62828;">Error: ${error.message}</div>`; return; }
+
+  // Build lookup: day+start_time → slot
+  const slotMap = {};
+  (slots || []).forEach(s => {
+    const key = `${s.day}|${s.start_time}`;
+    slotMap[key] = s;
+  });
+
+  // Render grid
+  let html = `<table class="tt-grid"><thead><tr>
+    <th style="min-width:100px;">Time</th>
+    ${DAYS.map(d => `<th>${d}</th>`).join('')}
+  </tr></thead><tbody>`;
+
+  TIME_SLOTS.forEach(ts => {
+    if (ts.break) {
+      html += `<tr>
+        <td class="tt-time" style="background:#F9F7F4;"><span style="color:#aaa;font-size:11px;">${ts.label.replace('— ','').replace(' —','')}</span></td>
+        <td colspan="6" style="background:#F9F7F4;text-align:center;padding:8px 0;font-size:11px;color:#aaa;font-style:italic;">${ts.label.replace('— ','').replace(' —','')}</td>
+      </tr>`;
+      return;
+    }
+    html += `<tr><td class="tt-time">${ts.label}</td>`;
+    DAYS.forEach(day => {
+      const key = `${day}|${ts.start}`;
+      const slot = slotMap[key];
+      if (slot) {
+        const teacher = slot.teacher?.full_name || 'TBA';
+        const room = slot.room || '';
+        html += `<td>
+          <div class="tt-cell filled" style="background:#E8F4F4;">
+            <div style="font-weight:600;color:#0F3D3E;font-size:12px;">${slot.subject || 'Subject'}</div>
+            <div style="color:#666;font-size:11px;">${teacher}${room ? ' · ' + room : ''}</div>
+            <button onclick="deleteSlot('${slot.id}')" style="margin-top:4px;background:none;border:none;cursor:pointer;color:#E53935;font-size:10px;padding:0;">
+              <i class="fas fa-times-circle"></i> Remove
+            </button>
+          </div>
+        </td>`;
+      } else {
+        html += `<td>
+          <div class="tt-cell" onclick="openAddSlotModal('${day}','${ts.start}','${ts.end}')" style="cursor:pointer;">
+            <div style="color:#ccc;font-size:12px;text-align:center;padding-top:16px;">+ Add</div>
+          </div>
+        </td>`;
+      }
+    });
+    html += `</tr>`;
+  });
+
+  html += `</tbody></table>`;
+  card.innerHTML = html;
+}
+
+function openAddSlotModal(day = '', startTime = '', endTime = '') {
+  const courseId = document.getElementById('tt-course-filter').value;
+  if (!courseId) { showToast('Select a course first', true); return; }
+
+  if (day) {
+    document.getElementById('slot-day').value = day;
+    const timeVal = startTime && endTime ? `${startTime}|${endTime}` : '';
+    if (timeVal) document.getElementById('slot-time').value = timeVal;
+  }
+  openModal('modal-add-slot');
+}
+
+async function saveSlot() {
+  const courseId = document.getElementById('tt-course-filter').value;
+  const day      = document.getElementById('slot-day').value;
+  const timePair = document.getElementById('slot-time').value.split('|');
+  const subject  = document.getElementById('slot-subject').value.trim();
+  const teacherId= document.getElementById('slot-faculty').value || null;
+  const room     = document.getElementById('slot-room').value.trim();
+
+  if (!subject) { showToast('Subject name required', true); return; }
+
+  const btn = document.getElementById('btn-save-slot');
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+  const { error } = await sb.from('timetable').insert({
+    course_id: courseId,
+    day,
+    start_time: timePair[0],
+    end_time: timePair[1],
+    subject,
+    teacher_id: teacherId || null,
+    room
+  });
+
+  btn.disabled = false; btn.innerHTML = '<i class="fas fa-plus"></i> Add Slot';
+
+  if (error) { showToast('Error: ' + error.message, true); return; }
+  closeModal('modal-add-slot');
+  showToast(`Slot added — ${day} ${subject}`);
+  document.getElementById('slot-subject').value = '';
+  document.getElementById('slot-room').value = '';
+  await loadTimetable();
+}
+
+async function deleteSlot(id) {
+  if (!confirm('Remove this slot?')) return;
+  const { error } = await sb.from('timetable').delete().eq('id', id);
+  if (error) { showToast('Error: ' + error.message, true); return; }
+  showToast('Slot removed');
+  await loadTimetable();
+}
+
+function exportTimetable() { showToast('PDF export coming soon!'); }
+
+// ══════════════════════════════════════════
+//  Attendance — real
+// ══════════════════════════════════════════
+let attendanceStudents = []; // { id, full_name, status }
+
+async function loadAttendanceStats() {
+  const { data, error } = await sb.from('attendance').select('status, course_id, student_id');
+  if (error || !data) return;
+
+  const total    = data.length;
+  const present  = data.filter(r => r.status === 'present').length;
+  const pct      = total > 0 ? Math.round((present/total)*100) : 0;
+  const courses  = new Set(data.map(r => r.course_id)).size;
+
+  document.getElementById('att-total-records').textContent = total.toLocaleString();
+  document.getElementById('att-present-pct').textContent   = total > 0 ? pct + '%' : '—';
+  document.getElementById('att-courses-tracked').textContent = courses;
+
+  // Below 75% calc per student per course
+  const map = {}; // key: student_id|course_id → {present, total}
+  data.forEach(r => {
+    const k = `${r.student_id}|${r.course_id}`;
+    if (!map[k]) map[k] = { present:0, total:0 };
+    map[k].total++;
+    if (r.status === 'present') map[k].present++;
+  });
+  const below75 = Object.values(map).filter(v => (v.present/v.total)*100 < 75);
+  document.getElementById('att-below75').textContent = below75.length;
+  document.getElementById('att-below75-badge').textContent = `${below75.length} students`;
+
+  await loadBelow75Table(map);
+}
+
+async function loadBelow75Table(map) {
+  const tbody = document.getElementById('att-below75-tbody');
+  const keys  = Object.keys(map).filter(k => {
+    const v = map[k]; return (v.present/v.total)*100 < 75;
+  });
+
+  if (!keys.length) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:24px;color:#2E7D32;">
+      <i class="fas fa-check-circle"></i> All students above 75% — great!
+    </td></tr>`;
+    return;
+  }
+
+  // Fetch names
+  const studentIds = [...new Set(keys.map(k => k.split('|')[0]))];
+  const courseIds  = [...new Set(keys.map(k => k.split('|')[1]))];
+  const [{ data: students }, { data: courses }] = await Promise.all([
+    sb.from('profiles').select('id,full_name,roll_number').in('id', studentIds),
+    sb.from('courses').select('id,name').in('id', courseIds)
+  ]);
+  const sMap = {}; (students||[]).forEach(s => sMap[s.id] = s);
+  const cMap = {}; (courses||[]).forEach(c => cMap[c.id] = c);
+
+  tbody.innerHTML = keys.map(k => {
+    const [sid, cid] = k.split('|');
+    const v = map[k];
+    const pct = Math.round((v.present/v.total)*100);
+    const badgeClass = pct < 60 ? 'badge-red' : 'badge-amber';
+    const student = sMap[sid] || {};
+    const course  = cMap[cid] || {};
+    return `<tr>
+      <td><div style="font-weight:600;">${student.full_name||'Unknown'}</div></td>
+      <td style="color:#555;">${course.name||'—'}</td>
+      <td style="color:#555;">${v.present}</td>
+      <td style="color:#555;">${v.total}</td>
+      <td><span class="badge ${badgeClass}">${pct}%</span></td>
+    </tr>`;
+  }).join('');
+}
+
+async function loadStudentsForAttendance() {
+  const courseId = document.getElementById('att-course-sel').value;
+  const date     = document.getElementById('att-date').value;
+  if (!courseId) { showToast('Select a course', true); return; }
+  if (!date)     { showToast('Select a date', true); return; }
+
+  const { data: students } = await sb.from('profiles').select('id,full_name,roll_number')
+    .eq('role','student').order('full_name');
+
+  attendanceStudents = (students||[]).map(s => ({ ...s, status: 'present' }));
+
+  const listDiv = document.getElementById('att-student-list');
+  const rowsDiv = document.getElementById('att-student-rows');
+
+  if (!attendanceStudents.length) {
+    showToast('No students found — add students first', true); return;
+  }
+
+  rowsDiv.innerHTML = attendanceStudents.map((s,i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#FDFCFA;border-radius:10px;border:1px solid rgba(0,0,0,0.06);">
+      <div>
+        <span style="font-weight:600;font-size:13.5px;">${s.full_name||'Student'}</span>
+        ${s.roll_number ? `<span style="color:#aaa;font-size:11px;margin-left:8px;">${s.roll_number}</span>` : ''}
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button onclick="setAttStatus(${i},'present',this)" class="btn-primary btn-sm" style="background:#2E7D32;border-color:#2E7D32;">P</button>
+        <button onclick="setAttStatus(${i},'absent',this)" class="btn-ghost btn-sm">A</button>
+        <button onclick="setAttStatus(${i},'late',this)" class="btn-ghost btn-sm" style="color:#C9A227;">L</button>
+      </div>
+    </div>`).join('');
+
+  listDiv.style.display = 'block';
+}
+
+function setAttStatus(idx, status, btn) {
+  attendanceStudents[idx].status = status;
+  const row = btn.closest('div[style*="FDFCFA"]');
+  row.querySelectorAll('button').forEach(b => {
+    b.style.background = ''; b.style.borderColor = '';
+    b.className = 'btn-ghost btn-sm';
+  });
+  btn.className = 'btn-primary btn-sm';
+  if (status==='present') btn.style.background='#2E7D32';
+  else if (status==='absent') btn.style.background='#C62828';
+  else btn.style.background='#C9A227';
+}
+
+function markAllPresent() {
+  attendanceStudents.forEach((_,i) => attendanceStudents[i].status = 'present');
+  document.querySelectorAll('#att-student-rows .btn-primary.btn-sm').forEach(b => {
+    b.style.background = '#2E7D32';
+  });
+  // Re-render
+  loadStudentsForAttendance();
+}
+
+async function submitAttendance() {
+  const courseId = document.getElementById('att-course-sel').value;
+  const date     = document.getElementById('att-date').value;
+
+  const records = attendanceStudents.map(s => ({
+    student_id: s.id,
+    course_id: courseId,
+    date,
+    status: s.status,
+    marked_by: currentUser?.id
+  }));
+
+  const { error } = await sb.from('attendance').upsert(records, {
+    onConflict: 'student_id,course_id,date'
+  });
+
+  if (error) { showToast('Error: ' + error.message, true); return; }
+  showToast(`Attendance saved for ${records.length} students!`);
+  document.getElementById('att-student-list').style.display = 'none';
+  await loadAttendanceStats();
+}
+
+// ── Hook timetable/attendance on nav click ──
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const onclick = item.getAttribute('onclick') || '';
+    const match = onclick.match(/showPage\('(\w+)'\)/);
+    if (!match) return;
+    const id = match[1];
+    if (id === 'timetable') { populateCourseDropdowns(); }
+    if (id === 'attendance') {
+      populateCourseDropdowns();
+      document.getElementById('att-date').value = new Date().toISOString().split('T')[0];
+      loadAttendanceStats();
+    }
+  });
+});
+
+// ══════════════════════════════════════════
+//  Logout
+// ══════════════════════════════════════════
+async function handleLogout() {
+  const { error } = await sb.auth.signOut();
+  if (error) {
+    showToast('Logout failed: ' + error.message, true);
+    return;
+  }
+  showToast('Logged out successfully');
+  setTimeout(() => {
+    window.location.href = 'staff_login.html';
+  }, 1000);
+}
+</script>
+</body>
+</html>

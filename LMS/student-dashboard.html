@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LMS • Student Dashboard | Raja Virbhadra Singh College</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #FAF7F2;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: 250px;
+      min-width: 250px;
+      background: #0F3D3E;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 50;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-logo {
+      padding: 22px 20px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      padding: 18px 20px 5px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 20px;
+      color: rgba(255,255,255,0.65);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.18s ease;
+      text-decoration: none;
+    }
+
+    .nav-item:hover { background: rgba(255,255,255,0.07); color: #fff; }
+
+    .nav-item.active {
+      background: rgba(201,162,39,0.12);
+      color: #C9A227;
+      border-left-color: #C9A227;
+    }
+
+    .nav-item .icon {
+      width: 17px;
+      text-align: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 14px 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ── Main ── */
+    #main {
+      margin-left: 250px;
+      flex: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Topbar ── */
+    #topbar {
+      height: 62px;
+      background: rgba(250,247,242,0.96);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      display: flex;
+      align-items: center;
+      padding: 0 26px;
+      gap: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .topbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      color: #0F3D3E;
+      font-weight: 700;
+    }
+
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.08);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: #555;
+      font-size: 13px;
+      transition: all 0.18s;
+    }
+    .icon-btn:hover { background: #f0ede8; color: #0F3D3E; }
+
+    .avatar {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #0F3D3E, #1A6060);
+      display: flex; align-items: center; justify-content: center;
+      color: #C9A227;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ── Pages ── */
+    .page { display: none; padding: 26px; }
+    .page.active { display: block; }
+
+    /* ── Cards ── */
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 2px 14px -6px rgba(0,0,0,0.08);
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 13px;
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 18px 20px;
+      box-shadow: 0 2px 10px -4px rgba(0,0,0,0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px -8px rgba(0,0,0,0.12);
+    }
+
+    /* ── Table ── */
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th {
+      text-align: left;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #888;
+      padding: 11px 15px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .data-table td {
+      padding: 12px 15px;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      color: #333;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: #FDFCFA; }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 10.5px;
+      font-weight: 600;
+    }
+    .badge-green { background: #E8F5E9; color: #2E7D32; }
+    .badge-amber { background: #FFF8E1; color: #F57F17; }
+    .badge-blue  { background: #E3F2FD; color: #1565C0; }
+    .badge-red   { background: #FFEBEE; color: #C62828; }
+    .badge-teal  { background: #E0F4F4; color: #0F3D3E; }
+    .badge-purple { background: #F3E8FF; color: #6B21A8; }
+
+    /* ── Inputs ── */
+    .form-input {
+      width: 100%;
+      padding: 9px 13px;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 9px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      background: #FDFCFA;
+      color: #1a1a1a;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: #C9A227;
+      box-shadow: 0 0 0 3px rgba(201,162,39,0.1);
+      background: #fff;
+    }
+    .form-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: #0F3D3E;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary:hover { background: #0d3233; transform: translateY(-1px); }
+
+    .btn-gold {
+      background: #C9A227;
+      color: #0F3D3E;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-gold:hover { background: #b8921f; }
+
+    .btn-ghost {
+      background: transparent;
+      color: #555;
+      border: 1px solid rgba(0,0,0,0.12);
+      padding: 7px 14px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-ghost:hover { background: #f0ede8; }
+
+    .btn-danger {
+      background: #fff;
+      color: #C62828;
+      border: 1px solid #FFCDD2;
+      padding: 5px 11px;
+      border-radius: 7px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.18s;
+    }
+    .btn-danger:hover { background: #FFEBEE; }
+
+    .btn-sm { padding: 5px 11px !important; font-size: 11.5px !important; border-radius: 7px !important; }
+
+    /* ── Timetable ── */
+    .tt-grid { border-collapse: collapse; width: 100%; }
+    .tt-grid th, .tt-grid td {
+      border: 1px solid rgba(0,0,0,0.07);
+      padding: 0;
+      text-align: center;
+      min-width: 100px;
+    }
+    .tt-grid th {
+      background: #F5F3EE;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #0F3D3E;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 9px 7px;
+    }
+    .tt-cell {
+      min-height: 65px;
+      padding: 7px;
+      font-size: 11px;
+      vertical-align: top;
+    }
+    .tt-cell.filled { background: #E8F4F4; }
+    .tt-time {
+      background: #F5F3EE;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #666;
+      padding: 7px 9px;
+      white-space: nowrap;
+    }
+
+    /* ── Attendance ── */
+    .att-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      gap: 10px;
+    }
+    .att-row:last-child { border-bottom: none; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 18px;
+      padding: 26px;
+      width: 460px;
+      max-width: 95vw;
+      box-shadow: 0 24px 60px -16px rgba(0,0,0,0.25);
+      animation: slideUp 0.22s ease;
+    }
+    @keyframes slideUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #0F3D3E;
+    }
+    .modal-close {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.1);
+      background: #fff;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #888;
+      font-size: 12px;
+      transition: all 0.15s;
+    }
+    .modal-close:hover { background: #f0ede8; color: #333; }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      background: #0F3D3E;
+      color: #fff;
+      padding: 11px 18px;
+      border-radius: 11px;
+      font-size: 13px;
+      font-weight: 500;
+      display: none;
+      align-items: center;
+      gap: 9px;
+      z-index: 999;
+      box-shadow: 0 8px 24px -6px rgba(0,0,0,0.3);
+    }
+
+    /* ── Announcement card ── */
+    .announce-card {
+      padding: 16px 18px;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+
+    /* ── Attendance toggle ── */
+    .att-toggle {
+      display: flex;
+      gap: 6px;
+    }
+    .att-btn {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+    .att-btn.present { background: #E8F5E9; color: #2E7D32; border-color: #A5D6A7; }
+    .att-btn.absent { background: #fff; color: #C62828; border-color: #FFCDD2; }
+    .att-btn.present.selected { background: #2E7D32; color: #fff; }
+    .att-btn.absent.selected { background: #C62828; color: #fff; }
+
+    /* ── Assignment card ── */
+    .assign-card {
+      padding: 15px 17px;
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 12px;
+      margin-bottom: 9px;
+      background: #fff;
+      transition: box-shadow 0.2s;
+    }
+    .assign-card:hover { box-shadow: 0 4px 14px -4px rgba(0,0,0,0.1); }
+
+    /* Mobile sidebar toggle */
+    #sidebar-toggle { display: none; }
+    @media (max-width: 768px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.open { transform: translateX(0); }
+      #main { margin-left: 0; }
+      #sidebar-toggle { display: flex; }
+      .page { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════════ -->
+<div id="sidebar">
+  <div class="sidebar-logo">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;background:radial-gradient(circle at center,#ffffff 0%,#f0f7f7 45%,#c8e0e0 70%,#8fbdbd 100%);border-radius:50%;padding:2px;flex-shrink:0;">
+        <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png" style="width:100%;height:100%;object-fit:contain;border-radius:50%;">
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:16px;color:#fff;letter-spacing:-0.02em;">LMS</div>
+        <div style="font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.06em;text-transform:uppercase;margin-top:1px;">Student Portal</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student info chip -->
+  <div style="margin:14px 16px;background:rgba(255,255,255,0.07);border-radius:10px;padding:10px 12px;">
+    <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:3px;">Signed in as</div>
+    <div id="sb-student-name" style="font-size:13px;font-weight:600;color:#fff;">Loading…</div>
+    <div id="sb-student-roll" style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;">—</div>
+  </div>
+
+  <div class="nav-section-label">Overview</div>
+  <a class="nav-item active" onclick="showPage('dashboard')">
+    <i class="fas fa-home icon"></i> Dashboard
+  </a>
+  <a class="nav-item" onclick="showPage('timetable')">
+    <i class="fas fa-calendar-alt icon"></i> My Timetable
+  </a>
+
+  <div class="nav-section-label">Classroom</div>
+  <a class="nav-item" onclick="showPage('attendance')">
+    <i class="fas fa-user-check icon"></i> My Attendance
+  </a>
+  <a class="nav-item" onclick="showPage('assignments')">
+    <i class="fas fa-file-circle-check icon"></i> Assignments
+  </a>
+  <a class="nav-item" onclick="showPage('announcements')">
+    <i class="fas fa-bullhorn icon"></i> Announcements
+  </a>
+
+  <div class="nav-section-label">Info</div>
+  <a class="nav-item" onclick="showPage('courses')">
+    <i class="fas fa-book icon"></i> My Courses
+  </a>
+  <a class="nav-item" onclick="showPage('profile')">
+    <i class="fas fa-user icon"></i> My Profile
+  </a>
+
+  <div class="sidebar-footer">
+    <button onclick="handleLogout()" style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);padding:8px 14px;border-radius:9px;font-size:12.5px;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all 0.18s;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.07)'">
+      <i class="fas fa-sign-out-alt"></i> Sign Out
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     MAIN
+════════════════════════════════════════ -->
+<div id="main">
+
+  <!-- Topbar -->
+  <div id="topbar">
+    <button id="sidebar-toggle" class="icon-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div>
+      <div class="topbar-title" id="page-title">Dashboard</div>
+      <div id="page-sub" style="font-size:11px;color:#888;margin-top:-1px;"></div>
+    </div>
+    <div class="topbar-right">
+      <div class="icon-btn" title="Refresh" onclick="refreshCurrentPage()"><i class="fas fa-rotate-right"></i></div>
+      <div class="avatar" id="topbar-avatar">?</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: DASHBOARD ═══════════ -->
+  <div class="page active" id="page-dashboard">
+
+    <!-- Stats row -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
+      <div class="stat-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="width:40px;height:40px;border-radius:11px;background:#E0F4F4;display:flex;align-items:center;justify-content:center;color:#0F3D3E;font-size:17px;"><i class="fas fa-book-open"></i></div>
+          <span class="badge badge-teal">Live</span>
+        </div>
+        <div style="font-size:26px;font-weight:700;color:#0F3D3E;" id="stat-courses">—</div>
+        <div style="font-size:12px;color:#777;margin-top:3px;">My Courses</div>
+      </div>
+
+      <div class="stat-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="width:40px;height:40px;border-radius:11px;background:#E8F5E9;display:flex;align-items:center;justify-content:center;color:#2E7D32;font-size:17px;"><i class="fas fa-user-check"></i></div>
+          <span class="badge" id="stat-attendance-badge" style="background:#E8F5E9;color:#2E7D32;">Overall</span>
+        </div>
+        <div style="font-size:26px;font-weight:700;color:#0F3D3E;" id="stat-attendance">—</div>
+        <div style="font-size:12px;color:#777;margin-top:3px;">Attendance</div>
+      </div>
+
+      <div class="stat-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="width:40px;height:40px;border-radius:11px;background:#E3F2FD;display:flex;align-items:center;justify-content:center;color:#1565C0;font-size:17px;"><i class="fas fa-file-circle-check"></i></div>
+          <span class="badge badge-amber" id="stat-pending-badge">Pending</span>
+        </div>
+        <div style="font-size:26px;font-weight:700;color:#0F3D3E;" id="stat-pending">—</div>
+        <div style="font-size:12px;color:#777;margin-top:3px;">Assignments Due</div>
+      </div>
+
+      <div class="stat-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="width:40px;height:40px;border-radius:11px;background:#F3E8FF;display:flex;align-items:center;justify-content:center;color:#6B21A8;font-size:17px;"><i class="fas fa-bullhorn"></i></div>
+          <span class="badge badge-purple">New</span>
+        </div>
+        <div style="font-size:26px;font-weight:700;color:#0F3D3E;" id="stat-announcements">—</div>
+        <div style="font-size:12px;color:#777;margin-top:3px;">Announcements</div>
+      </div>
+    </div>
+
+    <!-- Bottom: Today's classes + My courses -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+
+      <!-- Today's schedule -->
+      <div class="card" style="padding:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;">
+          <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#0F3D3E;">Today's Classes</div>
+          <span id="today-label" class="badge badge-teal" style="font-size:10px;"></span>
+        </div>
+        <div id="today-schedule">
+          <div style="text-align:center;padding:24px;color:#bbb;font-size:13px;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+        </div>
+      </div>
+
+      <!-- My courses -->
+      <div class="card" style="padding:20px;">
+        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#0F3D3E;margin-bottom:15px;">My Courses</div>
+        <div id="dashboard-courses">
+          <div style="text-align:center;padding:24px;color:#bbb;font-size:13px;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming assignments strip -->
+    <div class="card" style="padding:20px;margin-top:18px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;">
+        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#0F3D3E;">Upcoming Assignments</div>
+        <a class="badge badge-blue" style="cursor:pointer;" onclick="showPage('assignments')">View all</a>
+      </div>
+      <div id="dashboard-upcoming-assignments">
+        <div style="text-align:center;padding:24px;color:#bbb;font-size:13px;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: TIMETABLE ═══════════ -->
+  <div class="page" id="page-timetable">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0F3D3E;">My Weekly Timetable</div>
+    </div>
+    <div class="card" style="overflow-x:auto;padding:0;" id="tt-card">
+      <div style="text-align:center;padding:48px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading timetable…</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: ATTENDANCE ═══════════ -->
+  <div class="page" id="page-attendance">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0F3D3E;">My Attendance</div>
+    </div>
+
+    <!-- Overall summary -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:18px;">
+      <div class="stat-card">
+        <div style="font-size:26px;font-weight:700;color:#0F3D3E;" id="att-overall-pct">—</div>
+        <div style="font-size:12px;color:#777;margin-top:3px;">Overall Attendance</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:26px;font-weight:700;color:#2E7D32;" id="att-present-count">—</div>
+        <div style="font-size:12px;color:#777;margin-top:3px;">Classes Present</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:26px;font-weight:700;color:#C62828;" id="att-absent-count">—</div>
+        <div style="font-size:12px;color:#777;margin-top:3px;">Classes Absent</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:26px;font-weight:700;color:#0F3D3E;" id="att-total-count">—</div>
+        <div style="font-size:12px;color:#777;margin-top:3px;">Total Classes</div>
+      </div>
+    </div>
+
+    <!-- Per-course breakdown -->
+    <div class="card" style="padding:18px;margin-bottom:18px;">
+      <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#0F3D3E;margin-bottom:14px;">By Course</div>
+      <div id="att-course-breakdown">
+        <div style="text-align:center;padding:24px;color:#bbb;font-size:13px;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+      </div>
+    </div>
+
+    <!-- Recent log -->
+    <div class="card" style="overflow:hidden;">
+      <div style="padding:16px 18px;border-bottom:1px solid rgba(0,0,0,0.06);font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#0F3D3E;">Recent Records</div>
+      <table class="data-table">
+        <thead><tr><th>Date</th><th>Course</th><th>Status</th></tr></thead>
+        <tbody id="att-log-tbody">
+          <tr><td colspan="3" style="text-align:center;padding:24px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: ASSIGNMENTS ═══════════ -->
+  <div class="page" id="page-assignments">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0F3D3E;">Assignments</div>
+      <div style="display:flex;gap:7px;" id="assign-filter-tabs">
+        <button class="btn-primary btn-sm" data-filter="all" onclick="setAssignFilter('all')">All</button>
+        <button class="btn-ghost btn-sm" data-filter="pending" onclick="setAssignFilter('pending')">Pending</button>
+        <button class="btn-ghost btn-sm" data-filter="submitted" onclick="setAssignFilter('submitted')">Submitted</button>
+        <button class="btn-ghost btn-sm" data-filter="graded" onclick="setAssignFilter('graded')">Graded</button>
+      </div>
+    </div>
+    <div id="assignments-list">
+      <div style="text-align:center;padding:40px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: ANNOUNCEMENTS ═══════════ -->
+  <div class="page" id="page-announcements">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0F3D3E;">Announcements</div>
+    </div>
+    <div id="announce-list">
+      <div style="text-align:center;padding:40px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: COURSES ═══════════ -->
+  <div class="page" id="page-courses">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0F3D3E;">My Courses</div>
+    </div>
+    <div id="courses-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;">
+      <div style="text-align:center;padding:40px;color:#bbb;grid-column:1/-1;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: PROFILE ═══════════ -->
+  <div class="page" id="page-profile">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0F3D3E;">My Profile</div>
+    </div>
+    <div class="card" style="padding:28px;max-width:520px;">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:22px;">
+        <div style="width:64px;height:64px;border-radius:16px;background:#E0F4F4;display:flex;align-items:center;justify-content:center;color:#0F3D3E;font-size:22px;font-weight:700;" id="profile-avatar">—</div>
+        <div>
+          <div style="font-weight:700;font-size:17px;color:#0F3D3E;" id="profile-name">—</div>
+          <div style="font-size:12.5px;color:#888;margin-top:2px;" id="profile-roll">—</div>
+        </div>
+      </div>
+      <div style="display:grid;gap:14px;">
+        <div style="display:flex;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,0.06);">
+          <span style="font-size:12.5px;color:#888;">Email</span>
+          <span style="font-size:13px;font-weight:600;color:#333;" id="profile-email">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,0.06);">
+          <span style="font-size:12.5px;color:#888;">Department</span>
+          <span style="font-size:13px;font-weight:600;color:#333;" id="profile-dept">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,0.06);">
+          <span style="font-size:12.5px;color:#888;">Semester</span>
+          <span style="font-size:13px;font-weight:600;color:#333;" id="profile-sem">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;">
+          <span style="font-size:12.5px;color:#888;">Account Status</span>
+          <span class="badge badge-green">Active</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end #main -->
+
+<!-- ═══════════ MODALS ═══════════ -->
+
+<!-- Submit Assignment -->
+<div class="modal-overlay" id="modal-submit-assignment">
+  <div class="modal-box" style="width:460px;">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="submit-modal-title">Submit Assignment</div>
+        <div style="font-size:11.5px;color:#888;margin-top:2px;" id="submit-modal-sub">—</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-submit-assignment')"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="submit-late-warning" style="display:none;margin-bottom:14px;padding:10px 12px;background:#FFEBEE;border:1px solid #FFCDD2;border-radius:10px;font-size:12px;color:#C62828;">
+      <i class="fas fa-triangle-exclamation"></i> This assignment is past its due date — your submission will be marked <b>Late</b>.
+    </div>
+    <div style="display:grid;gap:12px;">
+      <div>
+        <label class="form-label">Upload File (PDF or DOC, max 30MB) *</label>
+        <input type="file" class="form-input" id="submit-file" accept=".pdf,.doc,.docx" style="padding:8px;" onchange="previewSubmitFile(this)">
+        <div id="submit-file-name" style="font-size:11px;color:#888;margin-top:4px;"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:9px;justify-content:flex-end;margin-top:18px;">
+      <button class="btn-ghost" onclick="closeModal('modal-submit-assignment')">Cancel</button>
+      <button class="btn-primary" onclick="submitAssignmentFile()" id="btn-submit-assignment"><i class="fas fa-upload"></i> Submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- View Grade / Feedback -->
+<div class="modal-overlay" id="modal-view-grade">
+  <div class="modal-box" style="width:440px;">
+    <div class="modal-header">
+      <div class="modal-title">Grade & Feedback</div>
+      <button class="modal-close" onclick="closeModal('modal-view-grade')"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="text-align:center;padding:18px 0;background:#FDFCFA;border:1px solid rgba(0,0,0,0.06);border-radius:12px;margin-bottom:16px;">
+      <div style="font-size:30px;font-weight:700;color:#0F3D3E;" id="view-grade-marks">—</div>
+      <div style="font-size:12px;color:#888;margin-top:2px;">Marks Obtained</div>
+    </div>
+    <div>
+      <label class="form-label">Teacher's Feedback</label>
+      <div style="font-size:13px;color:#444;line-height:1.6;background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:10px;padding:12px;min-height:60px;" id="view-grade-feedback">—</div>
+    </div>
+  </div>
+</div>
+
+<!-- Post Announcement -->
+<div class="modal-overlay" id="modal-announce">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Post Announcement</div>
+      <button class="modal-close" onclick="closeModal('modal-announce')"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="display:grid;gap:12px;">
+      <div>
+        <label class="form-label">Title *</label>
+        <input class="form-input" id="announce-title" placeholder="Announcement title">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label class="form-label">Type</label>
+          <select class="form-input" id="announce-type">
+            <option>General</option>
+            <option>Urgent</option>
+            <option>Faculty</option>
+            <option>Students</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Visible To</label>
+          <select class="form-input" id="announce-target">
+            <option value="All">All</option>
+            <option value="Students">Students</option>
+            <option value="Faculty">Faculty</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="form-label">Message</label>
+        <textarea class="form-input" id="announce-body" rows="4" placeholder="Write your announcement…" style="resize:vertical;"></textarea>
+      </div>
+    </div>
+    <div style="display:flex;gap:9px;justify-content:flex-end;margin-top:18px;">
+      <button class="btn-ghost" onclick="closeModal('modal-announce')">Cancel</button>
+      <button class="btn-primary" onclick="postAnnouncement()"><i class="fas fa-paper-plane"></i> Post</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" style="display:none;position:fixed;bottom:22px;right:22px;background:#0F3D3E;color:#fff;padding:11px 18px;border-radius:11px;font-size:13px;font-weight:500;align-items:center;gap:9px;z-index:999;box-shadow:0 8px 24px -6px rgba(0,0,0,0.3);">
+  <i class="fas fa-check-circle" style="color:#C9A227;"></i>
+  <span id="toast-msg"></span>
+</div>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+  // ── Supabase init ──────────────────────────────────────────────────────
+  const sb = window.supabase.createClient(
+    'https://frbepxvhetqykrzrjswx.supabase.co',
+    'sb_publishable_Hvbn4fN0JZ6sVR0FaJ8wpQ_Mk1PLcJ-'
+  );
+
+  const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const TIME_SLOTS = [
+    { label:'9:00 – 10:00',   start:'09:00:00', end:'10:00:00' },
+    { label:'10:00 – 11:00',  start:'10:00:00', end:'11:00:00' },
+    { label:'— Short Break —', break: true },
+    { label:'11:15 – 12:15',  start:'11:15:00', end:'12:15:00' },
+    { label:'— Lunch —',      break: true },
+    { label:'1:15 – 2:15',   start:'13:15:00', end:'14:15:00' },
+    { label:'2:15 – 3:15',   start:'14:15:00', end:'15:15:00' },
+  ];
+  const MAX_SUBMISSION_BYTES = 30 * 1024 * 1024; // 30MB — same limit as teacher attachments
+
+  let currentUser     = null;
+  let studentProfile   = null;
+  let allCourses        = [];   // every course (no enrollment table yet — same simplification used elsewhere in this app)
+  let allAssignments    = [];
+  let mySubmissionsMap  = {};   // assignment_id -> submission row
+  let assignFilter      = 'all';
+  let currentPage       = 'dashboard';
+  let pendingSubmitAssignment = null; // assignment currently being submitted in the modal
+
+  // ── Toast ──────────────────────────────────────────────────────────────
+  let toastTimer;
+  function showToast(msg, isError = false) {
+    const t = document.getElementById('toast');
+    const icon = t.querySelector('i');
+    document.getElementById('toast-msg').textContent = msg;
+    t.style.background = isError ? '#C62828' : '#0F3D3E';
+    icon.className = isError ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+    icon.style.color = isError ? '#fff' : '#C9A227';
+    t.style.display = 'flex';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.style.display = 'none', 3500);
+  }
+
+  // ── Modal helpers ──────────────────────────────────────────────────────
+  function openModal(id)  { document.getElementById(id).classList.add('open'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+  document.querySelectorAll('.modal-overlay').forEach(o => {
+    o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
+  });
+
+  // ── Page navigation ────────────────────────────────────────────────────
+  const pageTitles = {
+    dashboard:     ['Dashboard', 'Overview'],
+    timetable:     ['My Timetable', 'Weekly schedule'],
+    attendance:    ['My Attendance', 'Track your presence'],
+    assignments:   ['Assignments', 'Submit & track'],
+    announcements: ['Announcements', 'Notices'],
+    courses:       ['My Courses', 'Enrolled subjects'],
+    profile:       ['My Profile', 'Account details'],
+  };
+
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.querySelector(`[onclick="showPage('${id}')"]`)?.classList.add('active');
+    currentPage = id;
+    const info = pageTitles[id] || [id, ''];
+    document.getElementById('page-title').textContent = info[0];
+    document.getElementById('page-sub').textContent = new Date().toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+    // Lazy load on first visit
+    if (id === 'timetable')     loadTimetable();
+    if (id === 'attendance')    loadAttendancePage();
+    if (id === 'assignments')   loadAssignments();
+    if (id === 'announcements') loadAnnouncements();
+    if (id === 'courses')       loadCoursesPage();
+    if (id === 'profile')       loadProfilePage();
+
+    // Close mobile sidebar
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  function refreshCurrentPage() { showPage(currentPage); }
+
+  // ── Init ───────────────────────────────────────────────────────────────
+  async function initDashboard() {
+    document.getElementById('page-sub').textContent = new Date().toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { window.location.href = 'lms-login.html'; return; }
+
+    currentUser = session.user;
+
+    // Fetch student profile
+    const { data: profile } = await sb.from('profiles')
+      .select('*')
+      .eq('id', currentUser.id)
+      .single();
+
+    if (!profile || profile.role !== 'student') {
+      await sb.auth.signOut();
+      window.location.href = 'lms-login.html';
+      return;
+    }
+
+    studentProfile = profile;
+
+    const name = profile.full_name || currentUser.email;
+    const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+
+    document.getElementById('sb-student-name').textContent = name;
+    document.getElementById('sb-student-roll').textContent = profile.roll_number || profile.department || '—';
+    document.getElementById('topbar-avatar').textContent = initials;
+
+    // Load all courses once (no enrollment table — every student sees every course, same as rest of the app)
+    const { data: courses } = await sb.from('courses').select('*').order('name');
+    allCourses = courses || [];
+
+    await loadDashboardData();
+  }
+
+  // ── Dashboard ──────────────────────────────────────────────────────────
+  async function loadDashboardData() {
+    document.getElementById('stat-courses').textContent = allCourses.length;
+
+    // Attendance %
+    const { data: attRows } = await sb.from('attendance')
+      .select('status, course_id, date')
+      .eq('student_id', currentUser.id);
+
+    const total = (attRows || []).length;
+    const present = (attRows || []).filter(r => r.status === 'present' || r.status === 'late').length;
+    const pct = total > 0 ? Math.round((present/total)*100) : null;
+    document.getElementById('stat-attendance').textContent = pct === null ? '—' : pct + '%';
+    const badge = document.getElementById('stat-attendance-badge');
+    if (pct !== null) {
+      badge.textContent = pct < 75 ? 'Low' : 'Good';
+      badge.style.background = pct < 75 ? '#FFEBEE' : '#E8F5E9';
+      badge.style.color = pct < 75 ? '#C62828' : '#2E7D32';
+    }
+
+    // Assignments + my submissions
+    const { data: assignments } = await sb.from('assignments')
+      .select('*, courses(name, code)')
+      .order('due_date', { ascending: true });
+    allAssignments = assignments || [];
+
+    const { data: subs } = await sb.from('submissions')
+      .select('*')
+      .eq('student_id', currentUser.id);
+    mySubmissionsMap = {};
+    (subs || []).forEach(s => { mySubmissionsMap[s.assignment_id] = s; });
+
+    const today = new Date().toISOString().slice(0,10);
+    const pendingCount = allAssignments.filter(a => !mySubmissionsMap[a.id] && (!a.due_date || a.due_date >= today)).length;
+    document.getElementById('stat-pending').textContent = pendingCount;
+    const pendingBadge = document.getElementById('stat-pending-badge');
+    pendingBadge.textContent = pendingCount > 0 ? 'Pending' : 'All done';
+    pendingBadge.className = 'badge ' + (pendingCount > 0 ? 'badge-amber' : 'badge-green');
+
+    // Announcements visible to students
+    const { count: announceCount } = await sb.from('announcements')
+      .select('*', { count:'exact', head:true })
+      .neq('target', 'Faculty');
+    document.getElementById('stat-announcements').textContent = announceCount || 0;
+
+    // Today's classes
+    const todayName = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date().getDay()];
+    document.getElementById('today-label').textContent = todayName;
+
+    const { data: todaySlots } = await sb.from('timetable')
+      .select('*, courses(name, code)')
+      .eq('day', todayName)
+      .order('start_time');
+
+    const schedDiv = document.getElementById('today-schedule');
+    if (!todaySlots || todaySlots.length === 0) {
+      schedDiv.innerHTML = `<div style="text-align:center;padding:20px;color:#bbb;font-size:13px;"><i class="fas fa-coffee" style="display:block;font-size:22px;margin-bottom:8px;"></i>No classes today</div>`;
+    } else {
+      schedDiv.innerHTML = todaySlots.map(s => {
+        const start = s.start_time?.slice(0,5) || '';
+        const end   = s.end_time?.slice(0,5) || '';
+        return `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.04);">
+          <div style="min-width:72px;font-size:11px;font-weight:600;color:#888;background:#F5F3EE;padding:4px 8px;border-radius:7px;text-align:center;">${start}–${end}</div>
+          <div>
+            <div style="font-weight:600;font-size:13px;color:#0F3D3E;">${s.courses?.name || s.subject || '—'}</div>
+            <div style="font-size:11px;color:#888;">${s.room ? 'Room ' + s.room : 'Room TBA'} · ${s.courses?.code || ''}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // My courses list (preview)
+    const coursesDiv = document.getElementById('dashboard-courses');
+    if (allCourses.length === 0) {
+      coursesDiv.innerHTML = `<div style="text-align:center;padding:20px;color:#bbb;font-size:13px;">No courses available yet</div>`;
+    } else {
+      const deptColors = { 'Computer Science':'#E8F4F4','Physics':'#FFF8E1','History':'#F3E8FF','Mathematics':'#E3F2FD','Commerce':'#E8F5E9','English':'#FFF3E0' };
+      coursesDiv.innerHTML = allCourses.slice(0, 6).map(c => `
+        <div style="display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid rgba(0,0,0,0.04);">
+          <div style="width:36px;height:36px;border-radius:9px;background:${deptColors[c.department]||'#F5F3EE'};display:flex;align-items:center;justify-content:center;color:#0F3D3E;font-size:13px;flex-shrink:0;">
+            <i class="fas fa-book"></i>
+          </div>
+          <div>
+            <div style="font-weight:600;font-size:13px;">${c.name}</div>
+            <div style="font-size:11px;color:#888;">${c.code} · Sem ${c.semester || '?'} · ${c.department || '—'}</div>
+          </div>
+          <span class="badge badge-green" style="margin-left:auto;">Active</span>
+        </div>`).join('');
+    }
+
+    // Upcoming assignments strip (next 5, not yet submitted, sorted by due date)
+    const upcomingDiv = document.getElementById('dashboard-upcoming-assignments');
+    const upcoming = allAssignments.filter(a => !mySubmissionsMap[a.id]).slice(0, 5);
+    if (upcoming.length === 0) {
+      upcomingDiv.innerHTML = `<div style="text-align:center;padding:20px;color:#bbb;font-size:13px;"><i class="fas fa-circle-check" style="display:block;font-size:22px;margin-bottom:8px;color:#2E7D32;"></i>You're all caught up!</div>`;
+    } else {
+      upcomingDiv.innerHTML = upcoming.map(a => {
+        const due = a.due_date || '';
+        const isOverdue = due && due < today;
+        const dueStr = due ? new Date(due).toLocaleDateString('en-IN', { day:'numeric', month:'short' }) : '—';
+        return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid rgba(0,0,0,0.04);">
+          <div>
+            <div style="font-weight:600;font-size:13px;">${a.title}</div>
+            <div style="font-size:11px;color:#888;">${a.courses?.name || ''}</div>
+          </div>
+          <span class="badge ${isOverdue ? 'badge-red' : 'badge-amber'}">Due ${dueStr}</span>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // ── My Courses page ────────────────────────────────────────────────────
+  function loadCoursesPage() {
+    const grid = document.getElementById('courses-grid');
+    if (allCourses.length === 0) {
+      grid.innerHTML = `<div style="text-align:center;padding:40px;color:#bbb;grid-column:1/-1;">No courses available yet</div>`;
+      return;
+    }
+    const deptColors = { 'Computer Science':'#E8F4F4','Physics':'#FFF8E1','History':'#F3E8FF','Mathematics':'#E3F2FD','Commerce':'#E8F5E9','English':'#FFF3E0' };
+    grid.innerHTML = allCourses.map(c => `
+      <div class="card" style="padding:18px;">
+        <div style="width:40px;height:40px;border-radius:11px;background:${deptColors[c.department]||'#F5F3EE'};display:flex;align-items:center;justify-content:center;color:#0F3D3E;font-size:16px;margin-bottom:12px;">
+          <i class="fas fa-book"></i>
+        </div>
+        <div style="font-weight:700;font-size:14.5px;color:#0F3D3E;">${c.name}</div>
+        <div style="font-size:12px;color:#888;margin-top:3px;">${c.code} · Sem ${c.semester || '?'}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
+          <span class="badge badge-teal">${c.department || '—'}</span>
+          <span style="font-size:11px;color:#888;">${c.credits ? c.credits + ' credits' : ''}</span>
+        </div>
+      </div>`).join('');
+  }
+
+  // ── My Profile page ────────────────────────────────────────────────────
+  function loadProfilePage() {
+    const name = studentProfile.full_name || currentUser.email;
+    const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    document.getElementById('profile-avatar').textContent = initials;
+    document.getElementById('profile-name').textContent = name;
+    document.getElementById('profile-roll').textContent = studentProfile.roll_number || '—';
+    document.getElementById('profile-email').textContent = currentUser.email || '—';
+    document.getElementById('profile-dept').textContent = studentProfile.department || '—';
+    document.getElementById('profile-sem').textContent = studentProfile.semester ? `Semester ${studentProfile.semester}` : '—';
+  }
+
+  // ── Timetable ──────────────────────────────────────────────────────────
+  async function loadTimetable() {
+    const card = document.getElementById('tt-card');
+    card.innerHTML = `<div style="padding:40px;text-align:center;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>`;
+
+    const { data: slots, error } = await sb.from('timetable')
+      .select('*, courses(name, code)');
+
+    if (error) { card.innerHTML = `<div style="padding:20px;color:#C62828;">Error: ${error.message}</div>`; return; }
+
+    if (!slots || slots.length === 0) {
+      card.innerHTML = `<div style="padding:48px;text-align:center;color:#bbb;"><i class="fas fa-calendar-xmark" style="font-size:28px;display:block;margin-bottom:10px;opacity:0.3;"></i>No timetable slots yet</div>`;
+      return;
+    }
+
+    const slotMap = {};
+    slots.forEach(s => { slotMap[`${s.day}|${s.start_time}`] = s; });
+
+    let html = `<table class="tt-grid"><thead><tr>
+      <th style="min-width:90px;">Time</th>
+      ${DAYS.map(d => `<th>${d}</th>`).join('')}
+    </tr></thead><tbody>`;
+
+    TIME_SLOTS.forEach(ts => {
+      if (ts.break) {
+        html += `<tr>
+          <td class="tt-time" style="background:#F9F7F4;"><span style="color:#aaa;font-size:10px;">${ts.label.replace(/—\s*/g,'').replace(/\s*—/g,'').trim()}</span></td>
+          <td colspan="6" style="background:#F9F7F4;text-align:center;padding:7px;font-size:10.5px;color:#aaa;font-style:italic;">${ts.label.replace(/—\s*/g,'').replace(/\s*—/g,'').trim()}</td>
+        </tr>`;
+        return;
+      }
+      html += `<tr><td class="tt-time">${ts.label}</td>`;
+      DAYS.forEach(day => {
+        const slot = slotMap[`${day}|${ts.start}`];
+        if (slot) {
+          html += `<td>
+            <div class="tt-cell filled">
+              <div style="font-weight:600;color:#0F3D3E;font-size:11.5px;">${slot.courses?.name || slot.subject || '—'}</div>
+              <div style="color:#666;font-size:10.5px;">${slot.courses?.code || ''}${slot.room ? ' · ' + slot.room : ''}</div>
+            </div>
+          </td>`;
+        } else {
+          html += `<td><div class="tt-cell" style="background:#fafaf8;"></div></td>`;
+        }
+      });
+      html += `</tr>`;
+    });
+
+    html += `</tbody></table>`;
+    card.innerHTML = html;
+  }
+
+  // ── Attendance ─────────────────────────────────────────────────────────
+  async function loadAttendancePage() {
+    const { data, error } = await sb.from('attendance')
+      .select('*, courses(name, code)')
+      .eq('student_id', currentUser.id)
+      .order('date', { ascending: false });
+
+    if (error) {
+      showToast('Error loading attendance: ' + error.message, true);
+      return;
+    }
+
+    const rows = data || [];
+    const total = rows.length;
+    const present = rows.filter(r => r.status === 'present' || r.status === 'late').length;
+    const absent  = rows.filter(r => r.status === 'absent').length;
+    const pct = total > 0 ? Math.round((present/total)*100) : 0;
+
+    document.getElementById('att-overall-pct').textContent = total > 0 ? pct + '%' : '—';
+    document.getElementById('att-overall-pct').style.color = pct < 75 && total > 0 ? '#C62828' : '#0F3D3E';
+    document.getElementById('att-present-count').textContent = present;
+    document.getElementById('att-absent-count').textContent = absent;
+    document.getElementById('att-total-count').textContent = total;
+
+    // Per-course breakdown
+    const courseMap = {}; // course_id -> { present, total, name, code }
+    rows.forEach(r => {
+      const cid = r.course_id;
+      if (!courseMap[cid]) courseMap[cid] = { present: 0, total: 0, name: r.courses?.name || 'Unknown', code: r.courses?.code || '' };
+      courseMap[cid].total++;
+      if (r.status === 'present' || r.status === 'late') courseMap[cid].present++;
+    });
+
+    const breakdownDiv = document.getElementById('att-course-breakdown');
+    const courseEntries = Object.values(courseMap);
+    if (courseEntries.length === 0) {
+      breakdownDiv.innerHTML = `<div style="text-align:center;padding:24px;color:#bbb;font-size:13px;">No attendance records yet</div>`;
+    } else {
+      breakdownDiv.innerHTML = courseEntries.map(c => {
+        const cpct = Math.round((c.present / c.total) * 100);
+        const barColor = cpct < 75 ? '#C62828' : '#2E7D32';
+        return `<div style="margin-bottom:14px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+            <span style="font-size:13px;font-weight:600;">${c.name} <span style="color:#aaa;font-weight:400;">${c.code}</span></span>
+            <span style="font-size:12.5px;font-weight:700;color:${barColor};">${cpct}% <span style="color:#aaa;font-weight:400;">(${c.present}/${c.total})</span></span>
+          </div>
+          <div style="height:7px;background:#F0EDE7;border-radius:5px;overflow:hidden;">
+            <div style="height:100%;width:${cpct}%;background:${barColor};border-radius:5px;"></div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // Recent log
+    const tbody = document.getElementById('att-log-tbody');
+    if (rows.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;padding:24px;color:#bbb;">No records yet</td></tr>`;
+    } else {
+      const statusBadge = { present: 'badge-green', absent: 'badge-red', late: 'badge-amber' };
+      tbody.innerHTML = rows.slice(0, 30).map(r => {
+        const d = r.date ? new Date(r.date).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '—';
+        return `<tr>
+          <td>${d}</td>
+          <td>${r.courses?.name || '—'}</td>
+          <td><span class="badge ${statusBadge[r.status] || 'badge-blue'}">${(r.status||'—').charAt(0).toUpperCase()+(r.status||'').slice(1)}</span></td>
+        </tr>`;
+      }).join('');
+    }
+  }
+
+  // ── Assignments ────────────────────────────────────────────────────────
+  function setAssignFilter(filter) {
+    assignFilter = filter;
+    document.querySelectorAll('#assign-filter-tabs button').forEach(b => {
+      const active = b.dataset.filter === filter;
+      b.className = active ? 'btn-primary btn-sm' : 'btn-ghost btn-sm';
+    });
+    renderAssignments();
+  }
+
+  async function loadAssignments() {
+    const list = document.getElementById('assignments-list');
+    list.innerHTML = `<div style="text-align:center;padding:40px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>`;
+
+    const { data, error } = await sb.from('assignments')
+      .select('*, courses(name, code)')
+      .order('due_date', { ascending: true });
+
+    if (error) { list.innerHTML = `<div style="color:#C62828;padding:20px;">Error: ${error.message}</div>`; return; }
+    allAssignments = data || [];
+
+    const { data: subs } = await sb.from('submissions')
+      .select('*')
+      .eq('student_id', currentUser.id);
+    mySubmissionsMap = {};
+    (subs || []).forEach(s => { mySubmissionsMap[s.assignment_id] = s; });
+
+    renderAssignments();
+  }
+
+  function renderAssignments() {
+    const list = document.getElementById('assignments-list');
+    const today = new Date().toISOString().slice(0,10);
+
+    let filtered = allAssignments;
+    if (assignFilter === 'pending')   filtered = allAssignments.filter(a => !mySubmissionsMap[a.id]);
+    if (assignFilter === 'submitted') filtered = allAssignments.filter(a => mySubmissionsMap[a.id] && mySubmissionsMap[a.id].status !== 'graded');
+    if (assignFilter === 'graded')    filtered = allAssignments.filter(a => mySubmissionsMap[a.id]?.status === 'graded');
+
+    if (filtered.length === 0) {
+      list.innerHTML = `<div style="text-align:center;padding:48px;color:#bbb;"><i class="fas fa-file-circle-xmark" style="font-size:28px;display:block;margin-bottom:10px;opacity:0.3;"></i>No assignments here</div>`;
+      return;
+    }
+
+    list.innerHTML = filtered.map(a => {
+      const due = a.due_date || '';
+      const isOverdue = due && due < today;
+      const sub = mySubmissionsMap[a.id];
+      const dueStr = due ? new Date(due).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '—';
+      const allowLate = a.allow_late_submission !== false;
+
+      let statusBadge, actionArea;
+      if (!sub) {
+        if (isOverdue && !allowLate) {
+          statusBadge = `<span class="badge badge-red">Closed</span>`;
+          actionArea = `<button class="btn-ghost btn-sm" disabled style="opacity:0.5;cursor:not-allowed;"><i class="fas fa-lock"></i> Submission closed</button>`;
+        } else {
+          statusBadge = isOverdue ? `<span class="badge badge-red">Overdue</span>` : `<span class="badge badge-amber">Pending</span>`;
+          actionArea = `<button class="btn-primary btn-sm" onclick='openSubmitModal(${JSON.stringify(a).replace(/'/g,"&#39;")})'><i class="fas fa-upload"></i> Submit</button>`;
+        }
+      } else if (sub.status === 'graded') {
+        statusBadge = `<span class="badge badge-green">${sub.marks_obtained}/${a.max_marks || 100}</span>`;
+        actionArea = `
+          <button class="btn-ghost btn-sm" onclick="viewSubmittedFile('${sub.file_url}')"><i class="fas ${sub.file_type==='doc'?'fa-file-word':'fa-file-pdf'}"></i></button>
+          <button class="btn-ghost btn-sm" onclick='openViewGrade(${JSON.stringify(sub).replace(/'/g,"&#39;")})'><i class="fas fa-eye"></i> Feedback</button>`;
+      } else {
+        statusBadge = `<span class="badge badge-teal">Submitted</span>${sub.is_late ? ` <span class="badge badge-red">Late</span>` : ''}`;
+        actionArea = `<button class="btn-ghost btn-sm" onclick="viewSubmittedFile('${sub.file_url}')"><i class="fas ${sub.file_type==='doc'?'fa-file-word':'fa-file-pdf'}"></i> View Submission</button>`;
+      }
+
+      return `<div class="assign-card">
+        <div style="display:flex;align-items:start;justify-content:space-between;gap:10px;">
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:14px;color:#0F3D3E;">${a.title}</div>
+            <div style="font-size:12px;color:#888;margin-top:3px;">${a.courses?.name || '—'} · ${a.courses?.code || ''}</div>
+            ${a.description ? `<p style="font-size:12.5px;color:#555;margin:8px 0 0;line-height:1.5;">${a.description}</p>` : ''}
+            ${a.attachment_url ? `<button class="btn-ghost btn-sm" style="margin-top:8px;" onclick="viewAssignmentAttachment('${a.attachment_url}')">
+              <i class="fas ${a.attachment_type === 'doc' ? 'fa-file-word' : 'fa-file-pdf'}"></i> ${a.attachment_name || 'Attached file'}
+            </button>` : ''}
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:7px;">
+            ${statusBadge}
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;flex-wrap:wrap;gap:10px;">
+          <div style="display:flex;gap:14px;font-size:11.5px;color:#777;flex-wrap:wrap;">
+            <span><i class="fas fa-calendar-day" style="color:#C9A227;margin-right:4px;"></i>Due: ${dueStr}</span>
+            <span><i class="fas fa-star" style="color:#C9A227;margin-right:4px;"></i>Max: ${a.max_marks || 100} marks</span>
+          </div>
+          <div style="display:flex;gap:7px;">${actionArea}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  async function viewAssignmentAttachment(path) {
+    const { data, error } = await sb.storage.from('assignment-attachments').createSignedUrl(path, 300);
+    if (error || !data) { showToast('Could not open file: ' + (error?.message||'unknown error'), true); return; }
+    window.open(data.signedUrl, '_blank');
+  }
+
+  async function viewSubmittedFile(path) {
+    const { data, error } = await sb.storage.from('assignment-submissions').createSignedUrl(path, 300);
+    if (error || !data) { showToast('Could not open file: ' + (error?.message||'unknown error'), true); return; }
+    window.open(data.signedUrl, '_blank');
+  }
+
+  // ── Submit Assignment ──────────────────────────────────────────────────
+  function openSubmitModal(assignment) {
+    pendingSubmitAssignment = assignment;
+    document.getElementById('submit-modal-title').textContent = assignment.title;
+    document.getElementById('submit-modal-sub').textContent = `${assignment.courses?.name || ''} · Max ${assignment.max_marks || 100} marks`;
+    document.getElementById('submit-file').value = '';
+    document.getElementById('submit-file-name').textContent = '';
+
+    const today = new Date().toISOString().slice(0,10);
+    const isOverdue = assignment.due_date && assignment.due_date < today;
+    document.getElementById('submit-late-warning').style.display = isOverdue ? 'block' : 'none';
+
+    openModal('modal-submit-assignment');
+  }
+
+  function previewSubmitFile(input) {
+    const nameDiv = document.getElementById('submit-file-name');
+    const file = input.files[0];
+    if (!file) { nameDiv.textContent = ''; return; }
+    const sizeMB = (file.size / (1024*1024)).toFixed(1);
+    if (file.size > MAX_SUBMISSION_BYTES) {
+      nameDiv.innerHTML = `<span style="color:#C62828;"><i class="fas fa-exclamation-circle"></i> ${file.name} (${sizeMB}MB) — exceeds 30MB limit</span>`;
+      input.value = '';
+      return;
+    }
+    nameDiv.innerHTML = `<i class="fas fa-paperclip" style="color:#0F3D3E;"></i> ${file.name} (${sizeMB}MB)`;
+  }
+
+  async function submitAssignmentFile() {
+    const fileInput = document.getElementById('submit-file');
+    const file = fileInput.files[0];
+    if (!file) { showToast('Choose a file to upload', true); return; }
+    if (file.size > MAX_SUBMISSION_BYTES) { showToast('File exceeds 30MB limit', true); return; }
+
+    const a = pendingSubmitAssignment;
+    const today = new Date().toISOString().slice(0,10);
+    const isOverdue = a.due_date && a.due_date < today;
+    const allowLate = a.allow_late_submission !== false;
+
+    if (isOverdue && !allowLate) {
+      showToast('This assignment no longer accepts submissions', true);
+      return;
+    }
+
+    const btn = document.getElementById('btn-submit-assignment');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading…';
+
+    const ext = file.name.split('.').pop().toLowerCase();
+    const fileType = ext === 'pdf' ? 'pdf' : 'doc';
+    const path = `${currentUser.id}/${a.id}/${file.name}`;
+
+    const { error: upErr } = await sb.storage.from('assignment-submissions').upload(path, file, { upsert: true });
+
+    if (upErr) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-upload"></i> Submit';
+      showToast('Upload failed: ' + upErr.message, true);
+      return;
+    }
+
+    const { error: insErr } = await sb.from('submissions').upsert({
+      assignment_id: a.id,
+      student_id: currentUser.id,
+      file_url: path,
+      file_name: file.name,
+      file_type: fileType,
+      submitted_at: new Date().toISOString(),
+      is_late: !!isOverdue,
+      status: 'submitted'
+    }, { onConflict: 'assignment_id,student_id' });
+
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-upload"></i> Submit';
+
+    if (insErr) { showToast('Error: ' + insErr.message, true); return; }
+
+    closeModal('modal-submit-assignment');
+    showToast(isOverdue ? 'Submitted — marked as late' : 'Assignment submitted!');
+    loadAssignments();
+    loadDashboardData();
+  }
+
+  function openViewGrade(sub) {
+    document.getElementById('view-grade-marks').textContent = sub.marks_obtained != null ? sub.marks_obtained : '—';
+    document.getElementById('view-grade-feedback').textContent = sub.feedback || 'No feedback left by the teacher.';
+    openModal('modal-view-grade');
+  }
+
+  // ── Announcements (read-only) ──────────────────────────────────────────
+  async function loadAnnouncements() {
+    const list = document.getElementById('announce-list');
+    list.innerHTML = `<div style="text-align:center;padding:40px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>`;
+
+    const { data, error } = await sb.from('announcements')
+      .select('*')
+      .neq('target', 'Faculty')
+      .order('created_at', { ascending: false });
+
+    if (error) { list.innerHTML = `<div style="color:#C62828;padding:20px;">Error: ${error.message}</div>`; return; }
+
+    if (!data || data.length === 0) {
+      list.innerHTML = `<div style="text-align:center;padding:48px;color:#bbb;"><i class="fas fa-bullhorn" style="font-size:28px;display:block;margin-bottom:10px;opacity:0.3;"></i>No announcements yet</div>`;
+      return;
+    }
+
+    const typeColors = { General:'badge-blue', Urgent:'badge-red', Faculty:'badge-amber', Students:'badge-green' };
+
+    list.innerHTML = data.map(a => {
+      const d = new Date(a.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+      return `<div class="announce-card">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+          <div>
+            <span class="badge ${typeColors[a.type]||'badge-blue'}" style="margin-bottom:6px;display:inline-block;">${a.type||'General'}</span>
+            <div style="font-weight:700;font-size:14px;">${a.title}</div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:#555;margin:0 0 10px;">${a.body||''}</p>
+        <div style="font-size:11px;color:#aaa;">Posted · ${d}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Logout ─────────────────────────────────────────────────────────────
+  async function handleLogout() {
+    await sb.auth.signOut();
+    window.location.href = 'lms-login.html';
+  }
+
+  // ── Boot ───────────────────────────────────────────────────────────────
+  window.onload = initDashboard;
+</script>
+</body>
+</html>

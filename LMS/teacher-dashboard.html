@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LMS • Teacher Dashboard | Raja Virbhadra Singh College</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #FAF7F2;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: 250px;
+      min-width: 250px;
+      background: #0F3D3E;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 50;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-logo {
+      padding: 22px 20px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      padding: 18px 20px 5px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 20px;
+      color: rgba(255,255,255,0.65);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.18s ease;
+      text-decoration: none;
+    }
+
+    .nav-item:hover { background: rgba(255,255,255,0.07); color: #fff; }
+
+    .nav-item.active {
+      background: rgba(201,162,39,0.12);
+      color: #C9A227;
+      border-left-color: #C9A227;
+    }
+
+    .nav-item .icon {
+      width: 17px;
+      text-align: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 14px 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ── Main ── */
+    #main {
+      margin-left: 250px;
+      flex: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Topbar ── */
+    #topbar {
+      height: 62px;
+      background: rgba(250,247,242,0.96);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      display: flex;
+      align-items: center;
+      padding: 0 26px;
+      gap: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .topbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      color: #0F3D3E;
+      font-weight: 700;
+    }
+
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.08);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: #555;
+      font-size: 13px;
+      transition: all 0.18s;
+    }
+    .icon-btn:hover { background: #f0ede8; color: #0F3D3E; }
+
+    .avatar {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #0F3D3E, #1A6060);
+      display: flex; align-items: center; justify-content: center;
+      color: #C9A227;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ── Pages ── */
+    .page { display: none; padding: 26px; }
+    .page.active { display: block; }
+
+    /* ── Cards ── */
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 2px 14px -6px rgba(0,0,0,0.08);
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 13px;
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 18px 20px;
+      box-shadow: 0 2px 10px -4px rgba(0,0,0,0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px -8px rgba(0,0,0,0.12);
+    }
+
+    /* ── Table ── */
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th {
+      text-align: left;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #888;
+      padding: 11px 15px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .data-table td {
+      padding: 12px 15px;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      color: #333;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: #FDFCFA; }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 10.5px;
+      font-weight: 600;
+    }
+    .badge-green { background: #E8F5E9; color: #2E7D32; }
+    .badge-amber { background: #FFF8E1; color: #F57F17; }
+    .badge-blue  { background: #E3F2FD; color: #1565C0; }
+    .badge-red   { background: #FFEBEE; color: #C62828; }
+    .badge-teal  { background: #E0F4F4; color: #0F3D3E; }
+    .badge-purple { background: #F3E8FF; color: #6B21A8; }
+
+    /* ── Inputs ── */
+    .form-input {
+      width: 100%;
+      padding: 9px 13px;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 9px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      background: #FDFCFA;
+      color: #1a1a1a;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: #C9A227;
+      box-shadow: 0 0 0 3px rgba(201,162,39,0.1);
+      background: #fff;
+    }
+    .form-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: #0F3D3E;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary:hover { background: #0d3233; transform: translateY(-1px); }
+
+    .btn-gold {
+      background: #C9A227;
+      color: #0F3D3E;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-gold:hover { background: #b8921f; }
+
+    .btn-ghost {
+      background: transparent;
+      color: #555;
+      border: 1px solid rgba(0,0,0,0.12);
+      padding: 7px 14px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-ghost:hover { background: #f0ede8; }
+
+    .btn-danger {
+      background: #fff;
+      color: #C62828;
+      border: 1px solid #FFCDD2;
+      padding: 5px 11px;
+      border-radius: 7px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.18s;
+    }
+    .btn-danger:hover { background: #FFEBEE; }
+
+    .btn-sm { padding: 5px 11px !important; font-size: 11.5px !important; border-radius: 7px !important; }
+
+    /* ── Timetable ── */
+    .tt-grid { border-collapse: collapse; width: 100%; }
+    .tt-grid th, .tt-grid td {
+      border: 1px solid rgba(0,0,0,0.07);
+      padding: 0;
+      text-align: center;
+      min-width: 100px;
+    }
+    .tt-grid th {
+      background: #F5F3EE;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #0F3D3E;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 9px 7px;
+    }
+    .tt-cell {
+      min-height: 65px;
+      padding: 7px;
+      font-size: 11px;
+      vertical-align: top;
+    }
+    .tt-cell.filled { background: #E8F4F4; }
+    .tt-time {
+      background: #F5F3EE;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #666;
+      padding: 7px 9px;
+      white-space: nowrap;
+    }
+
+    /* ── Attendance ── */
+    .att-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      gap: 10px;
+    }
+    .att-row:last-child { border-bottom: none; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 18px;
+      padding: 26px;
+      width: 460px;
+      max-width: 95vw;
+      box-shadow: 0 24px 60px -16px rgba(0,0,0,0.25);
+      animation: slideUp 0.22s ease;
+    }
+    @keyframes slideUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #0F3D3E;
+    }
+    .modal-close {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.1);
+      background: #fff;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #888;
+      font-size: 12px;
+      transition: all 0.15s;
+    }
+    .modal-close:hover { background: #f0ede8; color: #333; }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      background: #0F3D3E;
+      color: #fff;
+      padding: 11px 18px;
+      border-radius: 11px;
+      font-size: 13px;
+      font-weight: 500;
+      display: none;
+      align-items: center;
+      gap: 9px;
+      z-index: 999;
+      box-shadow: 0 8px 24px -6px rgba(0,0,0,0.3);
+    }
+
+    /* ── Announcement card ── */
+    .announce-card {
+      padding: 16px 18px;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+
+    /* ── Attendance toggle ── */
+    .att-toggle {
+      display: flex;
+      gap: 6px;
+    }
+    .att-btn {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+    .att-btn.present { background: #E8F5E9; color: #2E7D32; border-color: #A5D6A7; }
+    .att-btn.absent { background: #fff; color: #C62828; border-color: #FFCDD2; }
+    .att-btn.present.selected { background: #2E7D32; color: #fff; }
+    .att-btn.absent.selected { background: #C62828; color: #fff; }
+
+    /* ── Assignment card ── */
+    .assign-card {
+      padding: 15px 17px;
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 12px;
+      margin-bottom: 9px;
+      background: #fff;
+      transition: box-shadow 0.2s;
+    }
+    .assign-card:hover { box-shadow: 0 4px 14px -4px rgba(0,0,0,0.1); }
+
+    /* Mobile sidebar toggle */
+    #sidebar-toggle { display: none; }
+    @media (max-width: 768px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.open { transform: translateX(0); }
+      #main { margin-left: 0; }
+      #sidebar-toggle { display: flex; }
+      .page { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════════ -->
+<div id="sidebar">
+  <div class="sidebar-logo">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;background:radial-gradient(circle at center,#ffffff 0%,#f0f7f7 45%,#c8e0e0 70%,#8fbdbd 100%);border-radius:50%;padding:2px;flex-shrink:0;">
+        <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png" style="width:100%;height:100%;object-fit:contain;border-radius:50%;">
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:16px;color:#fff;letter-spacing:-0.02em;">LMS</div>
+        <div style="font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.06em;text-transform:uppercase;margin-top:1px;">Teacher Portal</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Teacher info chip -->
+  <div style="margin:14px 16px;background:rgba(255,255,255,0.07);border-radius:10px;padding:10px 12px;">
+    <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:3px;">Signed in as</div>
+    <div id="sb-teacher-name" style="font-size:13px;font-weight:600;color:#fff;">Loading…</div>
+    <div id="sb-teacher-dept" style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;">—</div>
+  </div>
+
+  <div class="nav-section-label">Overview</div>
+  <a class="nav-item active" onclick="showPage('dashboard')">
+    <i class="fas fa-home icon"></i> Dashboard
+  </a>
+  <a class="nav-item" onclick="showPage('timetable')">
+    <i class="fas fa-calendar-alt icon"></i> My Timetable
+  </a>
+
+  <div class="nav-section-label">Classroom</div>
+  <a class="nav-item" onclick="showPage('attendance')">
+    <i class="fas fa-user-check icon"></i> Attendance
+  </a>
+  <a class="nav-item" onclick="showPage('assignments')">
+    <i class="fas fa-file-circle-check icon"></i> Assignments
+  </a>
+  <a class="nav-item" onclick="showPage('announcements')">
+    <i class="fas fa-bullhorn icon"></i> Announcements
+  </a>
+
+  <div class="nav-section-label">Info</div>
+  <a class="nav-item" onclick="showPage('students')">
+    <i class="fas fa-users icon"></i> My Students
+  </a>
+
+  <div class="sidebar-footer">
+    <button onclick="handleLogout()" style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);padding:8px 14px;border-radius:9px;font-size:12.5px;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all 0.18s;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.07)'">
+      <i class="fas fa-sign-out-alt"></i> Sign Out
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     MAIN
+════════════════════════════════════════ -->
+<div id="main">
+
+  <!-- Topbar -->
+  <div id="topbar">
+    <button id="sidebar-toggle" class="icon-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div>
+      <div class="topbar-title" id="page-title">Dashboard</div>
+      <div id="page-sub" style="font-size:11px;color:#888;margin-top:-1px;"></div>
+    </div>
+    <div class="topbar-right">
+      <div class="icon-btn" title="Refresh" onclick="refreshCurrentPage()"><i class="fas fa-rotate-right"></i></div>
+      <div class="avatar" id="topbar-avatar">?</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: DASHBOARD ═══════════ -->
+  <div class="page active" id="page-dashboard">
+
+    <!-- Stats row -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
+      <div class="stat-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="width:40px;height:40px;border-radius:11px;background:#E0F4F4;display:flex;align-items:center;justify-content:center;color:#0F3D3E;font-size:17px;"><i class="fas fa-book-open"></i></div>
+          <span class="badge badge-teal">Live</span>
+        </div>
+        <div style="font-size:26px;font-weight:700;color:#0F3D3E;" id="stat-courses">—</div>
+        <div style="font-size:12px;color:#777;margin-top:3px;">My Courses</div>
+      </div>
+
+      <div class="stat-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="width:40px;height:40px;border-radius:11px;background:#FFF8E1;display:flex;align-items:center;justify-content:center;color:#F57F17;font-size:17px;"><i class="fas fa-users"></i></div>
+          <span class="badge badge-amber">Total</span>
+        </div>
+        <div style="font-size:26px;font-weight:700;color:#0F3D3E;" id="stat-students">—</div>
+        <div style="font-size:12px;color:#777;margin-top:3px;">Students</div>
+      </div>
+
+      <div class="stat-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="width:40px;height:40px;border-radius:11px;background:#E3F2FD;display:flex;align-items:center;justify-content:center;color:#1565C0;font-size:17px;"><i class="fas fa-file-circle-check"></i></div>
+          <span class="badge badge-blue">Open</span>
+        </div>
+        <div style="font-size:26px;font-weight:700;color:#0F3D3E;" id="stat-assignments">—</div>
+        <div style="font-size:12px;color:#777;margin-top:3px;">Assignments</div>
+      </div>
+
+      <div class="stat-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="width:40px;height:40px;border-radius:11px;background:#F3E8FF;display:flex;align-items:center;justify-content:center;color:#6B21A8;font-size:17px;"><i class="fas fa-bullhorn"></i></div>
+          <span class="badge badge-purple">Posted</span>
+        </div>
+        <div style="font-size:26px;font-weight:700;color:#0F3D3E;" id="stat-announcements">—</div>
+        <div style="font-size:12px;color:#777;margin-top:3px;">Announcements</div>
+      </div>
+    </div>
+
+    <!-- Bottom: Today's classes + Recent announcements -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+
+      <!-- Today's schedule -->
+      <div class="card" style="padding:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;">
+          <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#0F3D3E;">Today's Classes</div>
+          <span id="today-label" class="badge badge-teal" style="font-size:10px;"></span>
+        </div>
+        <div id="today-schedule">
+          <div style="text-align:center;padding:24px;color:#bbb;font-size:13px;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+        </div>
+      </div>
+
+      <!-- Recent activity -->
+      <div class="card" style="padding:20px;">
+        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#0F3D3E;margin-bottom:15px;">My Courses</div>
+        <div id="dashboard-courses">
+          <div style="text-align:center;padding:24px;color:#bbb;font-size:13px;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: TIMETABLE ═══════════ -->
+  <div class="page" id="page-timetable">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0F3D3E;">My Weekly Timetable</div>
+    </div>
+    <div class="card" style="overflow-x:auto;padding:0;" id="tt-card">
+      <div style="text-align:center;padding:48px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading timetable…</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: ATTENDANCE ═══════════ -->
+  <div class="page" id="page-attendance">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0F3D3E;">Mark Attendance</div>
+      <button class="btn-gold" onclick="saveAttendance()"><i class="fas fa-save"></i> Save Attendance</button>
+    </div>
+
+    <!-- Filters -->
+    <div class="card" style="padding:16px 18px;margin-bottom:16px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:end;">
+        <div>
+          <label class="form-label">Course</label>
+          <select class="form-input" id="att-course-sel" onchange="loadStudentsForAttendance()">
+            <option value="">— Select course —</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Date</label>
+          <input type="date" class="form-input" id="att-date" value="">
+        </div>
+        <div>
+          <button class="btn-primary" onclick="loadStudentsForAttendance()" style="width:100%;justify-content:center;">
+            <i class="fas fa-search"></i> Load Students
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Student list -->
+    <div class="card" style="overflow:hidden;" id="att-student-card">
+      <div style="text-align:center;padding:40px;color:#bbb;font-size:13px;">Select a course and date, then click Load Students</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: ASSIGNMENTS ═══════════ -->
+  <div class="page" id="page-assignments">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0F3D3E;">Assignments</div>
+      <button class="btn-primary" onclick="openModal('modal-add-assignment')"><i class="fas fa-plus"></i> New Assignment</button>
+    </div>
+    <div id="assignments-list">
+      <div style="text-align:center;padding:40px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: ANNOUNCEMENTS ═══════════ -->
+  <div class="page" id="page-announcements">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0F3D3E;">Announcements</div>
+      <button class="btn-primary" onclick="openModal('modal-announce')"><i class="fas fa-plus"></i> Post Announcement</button>
+    </div>
+    <div id="announce-list">
+      <div style="text-align:center;padding:40px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: STUDENTS ═══════════ -->
+  <div class="page" id="page-students">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0F3D3E;">My Students</div>
+      <div style="display:flex;gap:9px;align-items:center;">
+        <input class="form-input" style="width:200px;" placeholder="Search name / roll…" oninput="searchStudents(this.value)" id="student-search">
+        <select class="form-input" style="width:160px;" onchange="filterStudentsByCourse(this.value)" id="student-course-filter">
+          <option value="">All Courses</option>
+        </select>
+      </div>
+    </div>
+    <div class="card" style="overflow:hidden;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Roll No.</th>
+            <th>Department</th>
+            <th>Email</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="students-tbody">
+          <tr><td colspan="5" style="text-align:center;padding:24px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- end #main -->
+
+<!-- ═══════════ MODALS ═══════════ -->
+
+<!-- Add Assignment -->
+<div class="modal-overlay" id="modal-add-assignment">
+  <div class="modal-box" style="width:480px;">
+    <div class="modal-header">
+      <div class="modal-title">New Assignment</div>
+      <button class="modal-close" onclick="closeModal('modal-add-assignment')"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="display:grid;gap:12px;">
+      <div>
+        <label class="form-label">Title *</label>
+        <input class="form-input" id="assign-title" placeholder="e.g. Unit Test 1 — Functions">
+      </div>
+      <div>
+        <label class="form-label">Course *</label>
+        <select class="form-input" id="assign-course"></select>
+      </div>
+      <div>
+        <label class="form-label">Description</label>
+        <textarea class="form-input" id="assign-desc" rows="3" placeholder="Instructions, topics covered…" style="resize:vertical;"></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label class="form-label">Due Date *</label>
+          <input type="date" class="form-input" id="assign-due">
+        </div>
+        <div>
+          <label class="form-label">Max Marks</label>
+          <input type="number" class="form-input" id="assign-marks" value="100" min="1">
+        </div>
+      </div>
+      <div>
+        <label class="form-label">Attach File (question paper / instructions — PDF or DOC, max 30MB)</label>
+        <input type="file" class="form-input" id="assign-file" accept=".pdf,.doc,.docx" style="padding:8px;" onchange="previewAssignFile(this)">
+        <div id="assign-file-name" style="font-size:11px;color:#888;margin-top:4px;"></div>
+      </div>
+      <label style="display:flex;align-items:center;gap:9px;font-size:13px;color:#333;cursor:pointer;padding:10px 12px;background:#FDFCFA;border:1px solid rgba(0,0,0,0.07);border-radius:10px;">
+        <input type="checkbox" id="assign-allow-late" checked style="width:16px;height:16px;accent-color:#0F3D3E;cursor:pointer;">
+        <span>
+          <span style="font-weight:600;">Allow late submissions</span>
+          <span style="display:block;font-size:11px;color:#888;margin-top:1px;">If off, students can't submit after the due date</span>
+        </span>
+      </label>
+    </div>
+    <div style="display:flex;gap:9px;justify-content:flex-end;margin-top:18px;">
+      <button class="btn-ghost" onclick="closeModal('modal-add-assignment')">Cancel</button>
+      <button class="btn-primary" onclick="addAssignment()" id="btn-add-assignment"><i class="fas fa-plus"></i> Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- View/Grade Submissions -->
+<div class="modal-overlay" id="modal-submissions">
+  <div class="modal-box" style="width:640px;max-height:84vh;display:flex;flex-direction:column;">
+    <div class="modal-header" style="margin-bottom:6px;">
+      <div>
+        <div class="modal-title" id="sub-modal-title">Submissions</div>
+        <div style="font-size:11.5px;color:#888;margin-top:2px;" id="sub-modal-sub">—</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-submissions')"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <span class="badge badge-blue" id="sub-stat-total">0 students</span>
+      <span class="badge badge-teal" id="sub-stat-submitted">0 submitted</span>
+      <span class="badge badge-amber" id="sub-stat-pending">0 pending</span>
+      <span class="badge badge-green" id="sub-stat-graded">0 graded</span>
+    </div>
+    <div id="submissions-rows" style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:8px;padding-right:4px;">
+      <div style="text-align:center;padding:40px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+    </div>
+  </div>
+</div>
+
+<!-- Grade a single submission -->
+<div class="modal-overlay" id="modal-grade">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Grade Submission</div>
+      <button class="modal-close" onclick="closeModal('modal-grade')"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px 12px;background:#FDFCFA;border-radius:10px;border:1px solid rgba(0,0,0,0.06);">
+      <div style="width:34px;height:34px;border-radius:9px;background:#E8F4F4;display:flex;align-items:center;justify-content:center;color:#0F3D3E;font-size:12px;font-weight:700;flex-shrink:0;" id="grade-avatar">—</div>
+      <div>
+        <div style="font-weight:700;font-size:13.5px;" id="grade-student-name">—</div>
+        <div style="font-size:11px;color:#888;" id="grade-student-roll">—</div>
+      </div>
+      <span id="grade-late-badge" style="margin-left:auto;display:none;" class="badge badge-red">Late</span>
+    </div>
+    <div style="display:grid;gap:12px;">
+      <div>
+        <label class="form-label">Marks Obtained (out of <span id="grade-max-marks">100</span>) *</label>
+        <input type="number" class="form-input" id="grade-marks" min="0" placeholder="e.g. 85">
+      </div>
+      <div>
+        <label class="form-label">Feedback / Grade Note</label>
+        <textarea class="form-input" id="grade-feedback" rows="3" placeholder="e.g. A+ — well structured, minor errors in part 2" style="resize:vertical;"></textarea>
+      </div>
+    </div>
+    <div style="display:flex;gap:9px;justify-content:flex-end;margin-top:18px;">
+      <button class="btn-ghost" onclick="closeModal('modal-grade')">Cancel</button>
+      <button class="btn-primary" onclick="submitGrade()" id="btn-submit-grade"><i class="fas fa-check"></i> Save Grade</button>
+    </div>
+  </div>
+</div>
+
+<!-- Post Announcement -->
+<div class="modal-overlay" id="modal-announce">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Post Announcement</div>
+      <button class="modal-close" onclick="closeModal('modal-announce')"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="display:grid;gap:12px;">
+      <div>
+        <label class="form-label">Title *</label>
+        <input class="form-input" id="announce-title" placeholder="Announcement title">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label class="form-label">Type</label>
+          <select class="form-input" id="announce-type">
+            <option>General</option>
+            <option>Urgent</option>
+            <option>Faculty</option>
+            <option>Students</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Visible To</label>
+          <select class="form-input" id="announce-target">
+            <option value="All">All</option>
+            <option value="Students">Students</option>
+            <option value="Faculty">Faculty</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="form-label">Message</label>
+        <textarea class="form-input" id="announce-body" rows="4" placeholder="Write your announcement…" style="resize:vertical;"></textarea>
+      </div>
+    </div>
+    <div style="display:flex;gap:9px;justify-content:flex-end;margin-top:18px;">
+      <button class="btn-ghost" onclick="closeModal('modal-announce')">Cancel</button>
+      <button class="btn-primary" onclick="postAnnouncement()"><i class="fas fa-paper-plane"></i> Post</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" style="display:none;position:fixed;bottom:22px;right:22px;background:#0F3D3E;color:#fff;padding:11px 18px;border-radius:11px;font-size:13px;font-weight:500;align-items:center;gap:9px;z-index:999;box-shadow:0 8px 24px -6px rgba(0,0,0,0.3);">
+  <i class="fas fa-check-circle" style="color:#C9A227;"></i>
+  <span id="toast-msg"></span>
+</div>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+  // ── Supabase init ──────────────────────────────────────────────────────
+  const sb = window.supabase.createClient(
+    'https://frbepxvhetqykrzrjswx.supabase.co',
+    'sb_publishable_Hvbn4fN0JZ6sVR0FaJ8wpQ_Mk1PLcJ-'
+  );
+
+  const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const TIME_SLOTS = [
+    { label:'9:00 – 10:00',   start:'09:00:00', end:'10:00:00' },
+    { label:'10:00 – 11:00',  start:'10:00:00', end:'11:00:00' },
+    { label:'— Short Break —', break: true },
+    { label:'11:15 – 12:15',  start:'11:15:00', end:'12:15:00' },
+    { label:'— Lunch —',      break: true },
+    { label:'1:15 – 2:15',   start:'13:15:00', end:'14:15:00' },
+    { label:'2:15 – 3:15',   start:'14:15:00', end:'15:15:00' },
+  ];
+
+  let currentUser   = null;
+  let teacherProfile = null;
+  let myCourses     = [];
+  let allStudents   = [];
+  let attendanceMap = {};   // studentId → 'present'|'absent'
+  let currentPage   = 'dashboard';
+
+  // ── Toast ──────────────────────────────────────────────────────────────
+  let toastTimer;
+  function showToast(msg, isError = false) {
+    const t = document.getElementById('toast');
+    const icon = t.querySelector('i');
+    document.getElementById('toast-msg').textContent = msg;
+    t.style.background = isError ? '#C62828' : '#0F3D3E';
+    icon.className = isError ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+    icon.style.color = isError ? '#fff' : '#C9A227';
+    t.style.display = 'flex';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.style.display = 'none', 3500);
+  }
+
+  // ── Modal helpers ──────────────────────────────────────────────────────
+  function openModal(id)  { document.getElementById(id).classList.add('open'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+  document.querySelectorAll('.modal-overlay').forEach(o => {
+    o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
+  });
+
+  // ── Page navigation ────────────────────────────────────────────────────
+  const pageTitles = {
+    dashboard:     ['Dashboard', 'Overview'],
+    timetable:     ['My Timetable', 'Weekly schedule'],
+    attendance:    ['Attendance', 'Mark & track'],
+    assignments:   ['Assignments', 'Manage tasks'],
+    announcements: ['Announcements', 'Notices'],
+    students:      ['My Students', 'Enrolled students'],
+  };
+
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.querySelector(`[onclick="showPage('${id}')"]`)?.classList.add('active');
+    currentPage = id;
+    const info = pageTitles[id] || [id, ''];
+    document.getElementById('page-title').textContent = info[0];
+    document.getElementById('page-sub').textContent = new Date().toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+    // Lazy load on first visit
+    if (id === 'timetable')     loadTimetable();
+    if (id === 'attendance')    initAttendancePage();
+    if (id === 'assignments')   loadAssignments();
+    if (id === 'announcements') loadAnnouncements();
+    if (id === 'students')      loadStudents();
+
+    // Close mobile sidebar
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  function refreshCurrentPage() { showPage(currentPage); }
+
+  // ── Init ───────────────────────────────────────────────────────────────
+  async function initDashboard() {
+    document.getElementById('page-sub').textContent = new Date().toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { window.location.href = 'staff_login.html'; return; }
+
+    currentUser = session.user;
+
+    // Fetch teacher profile
+    const { data: profile } = await sb.from('profiles')
+      .select('*')
+      .eq('id', currentUser.id)
+      .single();
+
+    if (!profile || profile.role !== 'teacher') {
+      await sb.auth.signOut();
+      window.location.href = 'staff_login.html';
+      return;
+    }
+
+    teacherProfile = profile;
+
+    const name = profile.full_name || currentUser.email;
+    const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+
+    document.getElementById('sb-teacher-name').textContent = name;
+    document.getElementById('sb-teacher-dept').textContent = profile.department || 'Department not set';
+    document.getElementById('topbar-avatar').textContent = initials;
+
+    // Load dashboard data
+    await loadDashboardData();
+  }
+
+  // ── Dashboard ──────────────────────────────────────────────────────────
+  async function loadDashboardData() {
+    // Courses assigned to this teacher (via timetable)
+    const { data: ttSlots } = await sb.from('timetable')
+      .select('course_id, courses(id, name, code, department, semester)')
+      .eq('teacher_id', currentUser.id);
+
+    // Deduplicate courses
+    const courseMap = {};
+    (ttSlots || []).forEach(s => {
+      if (s.courses) courseMap[s.courses.id] = s.courses;
+    });
+    myCourses = Object.values(courseMap);
+
+    // Populate course dropdowns
+    populateCourseDropdowns();
+
+    // Stats
+    const { count: studentCount } = await sb.from('profiles')
+      .select('*', { count:'exact', head:true })
+      .eq('role', 'student');
+
+    const { count: assignCount } = await sb.from('assignments')
+      .select('*', { count:'exact', head:true })
+      .eq('created_by', currentUser.id);
+
+    const { count: announceCount } = await sb.from('announcements')
+      .select('*', { count:'exact', head:true })
+      .eq('created_by', currentUser.id);
+
+    document.getElementById('stat-courses').textContent       = myCourses.length;
+    document.getElementById('stat-students').textContent      = studentCount || 0;
+    document.getElementById('stat-assignments').textContent   = assignCount || 0;
+    document.getElementById('stat-announcements').textContent = announceCount || 0;
+
+    // Today's classes
+    const today = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date().getDay()];
+    document.getElementById('today-label').textContent = today;
+
+    const { data: todaySlots } = await sb.from('timetable')
+      .select('*, courses(name, code)')
+      .eq('teacher_id', currentUser.id)
+      .eq('day', today)
+      .order('start_time');
+
+    const schedDiv = document.getElementById('today-schedule');
+    if (!todaySlots || todaySlots.length === 0) {
+      schedDiv.innerHTML = `<div style="text-align:center;padding:20px;color:#bbb;font-size:13px;"><i class="fas fa-coffee" style="display:block;font-size:22px;margin-bottom:8px;"></i>No classes today</div>`;
+    } else {
+      schedDiv.innerHTML = todaySlots.map(s => {
+        const start = s.start_time?.slice(0,5) || '';
+        const end   = s.end_time?.slice(0,5) || '';
+        return `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.04);">
+          <div style="min-width:72px;font-size:11px;font-weight:600;color:#888;background:#F5F3EE;padding:4px 8px;border-radius:7px;text-align:center;">${start}–${end}</div>
+          <div>
+            <div style="font-weight:600;font-size:13px;color:#0F3D3E;">${s.courses?.name || s.subject || '—'}</div>
+            <div style="font-size:11px;color:#888;">${s.room ? 'Room ' + s.room : 'Room TBA'} · ${s.courses?.code || ''}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // My courses list
+    const coursesDiv = document.getElementById('dashboard-courses');
+    if (myCourses.length === 0) {
+      coursesDiv.innerHTML = `<div style="text-align:center;padding:20px;color:#bbb;font-size:13px;">No courses assigned yet</div>`;
+    } else {
+      const deptColors = { 'Computer Science':'#E8F4F4','Physics':'#FFF8E1','History':'#F3E8FF','Mathematics':'#E3F2FD','Commerce':'#E8F5E9','English':'#FFF3E0' };
+      coursesDiv.innerHTML = myCourses.map(c => `
+        <div style="display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid rgba(0,0,0,0.04);">
+          <div style="width:36px;height:36px;border-radius:9px;background:${deptColors[c.department]||'#F5F3EE'};display:flex;align-items:center;justify-content:center;color:#0F3D3E;font-size:13px;flex-shrink:0;">
+            <i class="fas fa-book"></i>
+          </div>
+          <div>
+            <div style="font-weight:600;font-size:13px;">${c.name}</div>
+            <div style="font-size:11px;color:#888;">${c.code} · Sem ${c.semester || '?'} · ${c.department || '—'}</div>
+          </div>
+          <span class="badge badge-green" style="margin-left:auto;">Active</span>
+        </div>`).join('');
+    }
+  }
+
+  function populateCourseDropdowns() {
+    const selIds = ['att-course-sel', 'assign-course', 'student-course-filter'];
+    selIds.forEach(id => {
+      const sel = document.getElementById(id);
+      if (!sel) return;
+      // Keep first placeholder
+      while (sel.options.length > 1) sel.remove(1);
+      myCourses.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = `${c.name} — Sem ${c.semester || '?'}`;
+        sel.appendChild(opt);
+      });
+    });
+  }
+
+  // ── Timetable ──────────────────────────────────────────────────────────
+  async function loadTimetable() {
+    const card = document.getElementById('tt-card');
+    card.innerHTML = `<div style="padding:40px;text-align:center;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>`;
+
+    const { data: slots, error } = await sb.from('timetable')
+      .select('*, courses(name, code)')
+      .eq('teacher_id', currentUser.id);
+
+    if (error) { card.innerHTML = `<div style="padding:20px;color:#C62828;">Error: ${error.message}</div>`; return; }
+
+    if (!slots || slots.length === 0) {
+      card.innerHTML = `<div style="padding:48px;text-align:center;color:#bbb;"><i class="fas fa-calendar-xmark" style="font-size:28px;display:block;margin-bottom:10px;opacity:0.3;"></i>No timetable slots assigned yet</div>`;
+      return;
+    }
+
+    const slotMap = {};
+    slots.forEach(s => { slotMap[`${s.day}|${s.start_time}`] = s; });
+
+    let html = `<table class="tt-grid"><thead><tr>
+      <th style="min-width:90px;">Time</th>
+      ${DAYS.map(d => `<th>${d}</th>`).join('')}
+    </tr></thead><tbody>`;
+
+    TIME_SLOTS.forEach(ts => {
+      if (ts.break) {
+        html += `<tr>
+          <td class="tt-time" style="background:#F9F7F4;"><span style="color:#aaa;font-size:10px;">${ts.label.replace(/—\s*/g,'').replace(/\s*—/g,'').trim()}</span></td>
+          <td colspan="6" style="background:#F9F7F4;text-align:center;padding:7px;font-size:10.5px;color:#aaa;font-style:italic;">${ts.label.replace(/—\s*/g,'').replace(/\s*—/g,'').trim()}</td>
+        </tr>`;
+        return;
+      }
+      html += `<tr><td class="tt-time">${ts.label}</td>`;
+      DAYS.forEach(day => {
+        const slot = slotMap[`${day}|${ts.start}`];
+        if (slot) {
+          html += `<td>
+            <div class="tt-cell filled">
+              <div style="font-weight:600;color:#0F3D3E;font-size:11.5px;">${slot.courses?.name || slot.subject || '—'}</div>
+              <div style="color:#666;font-size:10.5px;">${slot.courses?.code || ''}${slot.room ? ' · ' + slot.room : ''}</div>
+            </div>
+          </td>`;
+        } else {
+          html += `<td><div class="tt-cell" style="background:#fafaf8;"></div></td>`;
+        }
+      });
+      html += `</tr>`;
+    });
+
+    html += `</tbody></table>`;
+    card.innerHTML = html;
+  }
+
+  // ── Attendance ─────────────────────────────────────────────────────────
+  function initAttendancePage() {
+    const dateInput = document.getElementById('att-date');
+    if (!dateInput.value) {
+      dateInput.value = new Date().toISOString().slice(0,10);
+    }
+  }
+
+  async function loadStudentsForAttendance() {
+    const courseId = document.getElementById('att-course-sel').value;
+    const date     = document.getElementById('att-date').value;
+    const card     = document.getElementById('att-student-card');
+
+    if (!courseId) { showToast('Please select a course first', true); return; }
+
+    card.innerHTML = `<div style="padding:32px;text-align:center;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading students…</div>`;
+    attendanceMap = {};
+
+    // Fetch all students
+    const { data: students, error } = await sb.from('profiles')
+      .select('id, full_name, roll_number, email')
+      .eq('role', 'student')
+      .order('full_name');
+
+    if (error || !students) { card.innerHTML = `<div style="padding:20px;color:#C62828;">Failed to load students</div>`; return; }
+
+    // Check existing attendance for this date+course
+    let existingMap = {};
+    if (date) {
+      const { data: existing } = await sb.from('attendance')
+        .select('student_id, status')
+        .eq('course_id', courseId)
+        .eq('date', date)
+        .eq('teacher_id', currentUser.id);
+      (existing || []).forEach(r => { existingMap[r.student_id] = r.status; });
+    }
+
+    // Pre-fill attendance map
+    students.forEach(s => {
+      attendanceMap[s.id] = existingMap[s.id] || 'present';
+    });
+
+    if (students.length === 0) {
+      card.innerHTML = `<div style="padding:32px;text-align:center;color:#bbb;font-size:13px;">No students enrolled yet</div>`;
+      return;
+    }
+
+    // Quick mark all
+    card.innerHTML = `
+      <div style="padding:13px 16px;border-bottom:1px solid rgba(0,0,0,0.06);background:#FDFCFA;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-weight:600;font-size:13px;color:#0F3D3E;">${students.length} Students — ${date || 'No date selected'}</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn-ghost btn-sm" onclick="markAll('present')"><i class="fas fa-check" style="color:#2E7D32;"></i> All Present</button>
+          <button class="btn-ghost btn-sm" onclick="markAll('absent')"><i class="fas fa-times" style="color:#C62828;"></i> All Absent</button>
+        </div>
+      </div>
+      <div id="att-rows">
+        ${students.map((s, i) => {
+          const status = attendanceMap[s.id];
+          return `<div class="att-row" id="attrow-${s.id}">
+            <div style="display:flex;align-items:center;gap:10px;flex:1;">
+              <div style="width:30px;height:30px;border-radius:8px;background:#E8F4F4;display:flex;align-items:center;justify-content:center;color:#0F3D3E;font-size:11px;font-weight:700;flex-shrink:0;">
+                ${(s.full_name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
+              </div>
+              <div>
+                <div style="font-weight:600;font-size:13px;">${s.full_name || '—'}</div>
+                <div style="font-size:11px;color:#888;">${s.roll_number || s.email || ''}</div>
+              </div>
+            </div>
+            <div class="att-toggle">
+              <button class="att-btn present ${status==='present'?'selected':''}" onclick="toggleAtt('${s.id}','present')">Present</button>
+              <button class="att-btn absent ${status==='absent'?'selected':''}" onclick="toggleAtt('${s.id}','absent')">Absent</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  function toggleAtt(studentId, status) {
+    attendanceMap[studentId] = status;
+    const row = document.getElementById(`attrow-${studentId}`);
+    if (!row) return;
+    row.querySelectorAll('.att-btn').forEach(btn => btn.classList.remove('selected'));
+    row.querySelector(`.att-btn.${status}`).classList.add('selected');
+  }
+
+  function markAll(status) {
+    Object.keys(attendanceMap).forEach(id => toggleAtt(id, status));
+  }
+
+  async function saveAttendance() {
+    const courseId = document.getElementById('att-course-sel').value;
+    const date     = document.getElementById('att-date').value;
+
+    if (!courseId || !date) { showToast('Select course and date first', true); return; }
+    if (Object.keys(attendanceMap).length === 0) { showToast('Load students first', true); return; }
+
+    const records = Object.entries(attendanceMap).map(([student_id, status]) => ({
+      student_id,
+      course_id: courseId,
+      teacher_id: currentUser.id,
+      date,
+      status
+    }));
+
+    // Upsert (in case already saved today)
+    const { error } = await sb.from('attendance').upsert(records, { onConflict: 'student_id,course_id,date' });
+
+    if (error) { showToast('Save failed: ' + error.message, true); return; }
+    showToast(`Attendance saved for ${records.length} students!`);
+  }
+
+  // ── Assignments ────────────────────────────────────────────────────────
+  async function loadAssignments() {
+    const list = document.getElementById('assignments-list');
+    list.innerHTML = `<div style="text-align:center;padding:40px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>`;
+
+    const { data, error } = await sb.from('assignments')
+      .select('*, courses(name, code)')
+      .eq('created_by', currentUser.id)
+      .order('due_date', { ascending: true });
+
+    if (error) { list.innerHTML = `<div style="color:#C62828;padding:20px;">Error: ${error.message}</div>`; return; }
+
+    if (!data || data.length === 0) {
+      list.innerHTML = `<div style="text-align:center;padding:48px;color:#bbb;"><i class="fas fa-file-circle-xmark" style="font-size:28px;display:block;margin-bottom:10px;opacity:0.3;"></i>No assignments yet. Create one!</div>`;
+      return;
+    }
+
+    const today = new Date().toISOString().slice(0,10);
+
+    // Fetch submission counts for all these assignments in one go
+    const ids = data.map(a => a.id);
+    const { data: subRows } = await sb.from('submissions')
+      .select('assignment_id, status')
+      .in('assignment_id', ids);
+
+    const subCounts = {}; // assignment_id -> { submitted, graded }
+    (subRows || []).forEach(r => {
+      if (!subCounts[r.assignment_id]) subCounts[r.assignment_id] = { submitted: 0, graded: 0 };
+      subCounts[r.assignment_id].submitted++;
+      if (r.status === 'graded') subCounts[r.assignment_id].graded++;
+    });
+
+    list.innerHTML = data.map(a => {
+      const due = a.due_date || '';
+      const isOverdue = due && due < today;
+      const statusBadge = isOverdue
+        ? `<span class="badge badge-red">Overdue</span>`
+        : `<span class="badge badge-green">Open</span>`;
+      const dueStr = due ? new Date(due).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '—';
+      const sc = subCounts[a.id] || { submitted: 0, graded: 0 };
+
+      return `<div class="assign-card">
+        <div style="display:flex;align-items:start;justify-content:space-between;gap:10px;">
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:14px;color:#0F3D3E;">${a.title}</div>
+            <div style="font-size:12px;color:#888;margin-top:3px;">${a.courses?.name || '—'} · ${a.courses?.code || ''}</div>
+            ${a.description ? `<p style="font-size:12.5px;color:#555;margin:8px 0 0;line-height:1.5;">${a.description}</p>` : ''}
+            ${a.attachment_url ? `<button class="btn-ghost btn-sm" style="margin-top:8px;" onclick="viewAssignmentAttachment('${a.attachment_url}')">
+              <i class="fas ${a.attachment_type === 'doc' ? 'fa-file-word' : 'fa-file-pdf'}"></i> ${a.attachment_name || 'Attached file'}
+            </button>` : ''}
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:7px;">
+            ${statusBadge}
+            <button class="btn-danger btn-sm" onclick="deleteAssignment('${a.id}','${a.title.replace(/'/g,"\\'")}')"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;flex-wrap:wrap;gap:10px;">
+          <div style="display:flex;gap:14px;font-size:11.5px;color:#777;flex-wrap:wrap;">
+            <span><i class="fas fa-calendar-day" style="color:#C9A227;margin-right:4px;"></i>Due: ${dueStr}</span>
+            <span><i class="fas fa-star" style="color:#C9A227;margin-right:4px;"></i>Max: ${a.max_marks || 100} marks</span>
+            <span><i class="fas ${a.allow_late_submission !== false ? 'fa-unlock' : 'fa-lock'}" style="color:${a.allow_late_submission !== false ? '#2E7D32' : '#C62828'};margin-right:4px;"></i>${a.allow_late_submission !== false ? 'Late allowed' : 'Late blocked'}</span>
+          </div>
+          <button class="btn-ghost btn-sm" onclick="openSubmissions('${a.id}','${a.title.replace(/'/g,"\\'")}',${a.max_marks||100},'${due}')">
+            <i class="fas fa-inbox"></i> Submissions
+            <span class="badge badge-teal" style="margin-left:6px;">${sc.submitted}</span>
+            ${sc.graded ? `<span class="badge badge-green" style="margin-left:4px;">${sc.graded} graded</span>` : ''}
+          </button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  const MAX_ATTACHMENT_BYTES = 30 * 1024 * 1024; // 30MB
+
+  function previewAssignFile(input) {
+    const nameDiv = document.getElementById('assign-file-name');
+    const file = input.files[0];
+    if (!file) { nameDiv.textContent = ''; return; }
+    const sizeMB = (file.size / (1024*1024)).toFixed(1);
+    if (file.size > MAX_ATTACHMENT_BYTES) {
+      nameDiv.innerHTML = `<span style="color:#C62828;"><i class="fas fa-exclamation-circle"></i> ${file.name} (${sizeMB}MB) — exceeds 30MB limit</span>`;
+      input.value = '';
+      return;
+    }
+    nameDiv.innerHTML = `<i class="fas fa-paperclip" style="color:#0F3D3E;"></i> ${file.name} (${sizeMB}MB)`;
+  }
+
+  async function addAssignment() {
+    const title      = document.getElementById('assign-title').value.trim();
+    const courseId   = document.getElementById('assign-course').value;
+    const desc       = document.getElementById('assign-desc').value.trim();
+    const due        = document.getElementById('assign-due').value;
+    const marks      = parseInt(document.getElementById('assign-marks').value) || 100;
+    const allowLate  = document.getElementById('assign-allow-late').checked;
+    const fileInput  = document.getElementById('assign-file');
+    const file       = fileInput.files[0];
+
+    if (!title || !courseId || !due) { showToast('Title, course and due date are required', true); return; }
+    if (file && file.size > MAX_ATTACHMENT_BYTES) { showToast('File exceeds 30MB limit', true); return; }
+
+    const btn = document.getElementById('btn-add-assignment');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating…';
+
+    // 1. Insert the assignment row first to get its id
+    const { data: inserted, error } = await sb.from('assignments').insert({
+      title,
+      course_id: courseId,
+      description: desc,
+      due_date: due,
+      max_marks: marks,
+      allow_late_submission: allowLate,
+      created_by: currentUser.id
+    }).select().single();
+
+    if (error) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-plus"></i> Create';
+      showToast('Error: ' + error.message, true);
+      return;
+    }
+
+    // 2. If a file was attached, upload it to storage and link it to the assignment
+    if (file) {
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading file…';
+      const ext = file.name.split('.').pop().toLowerCase();
+      const fileType = ext === 'pdf' ? 'pdf' : 'doc';
+      const path = `${inserted.id}/${file.name}`;
+
+      const { error: upErr } = await sb.storage.from('assignment-attachments').upload(path, file, { upsert: true });
+
+      if (upErr) {
+        showToast('Assignment created, but file upload failed: ' + upErr.message, true);
+      } else {
+        await sb.from('assignments').update({
+          attachment_url: path,
+          attachment_name: file.name,
+          attachment_type: fileType
+        }).eq('id', inserted.id);
+      }
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-plus"></i> Create';
+
+    closeModal('modal-add-assignment');
+    document.getElementById('assign-title').value = '';
+    document.getElementById('assign-desc').value = '';
+    document.getElementById('assign-file').value = '';
+    document.getElementById('assign-file-name').textContent = '';
+    document.getElementById('assign-allow-late').checked = true;
+    showToast(`Assignment "${title}" created!`);
+    loadAssignments();
+
+    // Update stat
+    const count = parseInt(document.getElementById('stat-assignments').textContent) || 0;
+    document.getElementById('stat-assignments').textContent = count + 1;
+  }
+
+  async function viewAssignmentAttachment(path) {
+    const { data, error } = await sb.storage.from('assignment-attachments').createSignedUrl(path, 300);
+    if (error || !data) { showToast('Could not open file: ' + (error?.message||'unknown error'), true); return; }
+    window.open(data.signedUrl, '_blank');
+  }
+
+  async function deleteAssignment(id, title) {
+    if (!confirm(`Delete assignment "${title}"?`)) return;
+    const { error } = await sb.from('assignments').delete().eq('id', id);
+    if (error) { showToast('Delete failed', true); return; }
+    showToast(`"${title}" deleted`);
+    loadAssignments();
+  }
+
+  // ── Submissions & Grading ────────────────────────────────────────────────
+  let currentSubAssignment = null;   // { id, title, maxMarks, dueDate }
+  let currentGradeSub = null;        // submission row being graded
+
+  async function openSubmissions(assignmentId, title, maxMarks, dueDate) {
+    currentSubAssignment = { id: assignmentId, title, maxMarks, dueDate };
+    document.getElementById('sub-modal-title').textContent = title;
+    document.getElementById('sub-modal-sub').textContent = `Due: ${dueDate ? new Date(dueDate).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '—'} · Max ${maxMarks} marks`;
+    openModal('modal-submissions');
+    await loadSubmissions();
+  }
+
+  async function loadSubmissions() {
+    const rows = document.getElementById('submissions-rows');
+    rows.innerHTML = `<div style="text-align:center;padding:40px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>`;
+
+    // All students (no enrollment table — same pattern as Attendance/Students pages)
+    const { data: students, error: stuErr } = await sb.from('profiles')
+      .select('id, full_name, roll_number, email')
+      .eq('role', 'student')
+      .order('full_name');
+
+    if (stuErr) { rows.innerHTML = `<div style="color:#C62828;padding:20px;">Error: ${stuErr.message}</div>`; return; }
+
+    const { data: subs, error: subErr } = await sb.from('submissions')
+      .select('*')
+      .eq('assignment_id', currentSubAssignment.id);
+
+    if (subErr) { rows.innerHTML = `<div style="color:#C62828;padding:20px;">Error: ${subErr.message}</div>`; return; }
+
+    const subMap = {};
+    (subs || []).forEach(s => { subMap[s.student_id] = s; });
+
+    const total = (students || []).length;
+    const submittedCount = (subs || []).length;
+    const gradedCount = (subs || []).filter(s => s.status === 'graded').length;
+    document.getElementById('sub-stat-total').textContent = `${total} students`;
+    document.getElementById('sub-stat-submitted').textContent = `${submittedCount} submitted`;
+    document.getElementById('sub-stat-pending').textContent = `${total - submittedCount} pending`;
+    document.getElementById('sub-stat-graded').textContent = `${gradedCount} graded`;
+
+    if (!students || students.length === 0) {
+      rows.innerHTML = `<div style="text-align:center;padding:40px;color:#bbb;">No students found</div>`;
+      return;
+    }
+
+    rows.innerHTML = students.map(s => {
+      const sub = subMap[s.id];
+      const initials = (s.full_name || '?').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+
+      let rightSide;
+      if (!sub) {
+        rightSide = `<span class="badge badge-amber">Pending</span>`;
+      } else {
+        const lateBadge = sub.is_late ? `<span class="badge badge-red" style="margin-right:6px;">Late</span>` : '';
+        const gradeBadge = sub.status === 'graded'
+          ? `<span class="badge badge-green">${sub.marks_obtained}/${currentSubAssignment.maxMarks}</span>`
+          : `<span class="badge badge-teal">Submitted</span>`;
+        rightSide = `
+          <div style="display:flex;align-items:center;gap:7px;">
+            ${lateBadge}${gradeBadge}
+            <button class="btn-ghost btn-sm" onclick="viewSubmissionFile('${sub.file_url}')" title="${sub.file_name||'file'}">
+              <i class="fas ${sub.file_type === 'doc' ? 'fa-file-word' : 'fa-file-pdf'}"></i>
+            </button>
+            <button class="btn-primary btn-sm" onclick='openGradeModal(${JSON.stringify(sub).replace(/'/g,"&#39;")}, "${s.full_name||''}", "${s.roll_number||''}", "${initials}")'>
+              <i class="fas fa-pen"></i> ${sub.status === 'graded' ? 'Edit' : 'Grade'}
+            </button>
+          </div>`;
+      }
+
+      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:11px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:32px;height:32px;border-radius:9px;background:#E8F4F4;display:flex;align-items:center;justify-content:center;color:#0F3D3E;font-size:11.5px;font-weight:700;flex-shrink:0;">${initials}</div>
+          <div>
+            <div style="font-weight:600;font-size:13px;">${s.full_name || '—'}</div>
+            <div style="font-size:11px;color:#888;">${s.roll_number || s.email || ''}</div>
+          </div>
+        </div>
+        ${rightSide}
+      </div>`;
+    }).join('');
+  }
+
+  // Files are stored in a PRIVATE bucket -> generate a short-lived signed URL on demand
+  async function viewSubmissionFile(fileUrl) {
+    // fileUrl is stored as the storage object path, e.g. "studentId/assignmentId/filename.pdf"
+    const { data, error } = await sb.storage.from('assignment-submissions').createSignedUrl(fileUrl, 300); // 5 min
+    if (error || !data) { showToast('Could not open file: ' + (error?.message||'unknown error'), true); return; }
+    window.open(data.signedUrl, '_blank');
+  }
+
+  function openGradeModal(sub, studentName, rollNo, initials) {
+    currentGradeSub = sub;
+    document.getElementById('grade-avatar').textContent = initials;
+    document.getElementById('grade-student-name').textContent = studentName || 'Student';
+    document.getElementById('grade-student-roll').textContent = rollNo || '';
+    document.getElementById('grade-max-marks').textContent = currentSubAssignment.maxMarks;
+    document.getElementById('grade-marks').value = sub.marks_obtained ?? '';
+    document.getElementById('grade-marks').max = currentSubAssignment.maxMarks;
+    document.getElementById('grade-feedback').value = sub.feedback || '';
+    document.getElementById('grade-late-badge').style.display = sub.is_late ? 'inline-block' : 'none';
+    openModal('modal-grade');
+  }
+
+  async function submitGrade() {
+    const marksVal = document.getElementById('grade-marks').value;
+    const feedback = document.getElementById('grade-feedback').value.trim();
+
+    if (marksVal === '' || isNaN(marksVal)) { showToast('Enter valid marks', true); return; }
+    const marks = parseFloat(marksVal);
+    if (marks < 0 || marks > currentSubAssignment.maxMarks) {
+      showToast(`Marks must be between 0 and ${currentSubAssignment.maxMarks}`, true); return;
+    }
+
+    const btn = document.getElementById('btn-submit-grade');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving…';
+
+    const { error } = await sb.from('submissions').update({
+      marks_obtained: marks,
+      feedback,
+      status: 'graded',
+      graded_at: new Date().toISOString(),
+      graded_by: currentUser.id
+    }).eq('id', currentGradeSub.id);
+
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-check"></i> Save Grade';
+
+    if (error) { showToast('Error: ' + error.message, true); return; }
+
+    closeModal('modal-grade');
+    showToast('Grade saved!');
+    loadSubmissions();
+    loadAssignments(); // refresh submitted/graded counts on the card
+  }
+
+
+  // ── Announcements ──────────────────────────────────────────────────────
+  async function loadAnnouncements() {
+    const list = document.getElementById('announce-list');
+    list.innerHTML = `<div style="text-align:center;padding:40px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</div>`;
+
+    const { data, error } = await sb.from('announcements')
+      .select('*')
+      .eq('created_by', currentUser.id)
+      .order('created_at', { ascending: false });
+
+    if (error) { list.innerHTML = `<div style="padding:20px;color:#C62828;">Error: ${error.message}</div>`; return; }
+
+    if (!data || data.length === 0) {
+      list.innerHTML = `<div style="text-align:center;padding:48px;color:#bbb;"><i class="fas fa-bullhorn" style="font-size:28px;display:block;margin-bottom:10px;opacity:0.3;"></i>No announcements yet</div>`;
+      return;
+    }
+
+    const typeColors = { General:'badge-blue', Urgent:'badge-red', Faculty:'badge-amber', Students:'badge-green' };
+
+    list.innerHTML = data.map(a => {
+      const d = new Date(a.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+      return `<div class="announce-card">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:7px;">
+          <div>
+            <span class="badge ${typeColors[a.type]||'badge-blue'}" style="margin-bottom:5px;display:inline-block;">${a.type||'General'}</span>
+            <div style="font-weight:700;font-size:14px;">${a.title}</div>
+          </div>
+          <button class="btn-danger btn-sm" onclick="deleteAnnouncement('${a.id}',this)"><i class="fas fa-trash"></i></button>
+        </div>
+        ${a.body ? `<p style="font-size:13px;color:#555;margin:0 0 9px;line-height:1.55;">${a.body}</p>` : ''}
+        <div style="font-size:11px;color:#aaa;">Posted · ${d} · Visible to: ${a.target||'All'}</div>
+      </div>`;
+    }).join('');
+  }
+
+  async function postAnnouncement() {
+    const title  = document.getElementById('announce-title').value.trim();
+    const type   = document.getElementById('announce-type').value;
+    const body   = document.getElementById('announce-body').value.trim();
+    const target = document.getElementById('announce-target').value;
+
+    if (!title) { showToast('Title is required', true); return; }
+
+    const { error } = await sb.from('announcements').insert({
+      title, type, body, target,
+      created_by: currentUser.id
+    });
+
+    if (error) { showToast('Error: ' + error.message, true); return; }
+
+    closeModal('modal-announce');
+    document.getElementById('announce-title').value = '';
+    document.getElementById('announce-body').value  = '';
+    showToast('Announcement posted!');
+    loadAnnouncements();
+
+    const count = parseInt(document.getElementById('stat-announcements').textContent) || 0;
+    document.getElementById('stat-announcements').textContent = count + 1;
+  }
+
+  async function deleteAnnouncement(id, btn) {
+    if (!confirm('Delete this announcement?')) return;
+    const { error } = await sb.from('announcements').delete().eq('id', id);
+    if (error) { showToast('Delete failed', true); return; }
+    btn.closest('.announce-card').remove();
+    showToast('Announcement deleted');
+  }
+
+  // ── Students ───────────────────────────────────────────────────────────
+  async function loadStudents() {
+    const tbody = document.getElementById('students-tbody');
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:22px;color:#bbb;"><i class="fas fa-spinner fa-spin"></i> Loading…</td></tr>`;
+
+    const { data, error } = await sb.from('profiles')
+      .select('*')
+      .eq('role', 'student')
+      .order('full_name');
+
+    if (error) { tbody.innerHTML = `<tr><td colspan="5" style="padding:20px;color:#C62828;">Error: ${error.message}</td></tr>`; return; }
+
+    allStudents = data || [];
+    renderStudents(allStudents);
+  }
+
+  function renderStudents(students) {
+    const tbody = document.getElementById('students-tbody');
+    if (!students.length) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:22px;color:#bbb;">No students found</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = students.map(s => {
+      const initials = (s.full_name || '?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      return `<tr>
+        <td>
+          <div style="display:flex;align-items:center;gap:9px;">
+            <div style="width:30px;height:30px;border-radius:8px;background:#E8F4F4;display:flex;align-items:center;justify-content:center;color:#0F3D3E;font-size:10.5px;font-weight:700;">${initials}</div>
+            <div style="font-weight:600;font-size:13px;">${s.full_name || '—'}</div>
+          </div>
+        </td>
+        <td style="color:#777;font-size:12.5px;">${s.roll_number || '—'}</td>
+        <td style="color:#555;font-size:12.5px;">${s.department || '—'}</td>
+        <td style="color:#555;font-size:12px;">${s.email || '—'}</td>
+        <td><span class="badge ${s.is_active !== false ? 'badge-green':'badge-red'}">${s.is_active !== false ? 'Active':'Inactive'}</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function searchStudents(q) {
+    const term = q.toLowerCase();
+    const filtered = allStudents.filter(s =>
+      (s.full_name||'').toLowerCase().includes(term) ||
+      (s.roll_number||'').toLowerCase().includes(term) ||
+      (s.email||'').toLowerCase().includes(term)
+    );
+    renderStudents(filtered);
+  }
+
+  function filterStudentsByCourse(courseId) {
+    // Since enrollment isn't a table here, just show all students filtered by dept of the course
+    if (!courseId) { renderStudents(allStudents); return; }
+    const course = myCourses.find(c => c.id === courseId);
+    if (!course) { renderStudents(allStudents); return; }
+    const filtered = allStudents.filter(s => s.department === course.department);
+    renderStudents(filtered);
+  }
+
+  // ── Logout ─────────────────────────────────────────────────────────────
+  async function handleLogout() {
+    await sb.auth.signOut();
+    window.location.href = 'staff_login.html';
+  }
+
+  // ── Boot ───────────────────────────────────────────────────────────────
+  window.onload = initDashboard;
+</script>
+</body>
+</html>

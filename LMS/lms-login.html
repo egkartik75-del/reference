@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS • Login | Raja Virbhadra Singh College</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap');
+        
+        body { 
+            font-family: 'Inter', system_ui, sans-serif; 
+            background-color: #FAF7F2;
+        }
+        
+        .heading-serif { 
+            font-family: 'Playfair Display', Georgia, serif; 
+            font-weight: 700; 
+        }
+
+        .premium-bg {
+            background-color: #FAF7F2;
+        }
+
+        .nav-glass {
+            background: rgba(250, 247, 242, 0.95);
+            backdrop-filter: blur(20px);
+        }
+
+        .glass-card {
+            background: rgba(255,255,255, 0.95);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255, 0.3);
+            box-shadow: 0 10px 30px -15px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgb(0 0 0 / 0.12);
+        }
+
+        .section-header {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .role-tab {
+            transition: all 0.2s ease;
+        }
+
+        .role-tab.active {
+            background-color: #0F3D3E;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(15 61 62 / 0.2);
+        }
+
+        .input-focus {
+            transition: all 0.2s ease;
+        }
+
+        .input-focus:focus {
+            outline: none;
+            border-color: #C9A227;
+            box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.1);
+        }
+
+        .premium-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #C9A22720, transparent);
+        }
+    </style>
+</head>
+<body class="premium-bg text-[#1F2937]">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-glass border-b border-[#C9A22720]">
+        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div style="width:44px;height:44px;background:radial-gradient(circle at center,#ffffff 0%,#f0f7f7 45%,#c8e0e0 70%,#8fbdbd 100%);border-radius:50%;padding:3px;box-shadow:0 0 0 1.5px rgba(15,61,62,0.2);">
+                    <img src="https://res.cloudinary.com/dr3epvwr6/image/upload/v1781863795/logo_uzyqrq.png" class="w-full h-full object-contain rounded-full">
+                </div>
+                <div>
+                    <div class="font-bold text-xl tracking-tighter text-[#0F3D3E]">LMS</div>
+                    <div class="text-[10px] text-[#0F3D3E80] -mt-1 font-medium tracking-[1.5px]">RAJA VIRBHADRA SINGH COLLEGE • SEEMA</div>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+                <a href="#" class="text-[#1F2937] hover:text-[#0F3D3E]">Home</a>
+                <a href="#" class="text-[#1F2937] hover:text-[#0F3D3E]">Courses</a>
+                <a href="#" class="text-[#1F2937] hover:text-[#0F3D3E]">Help</a>
+            </div>
+
+            <div class="text-xs px-4 py-1.5 bg-[#0F3D3E]/10 text-[#0F3D3E] rounded-full font-medium hidden md:block">
+                Academic Year 2025-26
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Login Section -->
+    <div class="pt-24 pb-12 lg:min-h-screen lg:flex lg:items-center">
+        <div class="max-w-screen-2xl mx-auto px-8 w-full">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-20 lg:items-start">
+
+                <!-- Left: Desktop branding panel (hidden on mobile) -->
+                <div class="hidden lg:block">
+                    <div class="inline-flex items-center gap-x-2 bg-white/80 px-4 py-1.5 rounded-3xl mb-6 border border-[#C9A22720]">
+                        <div class="w-2 h-2 bg-[#C9A227] rounded-full animate-pulse"></div>
+                        <span class="text-xs font-semibold tracking-widest text-[#0F3D3E]">SECURE PORTAL</span>
+                    </div>
+
+                    <h1 class="section-header text-6xl tracking-tighter text-[#0F3D3E] leading-[1.05]">
+                        Your academic<br>year, in one place.
+                    </h1>
+                    <p class="mt-5 text-[#374151] text-lg max-w-md">
+                        Courses, assignments, attendance and grades — everything you need as a Raja Virbhadra Singh College student, in a single secure portal.
+                    </p>
+
+                    <div class="mt-10 space-y-5">
+                        <div class="flex items-center gap-x-4">
+                            <div class="w-10 h-10 rounded-xl bg-[#0F3D3E]/10 flex items-center justify-center text-[#0F3D3E] flex-shrink-0">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm">Track your courses</div>
+                                <div class="text-xs text-[#374151]">Progress, grades &amp; lecture attendance</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-x-4">
+                            <div class="w-10 h-10 rounded-xl bg-[#0F3D3E]/10 flex items-center justify-center text-[#0F3D3E] flex-shrink-0">
+                                <i class="fas fa-file-circle-check"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm">Submit assignments</div>
+                                <div class="text-xs text-[#374151]">Never miss a deadline again</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-x-4">
+                            <div class="w-10 h-10 rounded-xl bg-[#0F3D3E]/10 flex items-center justify-center text-[#0F3D3E] flex-shrink-0">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm">Stay updated</div>
+                                <div class="text-xs text-[#374151]">Announcements from your department</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Login Card -->
+                <div class="w-full max-w-md mx-auto lg:mt-6">
+
+                    <!-- Mobile-only intro -->
+                    <div class="lg:hidden text-center mb-8">
+                        <div class="inline-flex items-center gap-x-2 bg-white/80 px-4 py-1.5 rounded-3xl mb-4 border border-[#C9A22720]">
+                            <div class="w-2 h-2 bg-[#C9A227] rounded-full animate-pulse"></div>
+                            <span class="text-xs font-semibold tracking-widest text-[#0F3D3E]">SECURE PORTAL</span>
+                        </div>
+
+                        <h1 class="section-header text-5xl tracking-tighter text-[#0F3D3E]">Welcome Back</h1>
+                        <p class="mt-3 text-[#374151]">Sign in to access your courses, assignments &amp; academic resources</p>
+                    </div>
+
+                    <!-- Login Card -->
+                    <div class="glass-card relative rounded-3xl border pt-14 pb-8 px-8 shadow-xl">
+
+                        <!-- Student Portal Badge -->
+                        <div class="absolute -top-8 left-1/2 -translate-x-1/2">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#0F3D3E] to-[#1A4F4F] ring-4 ring-white shadow-lg flex items-center justify-center">
+                                <svg viewBox="0 0 24 24" class="w-8 h-8">
+                                    <path d="M12 3.2L2 8l10 4.8L22 8l-10-4.8z" fill="white"/>
+                                    <path d="M6 11.3v3.6c0 1.45 2.7 2.85 6 2.85s6-1.4 6-2.85v-3.6" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                                    <line x1="20" y1="9.4" x2="20" y2="15.2" stroke="#C9A227" stroke-width="1.4" stroke-linecap="round"/>
+                                    <circle cx="20" cy="16.2" r="1.3" fill="#C9A227"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="text-center mb-7">
+                            <div class="text-base font-bold tracking-tight text-[#0F3D3E]">Student Portal</div>
+                            <div class="text-[11px] text-[#9CA3AF] mt-0.5 tracking-wide">Access your academic dashboard</div>
+                        </div>
+
+                        <form id="loginForm" onsubmit="handleLogin(event)">
+                            <div id="turnstile-widget"></div>
+                            <div class="space-y-5">
+                                
+                                <!-- Email -->
+                                <div>
+                                    <label class="block text-xs font-semibold tracking-wider text-[#374151] mb-1.5">EMAIL ADDRESS</label>
+                                    <div class="relative">
+                                        <input type="email" id="email" required
+                                               class="input-focus w-full px-5 py-3.5 border border-[#C9A22730] rounded-2xl text-sm focus:border-[#C9A227] placeholder:text-[#9CA3AF]"
+                                               placeholder="you@seema.com">
+                                    </div>
+                                </div>
+
+                                <!-- Password -->
+                                <div>
+                                    <label class="block text-xs font-semibold tracking-wider text-[#374151] mb-1.5">PASSWORD</label>
+                                    <div class="relative">
+                                        <input type="password" id="password" required
+                                               class="input-focus w-full px-5 py-3.5 border border-[#C9A22730] rounded-2xl text-sm focus:border-[#C9A227] placeholder:text-[#9CA3AF]"
+                                               placeholder="••••••••">
+                                        <button type="button" onclick="togglePassword()" 
+                                                class="absolute right-5 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#374151]">
+                                            <i class="fas fa-eye" id="eye-icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between text-sm">
+                                    <label class="flex items-center gap-x-2 text-xs cursor-pointer">
+                                        <input type="checkbox" id="remember-me" checked class="accent-[#0F3D3E]">
+                                        <span class="text-[#374151]">Remember me</span>
+                                    </label>
+                                    <a href="#" class="text-xs text-[#0F3D3E] hover:underline">Forgot password?</a>
+                                </div>
+
+                                <!-- Login Button -->
+                                <button type="submit"
+                                        class="w-full mt-2 py-[15px] bg-[#0F3D3E] hover:bg-black active:bg-[#0F3D3E] transition-all text-white font-semibold rounded-2xl text-sm flex items-center justify-center gap-x-2">
+                                    <span id="login-btn-text">Sign In</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Login Error Message -->
+                        <div id="login-error" class="hidden mt-6 p-4 bg-rose-50 rounded-2xl border border-rose-200">
+                            <div class="flex items-center gap-x-2 text-xs text-rose-600">
+                                <i class="fas fa-circle-exclamation"></i>
+                                <span id="login-error-text" class="font-medium">Invalid credentials</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-center text-xs text-[#9CA3AF] mt-6">
+                        © 2026 LMS • Raja Virbhadra Singh College, Seema
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Storage / Cookie Notice -->
+    <div id="cookie-notice" class="hidden fixed bottom-0 left-0 right-0 z-50 p-4">
+        <div class="max-w-2xl mx-auto glass-card rounded-2xl border shadow-2xl px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <i class="fas fa-cookie-bite text-2xl text-[#C9A227] flex-shrink-0"></i>
+            <p class="text-xs text-[#374151] flex-1 leading-relaxed">
+                <span class="font-semibold text-[#0F3D3E]">How we keep you signed in: </span>
+                this portal does not use third-party cookies. It stores your login session in your browser's
+                local storage — only on this device, only for this site. If <span class="font-medium">Remember me</span>
+                is checked, it stays until you log out. If unchecked, it clears as soon as you close this tab.
+            </p>
+            <button onclick="dismissCookieNotice()"
+                    class="flex-shrink-0 px-5 py-2 bg-[#0F3D3E] hover:bg-black text-white text-xs font-semibold rounded-xl transition">
+                Got it
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function dismissCookieNotice() {
+            document.getElementById('cookie-notice').classList.add('hidden');
+            localStorage.setItem('lms_cookie_notice_dismissed', 'true');
+        }
+
+        function maybeShowCookieNotice() {
+            // Sirf tab show karo jab pehle kabhi dismiss na kiya ho
+            if (localStorage.getItem('lms_cookie_notice_dismissed') !== 'true') {
+                document.getElementById('cookie-notice').classList.remove('hidden');
+            }
+        }
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        function showError(message) {
+            const errorBox = document.getElementById('login-error');
+            const errorText = document.getElementById('login-error-text');
+            errorText.textContent = message;
+            errorBox.classList.remove('hidden');
+
+            const card = document.querySelector('.glass-card');
+            card.style.border = '2px solid #ef4444';
+            setTimeout(() => {
+                card.style.border = '1px solid rgba(255,255,255, 0.3)';
+            }, 1400);
+        }
+
+        function hideError() {
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        // --- Cloudflare Turnstile (invisible bot check) ---
+        // TEST KEY — always-passes, invisible widget, works on localhost/file://.
+        // Swap for real Turnstile site key (from dash.cloudflare.com) once
+        // this is hosted on a real domain.
+        const TURNSTILE_SITE_KEY = '1x00000000000000000000BB';
+        let turnstileToken = null;
+        let turnstileWidgetId = null;
+
+        function renderTurnstile() {
+            if (typeof turnstile === 'undefined') {
+                setTimeout(renderTurnstile, 300);
+                return;
+            }
+            turnstileWidgetId = turnstile.render('#turnstile-widget', {
+                sitekey: TURNSTILE_SITE_KEY,
+                size: 'invisible',
+                callback: (token) => { turnstileToken = token; },
+                'error-callback': () => { turnstileToken = null; },
+                'expired-callback': () => { turnstileToken = null; }
+            });
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            hideError();
+
+            if (!turnstileToken) {
+                showError('Verifying you\'re human — please try again in a second.');
+                if (turnstileWidgetId !== null && typeof turnstile !== 'undefined') {
+                    turnstile.reset(turnstileWidgetId);
+                }
+                return;
+            }
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const rememberMe = document.getElementById('remember-me').checked;
+            const loginBtnText = document.getElementById('login-btn-text');
+            const originalText = loginBtnText.textContent;
+
+            // Must be set BEFORE signIn so the storage adapter writes the
+            // session to the right place (localStorage vs sessionStorage)
+            localStorage.setItem('lms_remember_me', rememberMe ? 'true' : 'false');
+
+            loginBtnText.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Signing in...`;
+
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+            if (error) {
+                loginBtnText.textContent = originalText;
+                showError(error.message);
+                if (turnstileWidgetId !== null) turnstile.reset(turnstileWidgetId);
+                return;
+            }
+
+            // Verify this account is a student — this screen is student-only
+            const { data: profile, error: profileError } = await supabaseClient
+                .from('profiles')
+                .select('role, full_name')
+                .eq('id', data.user.id)
+                .single();
+
+            if (profileError || !profile) {
+                loginBtnText.textContent = originalText;
+                console.error('Profile fetch error:', profileError);
+                showError(profileError ? `Role check failed: ${profileError.message}` : 'No profile found for this account.');
+                await supabaseClient.auth.signOut();
+                if (turnstileWidgetId !== null) turnstile.reset(turnstileWidgetId);
+                return;
+            }
+
+            if (profile.role !== 'student') {
+                loginBtnText.textContent = originalText;
+                showError('This login is for students only.');
+                await supabaseClient.auth.signOut();
+                if (turnstileWidgetId !== null) turnstile.reset(turnstileWidgetId);
+                return;
+            }
+
+            window.location.href = 'student-dashboard.html';
+        }
+
+        async function initPage() {
+            // Show the cookie notice immediately — don't wait on any
+            // network/session check, otherwise a fast redirect (or a
+            // slow/failed network call) can stop it from ever appearing.
+            maybeShowCookieNotice();
+            renderTurnstile();
+
+            try {
+                // Check if already logged in
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (session) {
+                    window.location.href = 'student-dashboard.html';
+                    return;
+                }
+            } catch (err) {
+                console.error('Session check failed:', err);
+                // Fall through — stay on the login page instead of breaking it
+            }
+
+            console.log('%c[ LMS ] Login initialized', 'color:#C9A227');
+        }
+
+        window.onload = initPage;
+    </script>
+</body>
+</html>
